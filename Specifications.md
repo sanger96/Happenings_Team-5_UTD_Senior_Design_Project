@@ -3,9 +3,9 @@
 ---
 Group Members: Gaurav Sanger, Jonathan Lam,  Robert Dohm, Landin Kasti, Charles Eaton
 ---
-# Requriements
+# Requirements
 
-Product's Purpos:
+Product's Purpose:
 
 What we are building:
 
