@@ -10,7 +10,6 @@
     This is how you comment in XML
     -->
     <string name="clickStart">Testing Change</string>
-
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
