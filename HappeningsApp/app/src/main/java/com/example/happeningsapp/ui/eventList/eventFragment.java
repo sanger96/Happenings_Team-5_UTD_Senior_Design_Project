@@ -1,4 +1,4 @@
-package com.example.happeningsapp.ui.home;
+package com.example.happeningsapp.ui.eventList;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.happeningsapp.databinding.FragmentHomeBinding;
+import com.example.happeningsapp.databinding.FragmentEventBinding;
 
-public class HomeFragment extends Fragment {
+public class eventFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentEventBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        eventViewModel eventViewModel =
+                new ViewModelProvider(this).get(eventViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentEventBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textGallery;
+        eventViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

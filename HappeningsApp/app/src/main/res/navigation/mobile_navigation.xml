@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_map">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.happeningsapp.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_map"
+        android:name="com.example.happeningsapp.ui.map.mapFragment"
+        android:label="@string/menu_map"
+        tools:layout="@layout/fragment_map" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.happeningsapp.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_eventsList"
+        android:name="com.example.happeningsapp.ui.eventList.eventFragment"
+        android:label="@string/menu_eventsList"
+        tools:layout="@layout/fragment_event" />
 
     <fragment
         android:id="@+id/nav_slideshow"
