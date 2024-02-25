@@ -8,3 +8,6 @@
 - Gradle 8.2
 - Android API 29 (Android 10)
 
+## To run the app
+1. Run emulator in android first
+2. Then run app after emulation has started
