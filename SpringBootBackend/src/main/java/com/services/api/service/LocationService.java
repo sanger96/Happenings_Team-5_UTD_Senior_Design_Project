@@ -11,7 +11,7 @@ public class LocationService {
     @Autowired
     private LocationRepository repository;
 
-    public Location saveAccount(Location location) {
+    public Location saveLocation(Location location) {
         return repository.save(location);
     }
 

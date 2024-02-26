@@ -19,7 +19,7 @@ public class LocationController {
 
     @PostMapping("/addLocation")
     public Location addAccount(@RequestBody Location location) {
-        return service.saveAccount(location);
+        return service.saveLocation(location);
     }
 
     @GetMapping("/getLocationById/{id}")
