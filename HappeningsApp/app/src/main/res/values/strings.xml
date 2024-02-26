@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">HappeningsApp</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Hello</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <!--
+    This is how you comment in XML
+    -->
+    <string name="clickStart">Testing Change</string>
+    <string name="menu_map">Map</string>
+    <string name="menu_eventsList">Events List</string>
+    <string name="menu_slideshow">Slideshow</string>
+</resources>

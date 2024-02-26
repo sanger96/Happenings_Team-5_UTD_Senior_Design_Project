@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Happenings_Team-5_UTD_Senior_Design_Project.iml" filepath="$PROJECT_DIR$/.idea/Happenings_Team-5_UTD_Senior_Design_Project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpringBootBackend/src/main/main.iml" filepath="$PROJECT_DIR$/SpringBootBackend/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpringBootBackend/src/test/test.iml" filepath="$PROJECT_DIR$/SpringBootBackend/src/test/test.iml" />
+    </modules>
+  </component>
+</project>
