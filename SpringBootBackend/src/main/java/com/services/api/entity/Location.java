@@ -26,4 +26,6 @@ public class Location {
     private double longitude;
     private String building;
     private String room;
+
+    public int getLocationID(){ return locationID; }
 }

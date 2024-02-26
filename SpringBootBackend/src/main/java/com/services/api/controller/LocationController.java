@@ -26,4 +26,16 @@ public class LocationController {
     public Location getAccountById(@PathVariable int id) {
         return service.getLocationById(id);
     }
+
+    @PostMapping("/updateLocation")
+    public Location updateLocation(@RequestBody Location location){
+       return service.updateLocation(location);
+
+    }
+
+    @PostMapping("/deleteLocationById/{id}")
+    public void deleteLocationById(@PathVariable int id){
+         service.deleteLocationById(id);
+
+    }
 }

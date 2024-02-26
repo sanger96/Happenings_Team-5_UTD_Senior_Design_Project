@@ -18,4 +18,12 @@ public class LocationService {
     public Location getLocationById(int id) {
         return repository.findById(id).orElse(null);
     }
+
+    public Location updateLocation(Location location) {
+       return repository.save(location);
+    }
+
+    public void deleteLocationById(int id) {
+        repository.deleteById(id);
+     }
 }
