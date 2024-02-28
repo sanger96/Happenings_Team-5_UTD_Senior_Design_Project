@@ -1,6 +1,7 @@
 package com.services.api.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.mapping.Set;
 
@@ -39,13 +40,13 @@ public class Event {
     /* An Event has a ManyToOne relationship with a Club */
     @ManyToOne
     @JoinColumn(name = "clubID")
-    private Club club;
-    
+    private Club club; //TODO: Club class required
+
     /* An Event has a ManyToMany relationship with a UserAccount over the Attends table */
     @ManyToMany
     @JoinTable(name = "attends",
         joinColumns = @JoinColumn(name = "eventID"),
         inverseJoinColumns = @JoinColumn(name = "userAccountID"))
-    private Set<UserAccount> userAccounts;
+    private Set<UserAccount> userAccounts; //TODO: Club class required
 
 }
