@@ -1,6 +1,6 @@
 package com.services.api.service;
 
-import org.hibernate.mapping.List;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +26,8 @@ public class EventService {
     public List<Event> getAll() {
         return repository.findAll();
     }
+
+    // TODO: Get all Events for a club
 
     // Delete by Event
     public String delete(Event event){

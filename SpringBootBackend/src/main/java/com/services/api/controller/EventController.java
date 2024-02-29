@@ -6,13 +6,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+
+import java.util.List;
 
 import com.services.api.entity.Event;
 import com.services.api.service.EventService;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RestController
 @RequestMapping("event")
@@ -34,6 +36,11 @@ public class EventController {
     @GetMapping("/getById/{id}")
     public Event getById(@PathVariable int id) {
         return service.getById(id);
+    }
+
+    @GetMapping("/getAll")
+    public List<Event> getAll(){
+        return service.getAll();
     }
 
     @DeleteMapping("/delete")
