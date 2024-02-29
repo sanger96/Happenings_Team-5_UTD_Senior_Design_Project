@@ -5,6 +5,8 @@ package com.services.api.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,5 +29,10 @@ public class Location {
     private String building;
     private String room;
 
-    public int getLocationID(){ return locationID; }
+    // One location has one appointment
+    @OneToOne
+    @JoinColumn(name = "appointmentID")
+    private Appointment appointment;
+
+    
 }

@@ -4,38 +4,62 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.services.api.entity.Club;
+import com.services.api.entity.Event;
 import com.services.api.service.ClubService;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import java.util.*;
+
 
 @RestController
+@RequestMapping("club")
 public class ClubController {
     
     @Autowired
     private ClubService service;
 
-    @PostMapping("/addClub")
-    public Club addClub(@RequestBody Club club) {
-        return service.saveClub(club);
+    @PostMapping("/add")
+    public Club add(@RequestBody Club club) {
+        return service.add(club);
     }
 
-    @GetMapping("/getClubById/{id}")
-    public Club getClubById(@PathVariable int id) {
-        return service.getClubById(id);
+    @GetMapping("/getAll")
+    public List<Club> getAll() {
+        return service.getAll();
     }
 
-    @PostMapping("/updateClub")
-    public Club updateClub(@RequestBody Club club){
-       return service.updateClub(club);
+    @GetMapping("/getById/{id}")
+    public Club getById(@PathVariable int id) {
+        return service.getById(id);
+    }
+
+    @GetMapping("/getByLeaderId/{id}")
+    public List<Club> getByLeaderId(@PathVariable int id) {
+        return service.getByLeaderId(id);
+    }
+
+    
+    @PostMapping("/update")
+    public Club update(@RequestBody Club club){
+       return service.update(club);
 
     }
 
-    @PostMapping("/deleteClubById/{id}")
-    public void deleteClubById(@PathVariable int id){
-         service.deleteClubById(id);
+    @PostMapping("/delete")
+    public void delete(@RequestBody Club club){
+        service.delete(club);
+    }
+
+    @PostMapping("/deleteById/{id}")
+    public void deleteById(@PathVariable int id){
+         service.deleteById(id);
 
     }
+
+    
+
 }
