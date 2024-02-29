@@ -21,38 +21,28 @@ public class EventController {
     @Autowired
     private EventService service;
 
-    @PostMapping("/addEvent")
+    @PostMapping("/add")
     public Event addEvent(@RequestBody Event event) {
-        return service.saveEvent(event);
+        return service.save(event);
     }
 
-    @PutMapping("/updateEvent")
+    @PutMapping("/update")
     public Event updateEvent(@RequestBody Event event) {
-        return service.saveEvent(event);
+        return service.save(event);
     }
 
-    @GetMapping("/getEventById/{id}")
-    public Event getEventById(@PathVariable int id) {
-        return service.getEventById(id);
+    @GetMapping("/getById/{id}")
+    public Event getById(@PathVariable int id) {
+        return service.getById(id);
     }
 
-    @DeleteMapping("/deleteEvent")
-    public void deleteEvent(@RequestBody Event event){
-        service.deleteEvent(event);
-        /* TODO
-            Could return String explaining success/failure
-            How do we check if it was successful or failed to delete?
-        */
+    @DeleteMapping("/delete")
+    public String delete(@RequestBody Event event){
+        return service.delete(event);
     }
 
-    @DeleteMapping("/deleteEventById/{id}")
-    public void deleteEventById(@PathVariable int id){
-        service.deleteEventById(id);
-        /* TODO
-            Could return String explaining success/failure
-            How do we check if it was successful or failed to delete?
-        */
+    @DeleteMapping("/deleteById/{id}")
+    public String deleteById(@PathVariable int id){
+        return service.deleteById(id);
     }
-
-    
 }

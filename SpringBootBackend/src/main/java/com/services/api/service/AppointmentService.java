@@ -12,18 +12,19 @@ public class AppointmentService {
     private AppointmentRepository repository;
 
     // Create/Update an Appointment
-    public Appointment saveAppointment(Appointment appointment) {
+    public Appointment save(Appointment appointment) {
         return repository.save(appointment);
     }
 
     // Get an Appointment
-    public Appointment getAppointmentById(int id) {
+    public Appointment getById(int id) {
         return repository.findById(id).orElse(null);
     }
 
     // Delete by Appointment
-    public void deleteAppointment(Appointment appointment){
+    public String delete(Appointment appointment){
         repository.delete(appointment);
+        return "DELETE: " + appointment.toString();
         /* TODO
             Could return String explaining success/failure
             How do we check if it was successful or failed to delete?
@@ -31,12 +32,11 @@ public class AppointmentService {
     }
 
     // Delete by Appointment ID
-    public void deleteAppointmentById(int id){
+    public String deleteById(int id){
+        String entityExists = repository.findById(id).orElse(null).toString();
+        String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists);
         repository.deleteById(id);
-        /* TODO
-            Could return String explaining success/failure
-            How do we check if it was successful or failed to delete?
-        */
+        return toBeDeleted;
     }
     
 }

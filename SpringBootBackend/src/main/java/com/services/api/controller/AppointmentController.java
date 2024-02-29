@@ -21,38 +21,28 @@ public class AppointmentController {
     @Autowired
     private AppointmentService service;
 
-    @PostMapping("/addAppointment")
-    public Appointment addAppointment(@RequestBody Appointment appointment) {
-        return service.saveAppointment(appointment);
+    @PostMapping("/add")
+    public Appointment add(@RequestBody Appointment appointment) {
+        return service.save(appointment);
     }
 
-    @PutMapping("/updateAppointment")
-    public Appointment updateAppointment(@RequestBody Appointment appointment) {
-        return service.saveAppointment(appointment);
+    @PutMapping("/update")
+    public Appointment update(@RequestBody Appointment appointment) {
+        return service.save(appointment);
     }
 
-    @GetMapping("/getAppointmentById/{id}")
-    public Appointment getAppointmentById(@PathVariable int id) {
-        return service.getAppointmentById(id);
+    @GetMapping("/getById/{id}")
+    public Appointment getById(@PathVariable int id) {
+        return service.getById(id);
     }
 
-    @DeleteMapping("/deleteAppointment")
-    public void deleteAppointment(@RequestBody Appointment appointment){
-        service.deleteAppointment(appointment);
-        /* TODO
-            Could return String explaining success/failure
-            How do we check if it was successful or failed to delete?
-        */
+    @DeleteMapping("/delete")
+    public String delete(@RequestBody Appointment appointment){
+        return service.delete(appointment);
     }
 
-    @DeleteMapping("/deleteAppointmentById/{id}")
-    public void deleteAppointmentById(@PathVariable int id){
-        service.deleteAppointmentById(id);
-        /* TODO
-            Could return String explaining success/failure
-            How do we check if it was successful or failed to delete?
-        */
+    @DeleteMapping("/deleteById/{id}")
+    public String deleteById(@PathVariable int id){
+        return service.deleteById(id);
     }
-
-    
 }

@@ -1,5 +1,6 @@
 package com.services.api.service;
 
+import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,18 +13,24 @@ public class EventService {
     private EventRepository repository;
 
     // Create/Update an Event
-    public Event saveEvent(Event event) {
+    public Event save(Event event) {
         return repository.save(event);
     }
 
     // Get an Event
-    public Event getEventById(int id) {
+    public Event getById(int id) {
         return repository.findById(id).orElse(null);
     }
 
+    // Get all Events
+    public List<Event> getAll() {
+        return repository.findAll();
+    }
+
     // Delete by Event
-    public void deleteEvent(Event event){
+    public String delete(Event event){
         repository.delete(event);
+        return "DELETE: " + event.toString();
         /* TODO
             Could return String explaining success/failure
             How do we check if it was successful or failed to delete?
@@ -31,12 +38,11 @@ public class EventService {
     }
 
     // Delete by Event ID
-    public void deleteEventById(int id){
+    public String deleteById(int id){
+        String entityExists = repository.findById(id).orElse(null).toString();
+        String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists);
         repository.deleteById(id);
-        /* TODO
-            Could return String explaining success/failure
-            How do we check if it was successful or failed to delete?
-        */
+        return toBeDeleted;
     }
     
 }
