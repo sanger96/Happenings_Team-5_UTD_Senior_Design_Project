@@ -41,8 +41,8 @@ public class EventService {
 
     // Delete by Event ID
     public String deleteById(int id){
-        String entityExists = repository.findById(id).orElse(null).toString();
-        String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists);
+        Event entityExists = repository.findById(id).orElse(null);
+        String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists.toString());
         repository.deleteById(id);
         return toBeDeleted;
     }
