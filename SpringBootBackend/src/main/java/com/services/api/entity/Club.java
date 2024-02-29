@@ -25,9 +25,10 @@ public class Club {
     private int clubID;
     private String description;
     private int leaderID;
-
+    
     @OneToMany
     @JoinColumn(name = "clubID")
     private List<Event> events;
+    
     
 }
