@@ -10,32 +10,34 @@ import com.services.api.repository.AccountRepository;
 
 @Service
 public class AccountService {
+    
     @Autowired
     private AccountRepository repository;
 
-    public Account saveAccount(Account account) {
+    public Account add(Account account) {
         return repository.save(account);
     }
 
-    public Account getAccountById(int id) {
+    public Account getById(int id) {
         return repository.findById(id).orElse(null);
     }
     
-    public Account getAccountByEmail(String email) {
+    public Account getByEmail(String email) {
         return repository.findByEmail(email);
     }
 
-    public List<Account> getAllAccounts() {
+    public List<Account> getAll() {
         return repository.findAll();
     }
 
-    public String deleteAccountById(int id) {
-        String toBeDeleted = "DELETE " + id + ": " + repository.findById(id).orElse(null).toString();
+    public String deleteById(int id) {
+        Account entityExists = repository.findById(id).orElse(null);
+        String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists.toString());
         repository.deleteById(id);
         return toBeDeleted;
     }
 
-    public String deleteAccount(Account account) {
+    public String delete(Account account) {
         repository.delete(account);
         return "DELETE: "  + account.toString();
     }

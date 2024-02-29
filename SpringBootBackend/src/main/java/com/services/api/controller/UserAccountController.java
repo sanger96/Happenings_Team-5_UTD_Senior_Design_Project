@@ -3,52 +3,52 @@ package com.services.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.services.api.entity.UserAccount;
 import com.services.api.service.UserAccountService;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-
-
 @RestController
+@RequestMapping("useraccount")
 public class UserAccountController {
     
     @Autowired
     private UserAccountService service;
 
-    @PostMapping("/addUserAccount")
-    public UserAccount addUserAccount(@RequestBody UserAccount userAccount) {
-        return service.saveUserAccount(userAccount);
+    @PostMapping("/add")
+    public UserAccount add(@RequestBody UserAccount userAccount) {
+        return service.add(userAccount);
     }
 
-    @GetMapping("/getUserAccountById/{id}")
-    public UserAccount getUserAccountById(@PathVariable int id) {
-        return service.getUserAccountById(id);
+    @GetMapping("/getById/{id}")
+    public UserAccount getById(@PathVariable int id) {
+        return service.getById(id);
     }
 
-    @GetMapping("/getAllUserAccounts")
-    public List<UserAccount> getAllUserAccounts() {
-        return service.getAllUserAccounts();
+    @GetMapping("/getAll")
+    public List<UserAccount> getAll() {
+        return service.getAll();
     }
 
-    @PutMapping("/updateUserAccount")
-    public UserAccount updateUserAccount(@RequestBody UserAccount userAccount) {
-        return service.saveUserAccount(userAccount);
+    @PutMapping("/update")
+    public UserAccount update(@RequestBody UserAccount userAccount) {
+        return service.add(userAccount);
     }
 
-    @DeleteMapping("/deleteUserAccountById/{id}")
-    public String deleteUserAccountById(@PathVariable int id) {
-        return service.deleteUserAccountById(id);
+    @DeleteMapping("/deleteById/{id}")
+    public String deleteById(@PathVariable int id) {
+        return service.deleteById(id);
     }
 
-    @DeleteMapping("/deleteUserAccount")
-    public String deleteUserAccount(@RequestBody UserAccount userAccount) {
-        return service.deleteUserAccount(userAccount);
+    @DeleteMapping("/delete")
+    public String delete(@RequestBody UserAccount userAccount) {
+        return service.delete(userAccount);
     }
 }

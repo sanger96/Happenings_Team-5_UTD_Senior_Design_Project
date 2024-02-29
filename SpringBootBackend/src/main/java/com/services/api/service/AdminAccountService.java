@@ -1,6 +1,7 @@
 package com.services.api.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,25 +14,26 @@ public class AdminAccountService {
     @Autowired
     private AdminAccountRepository repository;
 
-    public AdminAccount saveAdminAccount(AdminAccount adminAccount) {
+    public AdminAccount add(AdminAccount adminAccount) {
         return repository.save(adminAccount);
     }
 
-    public AdminAccount getAdminAccountById(int id) {
+    public AdminAccount getById(int id) {
         return repository.findById(id).orElse(null);
     }
 
-    public List<AdminAccount> getAllAdminAccounts() {
+    public List<AdminAccount> getAll() {
         return repository.findAll();
     }
 
-    public String deleteAdminAccountById(int id) {
-        String toBeDeleted = "DELETE " + id + ": " + repository.findById(id).orElse(null).toString();
+    public String deleteById(int id) {
+        AdminAccount entityExists = repository.findById(id).orElse(null);
+        String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists.toString());
         repository.deleteById(id);
         return toBeDeleted;
     }
 
-    public String deleteAdminAccount(AdminAccount adminAccount) {
+    public String delete(AdminAccount adminAccount) {
         repository.delete(adminAccount);
         return "DELETE: "  + adminAccount.toString();
     }

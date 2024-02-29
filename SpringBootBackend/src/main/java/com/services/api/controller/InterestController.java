@@ -1,62 +1,64 @@
 package com.services.api.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.services.api.entity.Interest;
 import com.services.api.service.InterestService;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-
 @RestController
+@RequestMapping("interest")
 public class InterestController {
     
     @Autowired
     private InterestService service;
 
-    @PostMapping("/addInterest")
-    public Interest addInterest(@RequestBody Interest interest) {
-        return service.saveInterest(interest);
+    @PostMapping("/add")
+    public Interest add(@RequestBody Interest interest) {
+        return service.add(interest);
     }
 
-    @PostMapping("/addInterests")
-    public List<Interest> addInterests(@RequestBody List<Interest> interests) {
-        return service.saveInterests(interests);
+    @PostMapping("/addMany")
+    public List<Interest> addMany(@RequestBody List<Interest> interests) {
+        return service.addMany(interests);
     }
 
-    @GetMapping("/getInterestById/{id}")
-    public Interest getInterestById(@PathVariable int id) {
-        return service.getInterestById(id);
+    @GetMapping("/getById/{id}")
+    public Interest getById(@PathVariable int id) {
+        return service.getById(id);
     }
 
-    @GetMapping("/getInterestByName/{name}")
-    public Interest getInterestByName(@PathVariable String name) {
-        return service.getInterestByName(name);
+    @GetMapping("/getByName/{name}")
+    public Interest getByName(@PathVariable String name) {
+        return service.getByName(name);
     }
 
-    @GetMapping("/getAllInterests")
-    public List<Interest> getAllInterests() {
-        return service.getAllInterests();
+    @GetMapping("/getAll")
+    public List<Interest> getAll() {
+        return service.getAll();
     }
 
-    @PutMapping("/updateInterest")
-    public Interest updateInterest(@RequestBody Interest interest) {
-        return service.saveInterest(interest);
+    @PutMapping("/update")
+    public Interest update(@RequestBody Interest interest) {
+        return service.add(interest);
     }
 
-    @DeleteMapping("/deleteInterestById/{id}")
-    public String deleteInterestById(@PathVariable int id) {
-        return service.deleteInterestById(id);
+    @DeleteMapping("/deleteById/{id}")
+    public String deleteById(@PathVariable int id) {
+        return service.deleteById(id);
     }
 
-    @DeleteMapping("/deleteInterest")
-    public String deleteInterest(@RequestBody Interest interest) {
-        return service.deleteInterest(interest);
+    @DeleteMapping("/delete")
+    public String delete(@RequestBody Interest interest) {
+        return service.delete(interest);
     }
 }

@@ -14,25 +14,26 @@ public class UserAccountService {
     @Autowired
     private UserAccountRepository repository;
 
-    public UserAccount saveUserAccount(UserAccount userAccount) {
+    public UserAccount add(UserAccount userAccount) {
         return repository.save(userAccount);
     }
 
-    public UserAccount getUserAccountById(int id) {
+    public UserAccount getById(int id) {
         return repository.findById(id).orElse(null);
     }
 
-    public List<UserAccount> getAllUserAccounts() {
+    public List<UserAccount> getAll() {
         return repository.findAll();
     }
 
-    public String deleteUserAccountById(int id) {
-        String toBeDeleted = "DELETE " + id + ": " + repository.findById(id).orElse(null).toString();
+    public String deleteById(int id) {
+        UserAccount entityExists = repository.findById(id).orElse(null);
+        String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists.toString());
         repository.deleteById(id);
         return toBeDeleted;
     }
 
-    public String deleteUserAccount(UserAccount userAccount) {
+    public String delete(UserAccount userAccount) {
         repository.delete(userAccount);
         return "DELETE: "  + userAccount.toString();
     }
