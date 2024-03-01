@@ -1,8 +1,10 @@
 package com.services.api.entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -31,9 +33,12 @@ public class Appointment {
     // TODO: A name field might be necessary to know what course a UserAccount has
 
     // TODO: Representing date and times with Strings for now
-    @Temporal(TemporalType.TIMESTAMP)
+
+    @Basic
+    @Temporal(TemporalType.DATE)
     private Date startTime;
-    @Temporal(TemporalType.TIMESTAMP)
+    @Basic
+    @Temporal(TemporalType.DATE)
     private Date endTime;
 
     // This type could be an Enumeration in future
