@@ -50,8 +50,8 @@ public class ClubController {
     }
 
     @PostMapping("/delete")
-    public void delete(@RequestBody Club club){
-        service.delete(club);
+    public String delete(@RequestBody Club club){
+        return service.delete(club);
     }
 
     @PostMapping("/deleteById/{id}")

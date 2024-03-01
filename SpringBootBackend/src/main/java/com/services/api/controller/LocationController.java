@@ -58,8 +58,8 @@ public class LocationController {
     }
 
     @PostMapping("/delete")
-    public void delete(@RequestBody Location location){
-        service.delete(location);
+    public String delete(@RequestBody Location location){
+        return service.delete(location);
     }
 
     @PostMapping("/deleteById/{id}")

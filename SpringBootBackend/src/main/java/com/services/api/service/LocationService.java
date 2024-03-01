@@ -49,8 +49,9 @@ public class LocationService {
     }
 
      // Delete a location
-     public void delete(Location location) {
+     public String delete(Location location) {
         repository.delete(location);
+        return "DELETE: " + location.toString();
      }
 
     // Delete a location by ID
