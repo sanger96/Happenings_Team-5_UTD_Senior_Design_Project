@@ -45,8 +45,8 @@ public class ClubService {
 
     // Delete a club by ID
     public String deleteById(int id) {
-        String entityExists = repository.findById(id).orElse(null).toString();
-        String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists);
+        Club entityExists = repository.findById(id).orElse(null);
+        String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists.toString());
         repository.deleteById(id);
         return toBeDeleted;
      }

@@ -55,7 +55,6 @@ public class LocationController {
     @PostMapping("/update")
     public Location update(@RequestBody Location location){
        return service.update(location);
-
     }
 
     @PostMapping("/delete")
