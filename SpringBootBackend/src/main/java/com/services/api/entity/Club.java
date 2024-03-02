@@ -41,9 +41,6 @@ public class Club {
     @JoinTable(name = "hasfavorite",
         joinColumns = @JoinColumn(name = "clubID"),
         inverseJoinColumns = @JoinColumn(name = "userAccountID"))
-    private Set<UserAccount> userAccounts; 
-    
+    private Set<UserAccount> userAccounts;
 
-    
-    
 }

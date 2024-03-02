@@ -40,13 +40,13 @@ public class Event {
     /* An Event has a ManyToOne relationship with a Club */
     @ManyToOne
     @JoinColumn(name = "clubID")
-    private Club club; //TODO: Club class required
+    private Club club;
 
     /* An Event has a ManyToMany relationship with a UserAccount over the Attends table */
     @ManyToMany
     @JoinTable(name = "attends",
         joinColumns = @JoinColumn(name = "eventID"),
         inverseJoinColumns = @JoinColumn(name = "userAccountID"))
-    private Set<UserAccount> userAccounts; //TODO: Club class required
+    private Set<UserAccount> userAccounts;
 
 }
