@@ -11,6 +11,9 @@
     -->
     <string name="clickStart">Testing Change</string>
     <string name="menu_map">Map</string>
-    <string name="menu_eventsList">Events List</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_eventList">Events List</string>
+    <string name="menu_clubSearch">Club Search</string>
+    <string name="menu_photoGallery">Photo Gallery</string>
+    <string name="menu_userProfile">User Profile</string>
+    <string name="menu_settings">Settings</string>
 </resources>
