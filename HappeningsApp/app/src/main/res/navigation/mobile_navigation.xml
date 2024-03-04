@@ -4,22 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_map">
-
-    <fragment
-        android:id="@+id/nav_map"
-        android:name="com.example.happeningsapp.ui.map.mapFragment"
-        android:label="@string/menu_map"
-        tools:layout="@layout/fragment_map" />
-
-    <fragment
-        android:id="@+id/nav_eventsList"
-        android:name="com.example.happeningsapp.ui.eventList.eventFragment"
-        android:label="@string/menu_eventsList"
-        tools:layout="@layout/fragment_event" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.happeningsapp.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+    <activity
+        android:id="@+id/background"
+        android:name="com.example.happeningsapp.MainActivity"
+        android:label="background"
+        tools:layout="@layout/background" />
 </navigation>
