@@ -3,10 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/background">
+    app:startDestination="@+id/fragment_maps"> <!-- This is the starting destination for the app (will change back later) -->
     <activity
         android:id="@+id/background"
         android:name="com.example.happeningsapp.MainActivity"
         android:label="background"
         tools:layout="@layout/background" />
+
+    <!-- This is the navigation for the maps activity -->
+    <activity
+        android:id="@+id/fragment_maps"
+        android:name="com.example.happeningsapp.MapsActivity"
+        android:label="@string/fragment_maps"
+        tools:layout="@layout/activity_maps" />
+
+    <!--This is the navigation for the event list activity
+        Not sure what the issue is with this not accepting fragments-->
+    <fragment
+        android:id="@+id/fragment_eventList"
+        android:name="com.example.happeningsapp.ui.eventList.EventListFragment"
+        android:label="@string/fragment_eventList"
+        tools:layout="@layout/fragment_event_list" />
+
 </navigation>
