@@ -29,7 +29,8 @@
         android:layout_gravity="top|start"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/ic_dialog_email"
+        android:contentDescription="menu button"/>
         <!---
         need to change the icon above
         -->
