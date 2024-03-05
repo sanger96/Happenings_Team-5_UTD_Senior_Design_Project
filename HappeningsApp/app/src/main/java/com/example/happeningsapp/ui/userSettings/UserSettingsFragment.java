@@ -4,33 +4,34 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.happeningsapp.R;
+import com.example.happeningsapp.databinding.FragmentUserSettingsBinding;
 
 public class UserSettingsFragment extends Fragment {
 
-    private UserSettingsViewModel mViewModel;
+    private FragmentUserSettingsBinding binding;
 
-    public static UserSettingsFragment newInstance() {
-        return new UserSettingsFragment();
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        UserSettingsViewModel photoGalleryViewModel =
+                new ViewModelProvider(this).get(UserSettingsViewModel.class);
+
+        binding = FragmentUserSettingsBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        final TextView textView = binding.textUserSettings;
+        photoGalleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        return root;
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_user_settings, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(UserSettingsViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
 }

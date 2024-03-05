@@ -15,7 +15,6 @@
         android:name="com.example.happeningsapp.ui.eventList.EventListFragment"
         android:label="@string/fragment_eventList"
         tools:layout="@layout/fragment_event_list" />
-
     <fragment
         android:id="@+id/nav_clubSearch"
         android:name="com.example.happeningsapp.ui.clubSearch.ClubSearchFragment"
@@ -31,5 +30,6 @@
         android:name="com.example.happeningsapp.ui.userSettings.UserSettingsFragment"
         android:label="User Profile Settings"
         tools:layout="@layout/fragment_user_settings" />
+
 
 </navigation>

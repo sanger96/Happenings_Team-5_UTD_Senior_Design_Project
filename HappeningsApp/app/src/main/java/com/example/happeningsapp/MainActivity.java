@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_eventList,
                 R.id.nav_clubSearch,
                 R.id.nav_photoGallery,
-                R.id.nav_userProfile,
+                R.id.nav_userProfileSetting,
                 R.id.nav_settings) // Added the menu items here from activity_main_drawer.xml
                 .setOpenableLayout(drawer)
                 .build();

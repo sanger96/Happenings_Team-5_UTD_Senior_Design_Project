@@ -23,7 +23,7 @@ need to add and change the icons on the side menu
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_photo_gallery" />
         <item
-            android:id="@+id/nav_userProfile"
+            android:id="@+id/nav_userProfileSetting"
             android:icon="@drawable/ic_launcher_foreground"
             android:title="@string/menu_user_profile" />
         <item
