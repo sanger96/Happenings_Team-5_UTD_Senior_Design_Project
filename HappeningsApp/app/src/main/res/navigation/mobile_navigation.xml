@@ -12,13 +12,13 @@
         tools:layout="@layout/activity_maps" />
     <fragment
         android:id="@+id/nav_eventList"
-        android:name="com.example.happeningsapp.ui.clubSearch.ClubSearchFragment"
-        android:label="@string/menu_event_list"
+        android:name="com.example.happeningsapp.ui.eventList.EventListFragment"
+        android:label="@string/fragment_eventList"
         tools:layout="@layout/fragment_event_list" />
 
     <fragment
         android:id="@+id/nav_club_search"
-        android:name="com.example.happeningsapp.ui.eventList.EventListFragment"
+        android:name="com.example.happeningsapp.ui.clubSearch.ClubSearchFragment"
         android:label="@string/menu_club_search"
         tools:layout="@layout/fragment_club_search" />
     <fragment
