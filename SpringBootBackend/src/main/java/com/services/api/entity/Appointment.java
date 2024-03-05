@@ -2,6 +2,7 @@ package com.services.api.entity;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Basic;
@@ -35,11 +36,11 @@ public class Appointment {
     // TODO: Representing date and times with Strings for now
 
     @Basic
-    @Temporal(TemporalType.DATE)
-    private Date startTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime startTime;
     @Basic
-    @Temporal(TemporalType.DATE)
-    private Date endTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime endTime;
 
     // This type could be an Enumeration in future
     private String type;
