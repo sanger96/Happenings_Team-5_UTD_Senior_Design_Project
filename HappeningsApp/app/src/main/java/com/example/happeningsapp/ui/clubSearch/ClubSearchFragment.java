@@ -29,6 +29,19 @@ public class ClubSearchFragment extends Fragment {
         return root;
     }
 
+//     For when you are ready for adding input text on clubSearchFragment
+//https://developer.android.com/develop/ui/views/touch-and-input/creating-input-method
+//    @Override
+//    public View onCreateInputView() {
+//        MyKeyboardView inputView =
+//                (MyKeyboardView) getLayoutInflater().inflate(R.layout.input, null);
+//
+//        inputView.setOnKeyboardActionListener(this);
+//        inputView.setKeyboard(latinKeyboard);
+//
+//        return inputView;
+//    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
