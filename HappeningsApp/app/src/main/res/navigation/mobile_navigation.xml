@@ -3,26 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/fragment_maps"> <!-- This is the starting destination for the app (will change back later) -->
-    <activity
-        android:id="@+id/background"
-        android:name="com.example.happeningsapp.MainActivity"
-        android:label="background"
-        tools:layout="@layout/background" />
-
+    app:startDestination="@+id/nav_eventsList"> <!-- This is the starting destination for the app (will change back later) -->
     <!-- This is the navigation for the maps activity -->
     <activity
-        android:id="@+id/fragment_maps"
+        android:id="@+id/activity_maps"
         android:name="com.example.happeningsapp.MapsActivity"
         android:label="@string/fragment_maps"
         tools:layout="@layout/activity_maps" />
-
-    <!--This is the navigation for the event list activity
-        Not sure what the issue is with this not accepting fragments-->
     <fragment
-        android:id="@+id/fragment_eventList"
-        android:name="com.example.happeningsapp.ui.eventList.EventListFragment"
-        android:label="@string/fragment_eventList"
+        android:id="@+id/nav_eventsList"
+        android:name="com.example.happeningsapp.ui.clubSearch.ClubSearchFragment"
+        android:label="@string/menu_event_list"
         tools:layout="@layout/fragment_event_list" />
+
+    <fragment
+        android:id="@+id/nav_club_search"
+        android:name="com.example.happeningsapp.ui.eventList.EventListFragment"
+        android:label="@string/menu_club_search"
+        tools:layout="@layout/fragment_club_search" />
+    <fragment
+        android:id="@+id/nav_photo_gallery"
+        android:name="com.example.happeningsapp.ui.photoGallery.PhotoGalleryFragment"
+        android:label="@string/menu_photo_gallery"
+        tools:layout="@layout/fragment_photo_gallery" />
+    <fragment
+        android:id="@+id/nav_user_profile_setting"
+        android:name="com.example.happeningsapp.ui.userSettings.UserSettingsFragment"
+        android:label="User Profile Settings"
+        tools:layout="@layout/fragment_user_settings" />
 
 </navigation>

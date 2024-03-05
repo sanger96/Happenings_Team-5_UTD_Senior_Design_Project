@@ -13,19 +13,19 @@ need to add and change the icons on the side menu
         <item
             android:id="@+id/menu_eventList"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_eventList" />
+            android:title="@string/menu_event_list" />
         <item
             android:id="@+id/menu_clubSearch"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="@string/menu_clubSearch" />
+            android:title="@string/menu_club_search" />
         <item
             android:id="@+id/menu_photoGallery"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_photoGallery" />
+            android:title="@string/menu_photo_gallery" />
         <item
             android:id="@+id/menu_userProfile"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="@string/menu_userProfile" />
+            android:title="@string/menu_user_profile" />
         <item
             android:id="@+id/menu_settings"
             android:icon="@drawable/ic_launcher_foreground"

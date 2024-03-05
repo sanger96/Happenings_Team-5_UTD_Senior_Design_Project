@@ -1,16 +1,16 @@
-package com.example.happeningsapp.ui.eventList;
+package com.example.happeningsapp.ui.clubSearch;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class EventListViewModel extends ViewModel {
+public class ClubSearchModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public EventListViewModel() {
+    public ClubSearchModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("This is home fragment");
     }
 
     public LiveData<String> getText() {

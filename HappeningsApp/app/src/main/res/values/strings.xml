@@ -14,10 +14,10 @@
     <string name="clickStart">Testing Change</string> <!-- Button on content.xml -->
     <!-- Menu Strings -->
     <string name="menu_map">Map</string>
-    <string name="menu_eventList">Events List</string>
-    <string name="menu_clubSearch">Club Search</string>
-    <string name="menu_photoGallery">Photo Gallery</string>
-    <string name="menu_userProfile">User Profile</string>
+    <string name="menu_event_list">Event List</string>
+    <string name="menu_club_search">Club Search</string>
+    <string name="menu_photo_gallery">Photo Gallery</string>
+    <string name="menu_user_profile">User Profile</string>
     <string name="menu_settings">Settings</string>
     <!-- MapsActivity Strings -->
     <string name="fragment_maps">Map</string>
