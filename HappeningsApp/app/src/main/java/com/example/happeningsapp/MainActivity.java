@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.toolbar.setOnClickListener(new View.OnClickListener() {
+        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -44,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.menu_map,
-                R.id.menu_eventList,
-                R.id.menu_clubSearch,
-                R.id.menu_photoGallery,
-                R.id.menu_userProfile,
-                R.id.menu_settings) // Added the menu items here from activity_main_drawer.xml
+                R.id.nav_eventList,
+                R.id.nav_clubSearch,
+                R.id.nav_photoGallery,
+                R.id.nav_userProfile,
+                R.id.nav_settings) // Added the menu items here from activity_main_drawer.xml
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

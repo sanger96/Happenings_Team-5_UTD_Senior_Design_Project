@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_eventsList"> <!-- This is the starting destination for the app (will change back later) -->
+    app:startDestination="@+id/nav_eventList"> <!-- This is the starting destination for the app (will change back later) -->
     <!-- This is the navigation for the maps activity -->
     <activity
         android:id="@+id/activity_maps"
@@ -11,7 +11,7 @@
         android:label="@string/fragment_maps"
         tools:layout="@layout/activity_maps" />
     <fragment
-        android:id="@+id/nav_eventsList"
+        android:id="@+id/nav_eventList"
         android:name="com.example.happeningsapp.ui.clubSearch.ClubSearchFragment"
         android:label="@string/menu_event_list"
         tools:layout="@layout/fragment_event_list" />
