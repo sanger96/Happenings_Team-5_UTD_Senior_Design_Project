@@ -33,8 +33,6 @@ public class Appointment {
 
     // TODO: A name field might be necessary to know what course a UserAccount has
 
-    // TODO: Representing date and times with Strings for now
-
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime startTime;

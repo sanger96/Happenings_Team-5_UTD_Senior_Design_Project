@@ -1,0 +1,45 @@
+
+Goal:
+    - get all events listed on the page and store them in DB if not already there
+    - service should be called in intervals
+
+Event Data Needed:
+    - building and room# (if applicable), start & end time, title, description, club name (if applicable)
+
+Web Page:
+    - all events located under <u class="lw lw_event_list">
+    - event titles and calendar links are under:
+        <li class="lw lw_event_item">
+            <div class="lw_event_item_title">
+                <div class="lw_event_item_title">
+                    <a href=""> {title} </a>
+
+PageItem:
+    VARIABLES:
+        String title
+        String url
+    
+    GETTERS/SETTERS
+
+PageScraperService: (this could be more efficient if we knew which page items were newly added or just updated)
+    - store all event titles and calendar urls
+        - could be hashmap variable if titles are all unique
+        - iterate through each title on website and check if exists in event table
+
+    VARIABLES:
+        HashSet<PageItem> pageItems;
+
+    METHODS:
+        scrapePageItems()
+            iterate over page items
+                gets title
+                checks if event title already in database and skips if yes
+                get url
+                add object to pageItems
+
+        getNewEvents()
+            (using pageItems, get all event information from each url, store as Event type, append to list, return list)
+            (problems/special cases: location data, appointment data, or some event data does not exist on the web page)
+
+
+

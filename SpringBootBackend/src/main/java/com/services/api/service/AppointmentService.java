@@ -21,10 +21,6 @@ public class AppointmentService {
         return repository.findById(id).orElse(null);
     }
 
-    // TODO: Get all appointments for a UserAccount
-
-    // TODO: Get all appointments for all Events (could be used to check for time conflicts)
-
     // Delete by Appointment
     public String delete(Appointment appointment){
         repository.delete(appointment);

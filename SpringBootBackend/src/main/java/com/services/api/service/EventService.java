@@ -27,8 +27,6 @@ public class EventService {
         return repository.findAll();
     }
 
-    // TODO: Get all Events for a club
-
     // Delete by Event
     public String delete(Event event){
         repository.delete(event);
