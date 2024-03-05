@@ -20,8 +20,8 @@ public class UserAccount extends Account{
 
     @ManyToMany
     @JoinTable(name = "hasinterest",
-        joinColumns = @JoinColumn(name = "useraccountID"),
-        inverseJoinColumns = @JoinColumn(name = "interestID"))
+        joinColumns = @JoinColumn(name = "useraccountid"),
+        inverseJoinColumns = @JoinColumn(name = "interestid"))
     private Set<Interest> interests; 
 }
 

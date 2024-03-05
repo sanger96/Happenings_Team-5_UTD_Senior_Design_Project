@@ -39,8 +39,9 @@ public class ClubService {
     }
 
     // Delete a club
-    public void delete(Club club) {
+    public String delete(Club club) {
         repository.delete(club);
+        return "DELETE: " + club.toString();
      }
 
     // Delete a club by ID
