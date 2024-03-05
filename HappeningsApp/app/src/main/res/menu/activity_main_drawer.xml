@@ -7,7 +7,7 @@ need to add and change the icons on the side menu
 -->
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/menu_map"
+            android:id="@+id/nav_map"
             android:icon="@drawable/ic_launcher_foreground"
             android:title="@string/menu_map" />
         <item

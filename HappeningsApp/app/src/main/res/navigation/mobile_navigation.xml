@@ -6,7 +6,7 @@
     app:startDestination="@+id/nav_clubSearch"> <!-- This is the starting destination for the app (will change back later) -->
     <!-- This is the navigation for the maps activity -->
     <activity
-        android:id="@+id/activity_maps"
+        android:id="@+id/nav_map"
         android:name="com.example.happeningsapp.MapsActivity"
         android:label="@string/fragment_maps"
         tools:layout="@layout/activity_maps" />
