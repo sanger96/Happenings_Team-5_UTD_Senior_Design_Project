@@ -12,27 +12,23 @@
         android:theme="@style/Theme.HappeningsApp.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/topPanel"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/greenUTD"
             app:popupTheme="@style/Theme.HappeningsApp.PopupOverlay" />
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/fake_login_main" />
+    <include layout="@layout/content_main" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/side_nav_bar"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|start"
+        android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        app:srcCompat="@android:drawable/ic_dialog_email"
-        android:contentDescription="menu button"/>
-        <!---
-        need to change the icon above
-        -->
-
+        app:srcCompat="@android:drawable/ic_dialog_email" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
