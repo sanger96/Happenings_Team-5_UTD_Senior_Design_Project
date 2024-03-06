@@ -1,11 +1,9 @@
 General Notes:
     Goal:
         - get all events listed on the page and store them in DB if not already there
-        - service should be called in intervals
-
+        - service should be called in intervals or everytime the event page loaded
     Event Data Needed:
         - building and room# (if applicable), start & end time, title, description, club name (if applicable)
-
     Web Page:
         - all events located under <u class="lw lw_event_list">
         - event titles and calendar links are under:
@@ -41,20 +39,18 @@ PageScraperService: (this could be more efficient if we knew which page items we
                 checks if event title already in database and skips if yes
                 get url
                 add object to pageItems
-
         *Helper*
         didPageUpdate()
             (check if events page got updated)
             (return boolean)
-
         getNewEvents()
-            (call didPageUpdate() method and execute the following if returned true)
-                (call scrapePageItems())
-                (using pageItems, get all event information from each url, store as Event type, append to list, return list)
-                    (how can we store a location, event, and appointment all together)
-                (problems/special cases: location data, appointment data, or some event data does not exist on the web page)
+            (call scrapePageItems())
+            (using pageItems, get all event information from each url, store as Event type, append to list, return list)
+                (how can we store a location, event, and appointment all together)
+            (problems/special cases: location data, appointment data, or some event data does not exist on the web page)
 
 PageScraperController:
+
     FIELDS:
         locationService
         appointmentService

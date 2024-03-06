@@ -1,4 +1,4 @@
-package com.services.scraper.entities;
+package com.services.scraper.entity;
 
 import lombok.Data;
 
