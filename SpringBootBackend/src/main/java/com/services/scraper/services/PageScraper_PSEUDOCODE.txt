@@ -1,21 +1,21 @@
+General Notes:
+    Goal:
+        - get all events listed on the page and store them in DB if not already there
+        - service should be called in intervals
 
-Goal:
-    - get all events listed on the page and store them in DB if not already there
-    - service should be called in intervals
+    Event Data Needed:
+        - building and room# (if applicable), start & end time, title, description, club name (if applicable)
 
-Event Data Needed:
-    - building and room# (if applicable), start & end time, title, description, club name (if applicable)
-
-Web Page:
-    - all events located under <u class="lw lw_event_list">
-    - event titles and calendar links are under:
-        <li class="lw lw_event_item">
-            <div class="lw_event_item_title">
+    Web Page:
+        - all events located under <u class="lw lw_event_list">
+        - event titles and calendar links are under:
+            <li class="lw lw_event_item">
                 <div class="lw_event_item_title">
-                    <a href=""> {title} </a>
+                    <div class="lw_event_item_title">
+                        <a href=""> title </a>
 
 PageItem:
-    VARIABLES:
+    FIELDS:
         String title
         String url
     
@@ -25,11 +25,16 @@ PageScraperService: (this could be more efficient if we knew which page items we
     - store all event titles and calendar urls
         - could be hashmap variable if titles are all unique
         - iterate through each title on website and check if exists in event table
+    - must be have access to location, appointment, club, and event entities
+        - creates an appointment instance
+        - creates a location instance
+        - find the associated club if applicable
 
-    VARIABLES:
+    FIELDS:
         HashSet<PageItem> pageItems;
 
     METHODS:
+        *Helper*
         scrapePageItems()
             iterate over page items
                 gets title
@@ -37,9 +42,33 @@ PageScraperService: (this could be more efficient if we knew which page items we
                 get url
                 add object to pageItems
 
+        *Helper*
+        didPageUpdate()
+            (check if events page got updated)
+            (return boolean)
+
         getNewEvents()
-            (using pageItems, get all event information from each url, store as Event type, append to list, return list)
-            (problems/special cases: location data, appointment data, or some event data does not exist on the web page)
+            (call didPageUpdate() method and execute the following if returned true)
+                (call scrapePageItems())
+                (using pageItems, get all event information from each url, store as Event type, append to list, return list)
+                    (how can we store a location, event, and appointment all together)
+                (problems/special cases: location data, appointment data, or some event data does not exist on the web page)
+
+PageScraperController:
+    FIELDS:
+        locationService
+        appointmentService
+        eventService
+        pageScraperService
+
+    METHODs:
+        checkForEvents()
+            call getNewEvents() and store in List of Events
+            for each event in list
+                post location, flush
+                post appointment, flush
+                post event, flush
+
 
 
 
