@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.services.api.repository.UserAccountRepository;
 import com.services.api.entity.UserAccount;
+import com.services.api.entity.Appointment;
 
 @Service
 public class UserAccountService {
@@ -36,5 +37,9 @@ public class UserAccountService {
     public String delete(UserAccount userAccount) {
         repository.delete(userAccount);
         return "DELETE: "  + userAccount.toString();
+    }
+
+    public List<Integer> getAllAppointments(int id) {
+        return repository.getAllAppointments(id);
     }
 }

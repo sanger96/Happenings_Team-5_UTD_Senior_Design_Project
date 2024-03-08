@@ -1,5 +1,6 @@
 package com.services.api.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,21 @@ public class AppointmentController {
         return service.save(appointment);
     }
 
+    @PostMapping("/addOrOmit")
+    public Appointment addOrOmit(@RequestBody Appointment appointment) {
+        List<Appointment> allCurrAppointments = getAll();
+        for (Appointment apt : allCurrAppointments) {
+
+            if ((appointment.getLocation().getBuilding().equals(apt.getLocation().getBuilding()) &&
+            appointment.getLocation().getRoom().equals(apt.getLocation().getRoom())) &&
+            (appointment.getStartTime().isBefore(apt.getEndTime()) || appointment.getEndTime().isAfter(apt.getStartTime()))) {
+                System.out.println("Conflicts with: " + apt.getAppointmentID());
+                return null;
+            }
+        }
+        return add(appointment);
+    }
+
     @PutMapping("/update")
     public Appointment update(@RequestBody Appointment appointment) {
         return service.save(appointment);
@@ -34,6 +50,11 @@ public class AppointmentController {
     @GetMapping("/getById/{id}")
     public Appointment getById(@PathVariable int id) {
         return service.getById(id);
+    }
+
+    @GetMapping("/getAll") 
+    public List<Appointment> getAll() {
+        return service.getAll();
     }
 
     @DeleteMapping("/delete")
