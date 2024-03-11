@@ -13,7 +13,7 @@ public class UserSettingsViewModel extends ViewModel {
     public UserSettingsViewModel() {
         topPrompt = new MutableLiveData<>();
         //sets top prompt
-        topPrompt.setValue("user profile settings page");
+        topPrompt.setValue("user profile settings page\nFor successful login attempt; username=user , password=password");
         username = new MutableLiveData<>();
         //sets username
         username.setValue("Enter username");

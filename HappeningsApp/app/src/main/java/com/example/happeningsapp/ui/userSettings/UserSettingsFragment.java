@@ -49,7 +49,7 @@ public class UserSettingsFragment extends Fragment {
             @Override
             public void onClick(View view){
                 //if statement for seeing if username and password is accepted
-                if(username.getText().toString().equals("user")&& password.getText().toString().equals("password")){
+                if(username.getText().toString().equals("Enter Username")&& password.getText().toString().equals("Enter Password")){
                     Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
                 } else{
                     Toast.makeText(root.getContext(), "Login Failed Miserably",Toast.LENGTH_SHORT).show();
