@@ -38,11 +38,6 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null)
                         .setAnchorView(R.id.toolbar).show();
                 ;
-                // button for submit on User Settings page
-                if(view.getId()==R.id.button_submitUserSettings){
-                    //do something when this button is clicked
-                    ;
-                }
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
