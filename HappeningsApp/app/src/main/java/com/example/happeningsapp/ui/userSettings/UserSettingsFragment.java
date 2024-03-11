@@ -26,6 +26,7 @@ public class UserSettingsFragment extends Fragment {
 
         final TextView textView = binding.textUserSettings;
         photoGalleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
         return root;
     }
 

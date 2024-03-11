@@ -11,6 +11,7 @@ public class UserSettingsViewModel extends ViewModel {
     public UserSettingsViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is User Settings fragment");
+
     }
 
     public LiveData<String> getText() {
