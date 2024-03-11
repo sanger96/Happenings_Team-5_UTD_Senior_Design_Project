@@ -3,13 +3,10 @@ package com.example.happeningsapp;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
-import android.widget.EditText;
 
-import com.example.happeningsapp.ui.userSettings.UserSettingsViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -37,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null)
                         .setAnchorView(R.id.toolbar).show();
-                ;
             }
         });
         DrawerLayout drawer = binding.drawerLayout;

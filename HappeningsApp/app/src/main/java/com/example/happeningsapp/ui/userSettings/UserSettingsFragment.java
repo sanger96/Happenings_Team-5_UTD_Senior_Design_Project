@@ -13,10 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.happeningsapp.MainActivity;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentUserSettingsBinding;
-import com.google.android.material.snackbar.Snackbar;
 
 public class UserSettingsFragment extends Fragment {
 
