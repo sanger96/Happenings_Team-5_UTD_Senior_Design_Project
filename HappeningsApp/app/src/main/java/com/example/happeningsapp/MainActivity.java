@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.EditText;
 
+import com.example.happeningsapp.ui.userSettings.UserSettingsViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -37,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null)
                         .setAnchorView(R.id.toolbar).show();
                 ;
+                // button for submit on User Settings page
+                if(view.getId()==R.id.button_submitUserSettings){
+                    //do something when this button is clicked
+                    ;
+                }
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         //getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
         return true;
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

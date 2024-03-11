@@ -28,10 +28,9 @@ public class UserSettingsFragment extends Fragment {
 
         // bind default text at top of page
         final TextView textView = binding.textUserSettings;
-        //get username and password
+        // bind username and password
         final TextView username = binding.inTextUserName;
         final TextView password = binding.inTextPassword;
-        textView.setText("testing");
         // get text for top of page
         photoGalleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         // i want to get these again after the button is clicked
@@ -40,7 +39,6 @@ public class UserSettingsFragment extends Fragment {
 
         return root;
     }
-
 
     @Override
     public void onDestroyView() {
