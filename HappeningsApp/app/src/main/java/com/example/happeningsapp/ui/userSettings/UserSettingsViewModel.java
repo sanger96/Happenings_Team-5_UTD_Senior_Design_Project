@@ -6,15 +6,30 @@ import androidx.lifecycle.ViewModel;
 
 public class UserSettingsViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private final MutableLiveData<String> topPrompt;
+    private final MutableLiveData<String> username;
+    private final MutableLiveData<String> password;
 
     public UserSettingsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is User Settings fragment");
+        topPrompt = new MutableLiveData<>();
+        //sets top prompt
+        topPrompt.setValue("user profile settings page");
+        username = new MutableLiveData<>();
+        //sets username
+        username.setValue("Enter username");
+        password = new MutableLiveData<>();
+        //sets password
+        password.setValue("Enter password");
 
     }
 
     public LiveData<String> getText() {
-        return mText;
+        return topPrompt;
+    }
+    public LiveData<String> getUsername() {
+        return username;
+    }
+    public LiveData<String> getPassword() {
+        return password;
     }
 }

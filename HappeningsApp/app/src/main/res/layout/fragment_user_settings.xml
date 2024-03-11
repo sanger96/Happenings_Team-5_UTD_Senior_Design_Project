@@ -50,7 +50,7 @@
         android:id="@+id/textUserSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is the user settings/account creation page"
+        android:text="page name"
         app:layout_constraintBottom_toTopOf="@+id/inText_userName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
