@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.services.api.entity.Appointment;
 import com.services.api.repository.AppointmentRepository;
 
+import java.util.List;
+
 @Service
 public class AppointmentService {
     @Autowired
@@ -19,6 +21,10 @@ public class AppointmentService {
     // Get an Appointment
     public Appointment getById(int id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public List<Appointment> getAll() {
+        return repository.findAll();
     }
 
     // Delete by Appointment

@@ -5,7 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.services.api.entity.Club;
+import com.services.api.entity.Event;
 import com.services.api.repository.ClubRepository;
+import com.services.api.repository.EventRepository;
 import java.util.*;
 
 
@@ -13,6 +15,14 @@ import java.util.*;
 public class ClubService {
     @Autowired
     private ClubRepository repository;
+
+   
+
+    // Get events by club ID
+    public List<Event> getEventsById(Club club) {
+    return club.getEvents();
+    }
+
 
     // Create a club
     public Club add(Club club) {

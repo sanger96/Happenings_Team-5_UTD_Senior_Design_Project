@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.services.api.entity.Club;
 import com.services.api.entity.Event;
+import com.services.api.repository.EventRepository;
 import com.services.api.service.ClubService;
+import com.services.api.service.EventService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import java.util.*;
@@ -21,6 +23,14 @@ public class ClubController {
     
     @Autowired
     private ClubService service;
+
+
+
+    @GetMapping("/getEventsById/{id}")
+    public List<Event> getEvents(@PathVariable int id) {
+
+        return service.getEventsById(service.getById(id));
+    }
 
     @PostMapping("/add")
     public Club add(@RequestBody Club club) {

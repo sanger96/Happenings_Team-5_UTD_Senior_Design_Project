@@ -3,6 +3,8 @@ package com.services.api.entity;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 // import org.hibernate.mapping.Set;
 
 import jakarta.persistence.Entity;
@@ -38,6 +40,7 @@ public class Event {
     private Appointment appointment;
 
     /* An Event has a ManyToOne relationship with a Club */
+    @JsonIgnoreProperties("events")
     @ManyToOne
     @JoinColumn(name = "clubID")
     private Club club;

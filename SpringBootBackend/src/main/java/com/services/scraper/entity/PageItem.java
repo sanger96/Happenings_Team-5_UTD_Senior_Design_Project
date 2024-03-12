@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class PageItem {
-    private String title;
-    private String url;
+    public String title;
+    public String url;
+    public PageItem(){};
+    public PageItem(String title, String url){ this.title = title; this.url = url; }
 }

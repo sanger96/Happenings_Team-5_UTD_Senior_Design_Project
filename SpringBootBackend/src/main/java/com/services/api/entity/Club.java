@@ -17,30 +17,37 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "CLUB")
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "events"})
 public class Club {
 
     @Id
     @GeneratedValue
     private int clubID;
+    private String name;
     private String description;
     private int leaderID;
     
     // One club has many events
+    @JsonIgnoreProperties("CLUB")
     @OneToMany
     @JoinColumn(name = "clubID")
     private List<Event> events;
     
     // Many clubs have many favorite users
+
     @ManyToMany
     @JoinTable(name = "hasfavorite",
         joinColumns = @JoinColumn(name = "clubID"),
         inverseJoinColumns = @JoinColumn(name = "userAccountID"))
     private Set<UserAccount> userAccounts;
+
+    public List<Event> getEvents(){ return events; }
 
 }

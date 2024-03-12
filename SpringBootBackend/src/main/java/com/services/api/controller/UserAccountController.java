@@ -1,6 +1,7 @@
 package com.services.api.controller;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.services.api.entity.UserAccount;
 import com.services.api.service.UserAccountService;
+import com.services.api.service.AppointmentService;
+import com.services.api.entity.Appointment;
+
 
 @RestController
 @RequestMapping("useraccount")
@@ -21,6 +25,9 @@ public class UserAccountController {
     
     @Autowired
     private UserAccountService service;
+
+    @Autowired
+    private AppointmentService appointmentService;
 
     @PostMapping("/add")
     public UserAccount add(@RequestBody UserAccount userAccount) {
@@ -35,6 +42,16 @@ public class UserAccountController {
     @GetMapping("/getAll")
     public List<UserAccount> getAll() {
         return service.getAll();
+    }
+
+    @GetMapping("/getAllAppointments/{id}")
+    public List<Appointment> getAllAppointments(@PathVariable int id) {
+        List<Integer> appointmentIds = service.getAllAppointments(id);
+        List<Appointment> appointments = new ArrayList<>();
+        for (Integer appointmentId : appointmentIds) {
+            appointments.add(appointmentService.getById(appointmentId.intValue()));
+        }
+        return appointments;
     }
 
     @PutMapping("/update")
