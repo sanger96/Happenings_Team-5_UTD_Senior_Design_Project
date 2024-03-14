@@ -24,6 +24,7 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="MapsAPIKey">AIzaSyC27iSTA9_X4srnNQ_opPFL8_-DV402kao</string> <!-- Google Maps API Key -->
     <string name="default_location">University of Texas at Dallas</string>
+
     <!-- EventListFragment Strings -->
     <string name="fragment_eventList">Event List</string>
 
