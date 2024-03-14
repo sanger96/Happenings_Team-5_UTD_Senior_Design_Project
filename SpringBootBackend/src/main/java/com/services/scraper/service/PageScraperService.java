@@ -40,8 +40,9 @@ public class PageScraperService {
             
             ArrayList<PageItem> pageItems = new ArrayList<PageItem>();
 
+            // Use set to not retrieve duplicate events
             HashSet<String> knownEvents = new HashSet<String>();
-
+            // TODO: An event shouldn't be added if it already exists in the DB
             // Store the url and name of each event
             for (Element event : eventList)
             {
@@ -53,8 +54,8 @@ public class PageScraperService {
                     continue;
 
                 PageItem newPageItem = new PageItem(eventName, eventURL);
-
                 pageItems.add(newPageItem);
+                // Update set
                 knownEvents.add(eventName);
             }
             return pageItems;
@@ -88,12 +89,6 @@ public class PageScraperService {
      * @return List<Event> list of events from each page item
      */
     public String getNewEvents(){
-        /*
-         * call scrapePageItems() to populate pageItems field
-         * using pageItems, get all event information from each url, store as Event type, append to list, return list
-         *   how can we store a location, event, and appointment all together
-         *   problems/special cases: location data, appointment data, or some event data does not exist on the web page
-         */
         String testOutput = "";
         try{
             // Call helper method to extract pageItems
@@ -102,12 +97,8 @@ public class PageScraperService {
             // The new list of events that should be returned
             ArrayList<Event> events = new ArrayList<Event>();
 
-            // Using Japan event as example
-            // Document doc = Jsoup.connect("https://calendar.utdallas.edu/event/japan_form_function_the_montgomery_collection").get();
-            // Element content = doc.getElementsByClass("content-top grid_container").first()
-            //                         .getElementsByClass("box_content vevent grid_8").first();
-
-
+            /* TESTING PURPOSES */
+            testOutput = "[There are a total of " + eventItems.size() + " events]\n\n";
             /* Iterate through all eventItems to extract the above information */
             for(PageItem eventItem : eventItems){
                 // Get the document using URL
@@ -125,6 +116,9 @@ public class PageScraperService {
                 testOutput += "---------------------------LOCATION---------------------------\n" + location + "\n";
                 testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime + "\n\n\n";
             }
+
+            // TODO: Figure out how to retrieve relevant club information (if necessary)
+            // TODO: Store information in Event object, including location and appointment objects
         }
         catch(Exception e){
             System.out.println("Exception thown:" + e.getMessage());
@@ -139,17 +133,22 @@ public class PageScraperService {
         // return null;
     }
 
+    /**
+     * getTitle
+     * @param content The element containing necessary content for an Event
+     * @return String containing the title of an event
+     */
     private String getTitle(Element content){
-        /* Element containing title of event */
         Elements titleElement = content.getElementsByClass("summary");
         return titleElement.first().text();
     }
 
+    /**
+     * getDescription
+     * @param content The element containing necessary content for an Event
+     * @return String containing the description of an event
+     */
     private String getDescription(Element content){
-        /**
-         * The description element, and/or children
-         * A description element may contain no text or no children
-         */
         Elements descriptionElement = content.getElementsByClass("description").first().getAllElements();
 
         String description = "";
@@ -160,11 +159,17 @@ public class PageScraperService {
         return description;
     }
 
+    /**
+     * getLocation
+     * @param content The element containing necessary content for an Event
+     * @return String containing the location of an event
+     * TODO: Will need to be edited once location information is decided amongst members
+     */
     private String getLocation(Element content){
         /**
          * The location element, and/or children
          * A location element may contain no text or no children
-         * If it does contain text, get the text from the <a> tag if it exists, if not get any text
+         * If it does contain text, get the text from the <a> tag if it exists, if not then get any text
          * (location may be virtual, on campus, off campus, or empty(maybe))
          */
         Elements locationElement = content.getElementsByClass("location").first().getAllElements();
@@ -182,12 +187,18 @@ public class PageScraperService {
         return location;
     }
 
+    /**
+     * getDatetime
+     * @param content The element containing necessary content for an Event
+     * @return String containing the start and end datetimes of an event, one or both may be missing
+     */
     private String getDatetime(Element content){
         /**
          * The datetime element, and/or children
-         * There are usually two child <abbr> elements containing a title attribute, title = "dtstart"/"dtend", with the exact date and time format needed
-         *      Both children can be missing, "dtend" child can be missing, (best to check if there is any children too)
-         * (worth noting that there are sometimes extra dates under the <div id="x-all-dates" style="display: none"> tag)
+         * There are usually two child <abbr> elements containing a title attribute,
+         * title = "dtstart"/"dtend", with the exact date and time format needed
+         *      Both children can be missing, or "dtend" child can be missing
+         * TODO:(worth noting that there are sometimes extra dates under the <div id="x-all-dates" style="display: none"> tag)
          */
         Elements datetimeElement = content.getElementsByClass("dateright").first().children();
         String datetime = "";
