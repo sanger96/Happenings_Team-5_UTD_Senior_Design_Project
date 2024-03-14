@@ -96,32 +96,67 @@ public class PageScraperService {
 
             // Using Japan event as example
             Document doc = Jsoup.connect("https://calendar.utdallas.edu/event/japan_form_function_the_montgomery_collection").get();
-            Element container = doc.getElementsByClass("content-top grid_container").first();
-            Element content = container.getElementsByClass("box_content vevent grid_8").first();
+            Element content = doc.getElementsByClass("content-top grid_container").first()
+                                    .getElementsByClass("box_content vevent grid_8").first();
+
+
+            /* Element containing title of event */
+            Elements titleElement = content.getElementsByClass("summary");
+            String title = titleElement.first().text();
 
             /**
-             * The description element contains many child elements that could be <p>, <i>, <a>, <b>, and <span> tags
-             * These tags should have their text information extracted only
+             * The description element, and/or children
+             * A description element may contain no text or no children
              */
-            Elements description = content.getElementsByClass("description").first().getAllElements();
+            Elements descriptionElement = content.getElementsByClass("description").first().getAllElements();
+            String description = "";
+            if (descriptionElement.first().hasText()){
+                description = descriptionElement.first().text();
+            }
             
-            /**
-             * The location element contains many child elements that could be <p>, <br>, <i>, <a>, <b>, and <span> tags
-             * These tags should have their text information extracted only
-             */
-            Elements location = content.getElementsByClass("location").first().getAllElements();
 
             /**
-             * The datetime element contains many child elements that could be <abbr>, and<i> tags
-             * The <abbr> tags contain a title attribute which contains the exact date and time format needed
-             * There can sometimes be a <abbr> tag with a class = "dtstart" or "dtend"
-             * (worth noting that there are sometimes extra dates unde the <div id="x-all-dates" style="display: none"> tag)
+             * The location element, and/or children
+             * A location element may contain no text or no children
+             * If it does contain text, get the text from the <a> tag if it exists, if not get any text
+             * (location may be virtual, on campus, off campus, or empty(maybe))
              */
-            Elements datetime = content.getElementsByClass("dateright").first().getAllElements();
+            Elements locationElement = content.getElementsByClass("location").first().getAllElements();
+            String location = "";
+            if(locationElement.first().hasText()){
+                location = locationElement.first().text();
+
+                if(locationElement.first().childrenSize() != 0){
+                    if(locationElement.first().getElementsByTag("a").first() != null && locationElement.first().getElementsByTag("a").first().hasText())
+                        location = locationElement.first().getElementsByTag("a").first().text();
+                }
+            }
+
+            /**
+             * The datetime element, and/or children
+             * There are usually two child <abbr> elements containing a title attribute, title = "dtstart"/"dtend", with the exact date and time format needed
+             *      Both children can be missing, "dtend" child can be missing, (best to check if there is any children too)
+             * (worth noting that there are sometimes extra dates under the <div id="x-all-dates" style="display: none"> tag)
+             */
+            Elements datetimeElement = content.getElementsByClass("dateright").first().children();
+            String datetime = "";
+            if(datetimeElement.first().hasText()){
+                int numChildren = datetimeElement.first().childrenSize();
+                
+                // if(numChildren == 2){
+                //     datetime = datetimeElement.first().attribute("title").getValue() + "\t" + datetimeElement.first().nextElementSibling().attribute("title").getValue();
+                // }
+                // else if(numChildren == 1){
+                //     datetime = datetimeElement.first().attribute("title").getValue();
+                // }
+            }
             
-            testOutput += "---------------------------DESCRIPTION---------------------------\n" + description.html() + "\n\n\n";
-            testOutput += "---------------------------LOCATION---------------------------\n" + location.html() + "\n\n\n";
-            testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime.html() + "\n\n\n";
+
+            
+            testOutput += "---------------------------TITLE---------------------------\n" + title + "\n";
+            testOutput += "---------------------------DESCRIPTION---------------------------\n" + description + "\n";
+            testOutput += "---------------------------LOCATION---------------------------\n" + location + "\n";
+            testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime + "\n\n\n";
 
             /* Iterate through all eventItems to extract the above information */
             // for(PageItem eventItem : eventItems){
@@ -135,6 +170,10 @@ public class PageScraperService {
         }
         catch(Exception e){
             System.out.println("Exception thown:" + e.getMessage());
+            System.out.println("Stack Trace:\n");
+            for(int i = 0; i < e.getStackTrace().length; i++){
+                System.out.println(e.getStackTrace()[i].toString());
+            }
             return null;
         }
 
