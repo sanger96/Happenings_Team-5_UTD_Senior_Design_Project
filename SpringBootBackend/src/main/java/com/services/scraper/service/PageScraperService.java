@@ -62,7 +62,7 @@ public class PageScraperService {
                 String eventURL = links.attr("href");
                 String eventName = eventURL.substring(36).replace('_', ' ');
                 
-                // Don't store duplicate events or events that already exist
+                // Don't store duplicate events or events that already exist by name
                 if(knownEvents.contains(eventName) || eventService.existsByName(eventName) == 1)
                     continue;
                 
@@ -97,51 +97,68 @@ public class PageScraperService {
     }
 
     /**
-     * getNewEvents
+     * addNewEvents
      * Uses helper methods and Jsoup to retrieve necessary data for an Event
      * and stores Events in a list
-     * @return List<Event> list of events from each page item
+     * @return String indicates how many new events were stored or no new events
      */
-    public String getNewEvents(){
+    public String addNewEvents(){
         String testOutput = "";
         try{
-            // Call helper method to extract pageItems
+            // Call helper method to extract pageItems, and init new list to populate
             ArrayList<PageItem> eventItems = this.scrapePageItems();
+            ArrayList<Event> newEvents = new ArrayList<Event>();
 
-            // The new list of events that should be returned
-            ArrayList<Event> events = new ArrayList<Event>();
+            // Exit if no new events retrieved
+            if(eventItems.size() == 0)
+                return "No new events added";
 
             /* TESTING PURPOSES */
             testOutput = "[There are a total of " + eventItems.size() + " events]\n\n";
-            /* Iterate through all eventItems to extract the above information */
+
             for(PageItem eventItem : eventItems){
-                // Get the document using URL
+                // Get the document using URL, and get element containing needed data
                 Document doc = Jsoup.connect(eventItem.getUrl()).get();
                 Element content = doc.getElementsByClass("content-top grid_container").first()
-                                        .getElementsByClass("box_content vevent grid_8").first();
-
+                                     .getElementsByClass("box_content vevent grid_8").first();
+                
+                // Call helper methods to retrieve data
                 String title = this.getTitle(content);
                 String description = this.getDescription(content);
                 String location = this.getLocation(content);
                 String datetime = this.getDatetime(content);
-                                        
+                
+                /* TESTING PURPOSES */
                 testOutput += "---------------------------TITLE---------------------------\n" + title + "\n";
                 testOutput += "---------------------------DESCRIPTION---------------------------\n" + description + "\n";
                 testOutput += "---------------------------LOCATION---------------------------\n" + location + "\n";
                 testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime + "\n\n\n";
+                /*                  */
+
                 // TODO: Figure out how to retrieve relevant club information (if necessary)
                 // TODO: Store information in Event object, including location and appointment objects
 
-                /* Create Location object, if it doesn't already exist in DB
+                /* TODO: Create Location object, if it doesn't already exist in DB
+                 * location string needs to be parsed first
                  * TODO: need to have full team discussion on Location information
                  */
 
-                 /* Create Appointment object
-                  * 
-                  */
+                /* TODO: Create Appointment object
+                 * Use the given Location object in its instantiation
+                 * the datetime string can include one or two dates, separated by tab
+                 */
                 
+                /* TODO: Create Event object
+                 * Use given Appointment object
+                 * photoSubDirectory should utilize event's title
+                 */
 
+                 // TODO: Add event to newEvents list
             }
+
+            /* TODO: Post all new events to database
+             * return string indicating number of new events
+             */
         }
         catch(Exception e){
             System.out.println("Exception thown:" + e.getMessage());
@@ -186,7 +203,7 @@ public class PageScraperService {
      * getLocation
      * @param content The element containing necessary content for an Event
      * @return String containing the location of an event
-     * TODO: Will need to be edited once location information is decided amongst members
+     * TODO: might need to be edited once location information is decided amongst members
      */
     private String getLocation(Element content){
         /**

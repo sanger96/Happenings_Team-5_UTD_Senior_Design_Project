@@ -31,21 +31,12 @@ public class PageScraperController {
 
     @PostMapping("/checkForEvents")
     public String checkForEvents(){
-        /*
-        call didPageUpdate() return string if it didnt
-        call getNewEvents() and store in List of Events
-        for each event in list
-            post location, flush
-            post appointment, flush
-            post event, flush
-        */
+        /* Check for new events on UTD calendar page
+         * Add new ones
+         * return string indicating success/failure (how many new events added)
+         */
 
-        return pageScraperService.getNewEvents();
-       
-        //pageScraperService.getNewEvents();
-        //return "test";
-        
-        
+        return pageScraperService.addNewEvents();
     }
 
 }
