@@ -8,8 +8,11 @@ import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Integer> {
 
-        // Get all events by club ID
+    // Get all events by club ID
     @Query(value = "SELECT * FROM event e WHERE e.clubID = ?1", nativeQuery = true)
     List<Event> getEventsByID(Integer id);
     
+    // Check if event exists by name
+    @Query(value = "SELECT 1 FROM event WHERE name = ?1", nativeQuery = true)
+    Integer existsByName(String name);
 }

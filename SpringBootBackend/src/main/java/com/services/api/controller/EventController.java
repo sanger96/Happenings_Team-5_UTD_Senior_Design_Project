@@ -43,6 +43,11 @@ public class EventController {
         return service.getAll();
     }
 
+    @GetMapping("/existsByName/{name}")
+    public Integer existsByName(@PathVariable String name){
+        return service.existsByName(name);
+    }
+
     @DeleteMapping("/delete")
     public String delete(@RequestBody Event event){
         return service.delete(event);

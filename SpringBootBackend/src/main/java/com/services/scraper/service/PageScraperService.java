@@ -63,8 +63,7 @@ public class PageScraperService {
                 String eventName = eventURL.substring(36).replace('_', ' ');
                 
                 // Don't store duplicate events or events that already exist
-                // TODO: An event shouldn't be added if it already exists in the DB
-                if(knownEvents.contains(eventName))
+                if(knownEvents.contains(eventName) || eventService.existsByName(eventName) == 1)
                     continue;
                 
                 // Add new event item and update known set
@@ -72,7 +71,7 @@ public class PageScraperService {
                 pageItems.add(newPageItem);
                 knownEvents.add(eventName);
             }
-            
+
             return pageItems;
         }
         catch(Exception e){

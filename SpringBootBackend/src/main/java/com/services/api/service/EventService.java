@@ -27,6 +27,15 @@ public class EventService {
         return repository.findAll();
     }
 
+    // Check if event exists by name
+    public Integer existsByName(String name){
+        Integer response = repository.existsByName(name);
+        if(response == null){
+            return 0;
+        }
+        return response;
+    }
+
     // Delete by Event
     public String delete(Event event){
         repository.delete(event);
