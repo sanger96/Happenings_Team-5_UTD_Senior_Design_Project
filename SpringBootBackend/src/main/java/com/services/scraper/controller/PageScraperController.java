@@ -24,14 +24,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("pagescraper")
 public class PageScraperController {
-    @Autowired
-    LocationService locationService;
 
-    @Autowired
-    AppointmentService appointmentService;
-
-    @Autowired
-    EventService eventService;
 
     @Autowired
     PageScraperService pageScraperService;

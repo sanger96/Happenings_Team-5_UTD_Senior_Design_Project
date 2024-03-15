@@ -3,6 +3,9 @@ package com.services.scraper.service;
 import com.services.api.entity.Event;
 import com.services.api.entity.Appointment;
 import com.services.api.entity.Location;
+import com.services.api.service.AppointmentService;
+import com.services.api.service.EventService;
+import com.services.api.service.LocationService;
 import com.services.scraper.entity.PageItem;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +13,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,39 +29,50 @@ public class PageScraperService {
     @Value("${website.url}")
     private String thisWeekURL;
 
+    @Autowired
+    LocationService locationService;
+
+    @Autowired
+    AppointmentService appointmentService;
+
+    @Autowired
+    EventService eventService;
+
     /**
      * scrapePageItems
      * Uses Jsoup library to retrieve events title
      * and calendar url from each item in html list
+     * @return ArrayList<PageItem> contains all the
+     * scraped event items to be added to the database
      */
     private ArrayList<PageItem> scrapePageItems(){
         try{
-            // Retrieve document using URL
+            // Retrieve document using URL, and get element containing list of events
             Document doc = Jsoup.connect(thisWeekURL).get();
- 
-            // Gets the element with the class "summary" and all child elements
             Elements eventList = doc.getElementsByClass("summary");
             
+            // Init list to store event items, and set to not store duplicate events
             ArrayList<PageItem> pageItems = new ArrayList<PageItem>();
-
-            // Use set to not retrieve duplicate events
             HashSet<String> knownEvents = new HashSet<String>();
-            // TODO: An event shouldn't be added if it already exists in the DB
+            
             // Store the url and name of each event
             for (Element event : eventList)
             {
                 Elements links = event.select("a[href]");
                 String eventURL = links.attr("href");
                 String eventName = eventURL.substring(36).replace('_', ' ');
-
+                
+                // Don't store duplicate events or events that already exist
+                // TODO: An event shouldn't be added if it already exists in the DB
                 if(knownEvents.contains(eventName))
                     continue;
-
+                
+                // Add new event item and update known set
                 PageItem newPageItem = new PageItem(eventName, eventURL);
                 pageItems.add(newPageItem);
-                // Update set
                 knownEvents.add(eventName);
             }
+            
             return pageItems;
         }
         catch(Exception e){
@@ -115,10 +130,19 @@ public class PageScraperService {
                 testOutput += "---------------------------DESCRIPTION---------------------------\n" + description + "\n";
                 testOutput += "---------------------------LOCATION---------------------------\n" + location + "\n";
                 testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime + "\n\n\n";
-            }
+                // TODO: Figure out how to retrieve relevant club information (if necessary)
+                // TODO: Store information in Event object, including location and appointment objects
 
-            // TODO: Figure out how to retrieve relevant club information (if necessary)
-            // TODO: Store information in Event object, including location and appointment objects
+                /* Create Location object, if it doesn't already exist in DB
+                 * TODO: need to have full team discussion on Location information
+                 */
+
+                 /* Create Appointment object
+                  * 
+                  */
+                
+
+            }
         }
         catch(Exception e){
             System.out.println("Exception thown:" + e.getMessage());
