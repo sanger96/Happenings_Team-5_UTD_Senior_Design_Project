@@ -27,6 +27,11 @@ public class EventService {
         return repository.findAll();
     }
 
+    // Get number of attending users at event by ID
+    public Integer getRSVPcount(Integer id){
+        return repository.getRSVPcount(id);
+    }
+
     // Check if event exists by name
     public Integer existsByName(String name){
         Integer response = repository.existsByName(name);

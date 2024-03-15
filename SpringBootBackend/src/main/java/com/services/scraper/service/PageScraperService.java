@@ -156,7 +156,7 @@ public class PageScraperService {
                  // TODO: Add event to newEvents list
             }
 
-            /* TODO: Post all new events to database
+            /* TODO: Post all new events to database and flush
              * return string indicating number of new events
              */
         }

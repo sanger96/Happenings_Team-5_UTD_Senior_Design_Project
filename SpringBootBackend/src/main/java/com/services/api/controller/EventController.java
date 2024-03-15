@@ -43,6 +43,11 @@ public class EventController {
         return service.getAll();
     }
 
+    @GetMapping("/getRSVPcount/{id}")
+    public Integer getRSVPcount(@PathVariable int id){
+        return service.getRSVPcount(id);
+    }
+
     @GetMapping("/existsByName/{name}")
     public Integer existsByName(@PathVariable String name){
         return service.existsByName(name);
