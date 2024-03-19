@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentLoginBinding;
@@ -20,6 +21,7 @@ import com.example.happeningsapp.databinding.FragmentLoginBinding;
 public class loginFragment extends Fragment {
 
    private FragmentLoginBinding binding;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -46,12 +48,12 @@ public class loginFragment extends Fragment {
         Button submit = (Button) root.findViewById(R.id.button_submitLogin);
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view){
+            public void onClick(View lambda){
                 //if statement for seeing if username and password is accepted
                 if(username.getText().toString().equals("Enter username")&& password.getText().toString().equals("Enter password")){
                     Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
                     //the below line should make the app go to that page on successful login
-                    //NavController.navigate(R.id.action_nav_login_to_nav_eventList);
+                    Navigation.findNavController(lambda).navigate(R.id.action_nav_login_to_nav_eventList);
 
                 } else{
                     Toast.makeText(root.getContext(), "Login Failed Miserably",Toast.LENGTH_SHORT).show();
