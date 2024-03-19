@@ -1,6 +1,7 @@
 package com.services.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,8 @@ import com.services.api.service.ClubService;
 import com.services.api.service.EventService;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+
 import java.util.*;
 
 
@@ -28,7 +31,6 @@ public class ClubController {
 
     @GetMapping("/getEventsById/{id}")
     public List<Event> getEvents(@PathVariable int id) {
-
         return service.getEventsById(service.getById(id));
     }
 
@@ -53,18 +55,18 @@ public class ClubController {
     }
 
     
-    @PostMapping("/update")
+    @PutMapping("/update")
     public Club update(@RequestBody Club club){
        return service.update(club);
 
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(@RequestBody Club club){
         return service.delete(club);
     }
 
-    @PostMapping("/deleteById/{id}")
+    @DeleteMapping("/deleteById/{id}")
     public void deleteById(@PathVariable int id){
          service.deleteById(id);
 

@@ -107,7 +107,6 @@ public class PageScraperService {
         try{
             // Call helper method to extract pageItems, and init new list to populate
             ArrayList<PageItem> eventItems = this.scrapePageItems();
-            ArrayList<Event> newEvents = new ArrayList<Event>();
 
             // Exit if no new events retrieved
             if(eventItems.size() == 0)
@@ -135,8 +134,6 @@ public class PageScraperService {
                 testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime + "\n\n\n";
                 /*                  */
 
-                // TODO: Figure out how to retrieve relevant club information (if necessary)
-                // TODO: Store information in Event object, including location and appointment objects
 
                 /* TODO: Create Location object, if it doesn't already exist in DB
                  * location string needs to be parsed first
@@ -153,7 +150,6 @@ public class PageScraperService {
                  * photoSubDirectory should utilize event's title
                  */
 
-                 // TODO: Add event to newEvents list
             }
 
             /* TODO: Post all new events to database and flush
