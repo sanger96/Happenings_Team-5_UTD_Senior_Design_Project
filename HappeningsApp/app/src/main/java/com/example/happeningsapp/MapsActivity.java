@@ -23,6 +23,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.happeningsapp.databinding.ActivityMapsBinding;
 //location request imports
@@ -171,7 +172,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MarkerOptions markerOptions = new MarkerOptions().position(youAreHere).title("You are here");
         mMap.animateCamera(CameraUpdateFactory.newLatLng(youAreHere));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(youAreHere, 19));
-        mMap.addMarker(markerOptions);
+        Marker myMarker = mMap.addMarker(markerOptions);
 
     }
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
