@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.userSettings.UserSettingsFragment">
 
+    <!--
+    add this below when changing to email
+    android:inputType="email"
+    -->
     <EditText
         android:id="@+id/inText_userName"
         android:layout_width="wrap_content"

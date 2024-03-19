@@ -31,7 +31,8 @@ public class UserSettingsFragment extends Fragment {
         // bind default text at top of page
         final TextView textView = binding.textUserSettings;
         // bind username and password
-        // bind attributes we are getting for account creation/edit
+        // bind interests,
+        // bind email and password for now, may not need later because SSO.
         EditText username = binding.inTextUserName;
         EditText password = binding.inTextPassword;
         // get text for top of page
