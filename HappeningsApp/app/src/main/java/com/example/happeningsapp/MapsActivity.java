@@ -58,8 +58,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     FusedLocationProviderClient fusedLocationClient;
 
     // LocationListener and Manager object to listen for location updates
-    private LocationListener locationListener;
-    private LocationManager locationManager;
+    //tempararily commented out to allow app to run.
+    //CHARLES IF YOU SEE THIS WHEN USING "Pull into 'branch name' using Merge" REPLACE THIS WITH YOUR VERSION.
+//    private LocationListener locationListener;
+//    private LocationManager locationManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
