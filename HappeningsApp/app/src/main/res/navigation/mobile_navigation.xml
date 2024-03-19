@@ -30,6 +30,10 @@
         android:name="com.example.happeningsapp.ui.userSettings.UserSettingsFragment"
         android:label="User Profile Settings"
         tools:layout="@layout/fragment_user_settings" />
+    <fragment android:id="@+id/nav_login"
+        android:name="com.example.happeningsapp.ui.login.loginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login"/>
 
 
 </navigation>
