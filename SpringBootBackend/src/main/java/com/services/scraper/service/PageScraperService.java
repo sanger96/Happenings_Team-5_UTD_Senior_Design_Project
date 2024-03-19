@@ -140,6 +140,29 @@ public class PageScraperService {
                  * TODO: need to have full team discussion on Location information
                  */
 
+                 
+                // This parses the building of the location.
+                int startIndex = 0;
+                int endIndex = 0;
+                for(int i=0; i<location.length(); i++)
+                {
+                    if(location.charAt(i) == '(')
+                        startIndex = i+1;
+                    if(location.charAt(i) == ')')
+                        endIndex = i;
+                }
+                
+                if(startIndex > endIndex)
+                {
+                    startIndex = 0;
+                    endIndex = 0;
+                }
+
+                String building = location.substring(startIndex, endIndex);
+                testOutput += "PARSED LOCATION BUILDING IS: " + building + "\n";
+
+
+
                 /* TODO: Create Appointment object
                  * Use the given Location object in its instantiation
                  * the datetime string can include one or two dates, separated by tab
