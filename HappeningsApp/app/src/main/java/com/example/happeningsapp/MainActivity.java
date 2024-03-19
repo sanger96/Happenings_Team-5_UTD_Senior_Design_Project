@@ -7,7 +7,6 @@ import android.view.Menu;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.happeningsapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-
     private AppBarConfiguration mAppBarConfiguration;
     ActivityMainBinding binding;
 
@@ -36,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null)
                         .setAnchorView(R.id.toolbar).show();
-                ;
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
@@ -55,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
     }
 
     @Override
@@ -63,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         //getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
         return true;
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {
