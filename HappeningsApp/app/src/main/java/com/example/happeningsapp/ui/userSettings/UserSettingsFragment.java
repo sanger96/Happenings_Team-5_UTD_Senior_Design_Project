@@ -31,8 +31,9 @@ public class UserSettingsFragment extends Fragment {
         // bind default text at top of page
         final TextView textView = binding.textUserSettings;
         // bind username and password
-        // bind interests,
+        // bind interests, get list of interests from math department club chooser page utd
         // bind email and password for now, may not need later because SSO.
+        // create and move login code to another page just encase SSO falls through.
         EditText username = binding.inTextUserName;
         EditText password = binding.inTextPassword;
         // get text for top of page
