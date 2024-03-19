@@ -55,6 +55,7 @@ public class UserSettingsFragment extends Fragment {
             }
         });
         //end of adding action on button click
+
         return root;
     }
 

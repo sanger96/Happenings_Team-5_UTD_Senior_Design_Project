@@ -1,5 +1,6 @@
 package com.example.happeningsapp;
 
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -30,6 +31,7 @@ import com.example.happeningsapp.databinding.ActivityMapsBinding;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 
+
 //manifest permissions
 import android.Manifest;
 //toast import
@@ -46,6 +48,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 //location import
 import android.location.Location;
 
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public static final int REQUEST_CHECK_SETTINGS = 100;
     private GoogleMap mMap;
@@ -54,6 +57,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // Fused Location Provider
     FusedLocationProviderClient fusedLocationClient;
 
+    // LocationListener and Manager object to listen for location updates
+    private LocationListener locationListener;
+    private LocationManager locationManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,5 +189,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else{
             Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
         }
+
     }
 }
