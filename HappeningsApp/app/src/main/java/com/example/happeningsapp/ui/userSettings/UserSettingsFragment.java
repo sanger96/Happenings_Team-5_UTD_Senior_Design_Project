@@ -22,7 +22,7 @@ public class UserSettingsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        UserSettingsViewModel photoGalleryViewModel =
+        UserSettingsViewModel UserSettingsViewModelProvider =
                 new ViewModelProvider(this).get(UserSettingsViewModel.class);
 
         binding = FragmentUserSettingsBinding.inflate(inflater, container, false);
@@ -31,13 +31,14 @@ public class UserSettingsFragment extends Fragment {
         // bind default text at top of page
         final TextView textView = binding.textUserSettings;
         // bind username and password
+        // bind attributes we are getting for account creation/edit
         EditText username = binding.inTextUserName;
         EditText password = binding.inTextPassword;
         // get text for top of page
-        photoGalleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        // i want to get these again after the button is clicked
-        photoGalleryViewModel.getUsername().observe(getViewLifecycleOwner(), username::setText);
-        photoGalleryViewModel.getPassword().observe(getViewLifecycleOwner(), password::setText);
+        UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), textView::setText);
+        // these commands will make sure the variables are observed for their "life cycle"
+        UserSettingsViewModelProvider.getUsername().observe(getViewLifecycleOwner(), username::setText);
+        UserSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
 
 
         //start of adding action on button click
