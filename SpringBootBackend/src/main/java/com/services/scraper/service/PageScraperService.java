@@ -144,12 +144,17 @@ public class PageScraperService {
                 // This parses the building of the location.
                 int startIndex = 0;
                 int endIndex = 0;
+
+                String roomNumber = "";
+
                 for(int i=0; i<location.length(); i++)
                 {
                     if(location.charAt(i) == '(')
                         startIndex = i+1;
                     if(location.charAt(i) == ')')
                         endIndex = i;
+                    if((Character.isDigit(location.charAt(i)) || location.charAt(i) == '.') && (i > endIndex))
+                        roomNumber += location.charAt(i);
                 }
                 
                 if(startIndex > endIndex)
@@ -160,6 +165,7 @@ public class PageScraperService {
 
                 String building = location.substring(startIndex, endIndex);
                 testOutput += "PARSED LOCATION BUILDING IS: " + building + "\n";
+                testOutput += "PARSED LOCATION ROOM IS: " + roomNumber + "\n";
 
 
 
