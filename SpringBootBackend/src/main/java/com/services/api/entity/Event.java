@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
 // import org.hibernate.mapping.Set;
@@ -40,7 +41,7 @@ public class Event {
     private String name;
 
     /* An Event has a OneToOne relationship with an Appointment */
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "appointmentID")
     private Appointment appointment;
 
