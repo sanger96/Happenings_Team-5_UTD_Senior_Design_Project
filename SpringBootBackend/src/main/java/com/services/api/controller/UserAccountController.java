@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.services.api.entity.UserAccount;
 import com.services.api.service.UserAccountService;
 import com.services.api.service.AppointmentService;
+import com.services.api.entity.Account;
 import com.services.api.entity.Appointment;
 
 
@@ -52,6 +53,11 @@ public class UserAccountController {
             appointments.add(appointmentService.getById(appointmentId.intValue()));
         }
         return appointments;
+    }
+
+    @GetMapping("/checkLogin")
+    public Integer checkLogin(@RequestBody UserAccount acc){
+        return service.checkLogin(acc.getEmail(), acc.getPassword());
     }
 
     @PutMapping("/update")

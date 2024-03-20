@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "account")
 public class Account {
-
     @Id
     @GeneratedValue
     private int accountID;
