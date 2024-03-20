@@ -140,30 +140,55 @@ public class PageScraperService {
                  * TODO: need to have full team discussion on Location information
                  */
 
-                 
-                // This parses the building of the location.
-                int startIndex = 0;
-                int endIndex = 0;
+                
+                // Find something in parenthesis
+                int startIndex = location.indexOf("("); 
+                int endIndex = location.indexOf(")");
 
+                String building = "";
                 String roomNumber = "";
 
-                for(int i=0; i<location.length(); i++)
-                {
-                    if(location.charAt(i) == '(')
-                        startIndex = i+1;
-                    if(location.charAt(i) == ')')
-                        endIndex = i;
-                    if((Character.isDigit(location.charAt(i)) || location.charAt(i) == '.') && (i > endIndex))
-                        roomNumber += location.charAt(i);
-                }
-                
-                if(startIndex > endIndex)
-                {
-                    startIndex = 0;
-                    endIndex = 0;
+                // Get all the location tokens
+                String locTokens [] = location.split(" |, ");
+
+                // If something was found in parenthesis
+                if (startIndex != -1) {
+
+                    // Assume that the parenthesis has the building
+                    building = location.substring(startIndex+1, endIndex);
+
+                    // If the building length is longer than 4, there is more information (potentially useless) here
+                    if (building.length() > 4) {
+                        String inParen [] = building.split(" ");
+
+                        // If the second value in the parenthesis contains a period, then we probably have a building-room combo
+                        if (inParen.length > 1 && inParen[1].contains(".")) {
+                            building = inParen[0];
+                            roomNumber = inParen[1];    
+                        } else {
+                            
+                            // Else we probably did not have a building in the first place
+                            building = "";
+                        }
+                    } 
                 }
 
-                String building = location.substring(startIndex, endIndex);
+                // If we have no room number, go through and find one
+                if (roomNumber.isEmpty()) {
+                    for (int i=0; i < locTokens.length; i++) {
+                        if (locTokens[i].contains(".") && locTokens[i].length() > 3) {
+                            roomNumber = locTokens[i];
+                            if (building.isEmpty() && i>0) {
+                                building = locTokens[i-1]; // guess about the building 
+                            }
+                        }
+                    }
+                }
+                
+                // If we still have no building, good chance we can get the building code from the first token
+                if (building.isEmpty() && location.length() > 0 && Character.isUpperCase(location.charAt(1))) {
+                    building = locTokens[0];
+                }
                 testOutput += "PARSED LOCATION BUILDING IS: " + building + "\n";
                 testOutput += "PARSED LOCATION ROOM IS: " + roomNumber + "\n";
 
