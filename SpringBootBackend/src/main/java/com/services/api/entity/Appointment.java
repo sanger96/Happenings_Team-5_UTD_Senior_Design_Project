@@ -1,6 +1,6 @@
 package com.services.api.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,8 +32,6 @@ public class Appointment {
     private int appointmentID;
 
     // TODO: A name field might be necessary to know what course a UserAccount has
-
-    // TODO: Representing date and times with Strings for now
 
     @Basic
     @Temporal(TemporalType.TIMESTAMP)

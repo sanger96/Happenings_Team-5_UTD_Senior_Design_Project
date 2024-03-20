@@ -17,5 +17,8 @@ public interface ClubRepository extends JpaRepository<Club, Integer> {
     @Query(value = "SELECT * FROM club", nativeQuery = true)
     List<Club> getAll();
 
+
+
+
 }
     

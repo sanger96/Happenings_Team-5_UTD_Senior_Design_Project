@@ -27,7 +27,19 @@ public class EventService {
         return repository.findAll();
     }
 
-    // TODO: Get all Events for a club
+    // Get number of attending users at event by ID
+    public Integer getRSVPcount(Integer id){
+        return repository.getRSVPcount(id);
+    }
+
+    // Check if event exists by name
+    public Integer existsByName(String name){
+        Integer response = repository.existsByName(name);
+        if(response == null){
+            return 0;
+        }
+        return response;
+    }
 
     // Delete by Event
     public String delete(Event event){

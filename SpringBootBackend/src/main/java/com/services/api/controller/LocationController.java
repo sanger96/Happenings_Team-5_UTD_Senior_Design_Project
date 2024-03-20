@@ -1,6 +1,7 @@
 package com.services.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,8 @@ import com.services.api.entity.Location;
 import com.services.api.service.LocationService;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+
 import java.util.*;
 
 
@@ -52,17 +55,17 @@ public class LocationController {
         return service.getByRoom(room);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public Location update(@RequestBody Location location){
        return service.update(location);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(@RequestBody Location location){
         return service.delete(location);
     }
 
-    @PostMapping("/deleteById/{id}")
+    @DeleteMapping("/deleteById/{id}")
     public String deleteById(@PathVariable int id){
          return service.deleteById(id);
 
