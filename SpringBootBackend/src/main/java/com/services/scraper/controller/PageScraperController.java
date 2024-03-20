@@ -7,6 +7,7 @@ import com.services.api.service.EventService;
 import com.services.api.service.LocationService;
 
 import org.jsoup.Jsoup;
+import org.jsoup.*;
 import org.jsoup.nodes.Document;
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Element;
@@ -37,6 +38,8 @@ public class PageScraperController {
          */
 
         return pageScraperService.addNewEvents();
+        
+ 
     }
 
 }
