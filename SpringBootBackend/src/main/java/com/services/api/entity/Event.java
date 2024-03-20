@@ -5,6 +5,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Column;
+
 // import org.hibernate.mapping.Set;
 
 import jakarta.persistence.Entity;
@@ -31,7 +33,10 @@ public class Event {
     @GeneratedValue
     private int eventID;
 
+    @Column(unique = true)
     private String photoSubDirectory;
+
+    @Column(unique = true)
     private String name;
 
     /* An Event has a OneToOne relationship with an Appointment */
