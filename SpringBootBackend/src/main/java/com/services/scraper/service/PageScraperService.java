@@ -66,27 +66,30 @@ public class PageScraperService {
                 String eventName = "";
 
                 eventURL = link.attr("href");
+                eventName = link.text();
 
                 if(eventURL.length() >= 36)
                 {
-                    eventName = eventURL.substring(36).replace('_', ' ');
+                    //eventName = eventURL.substring(36).replace('_', ' ');
                     baseUrl = eventURL.substring(0,36);
                     if(baseUrl.equals("https://calendar.utdallas.edu/event/"))
                     {
+    
                         // Don't store duplicate events or events that already exist by name
                         if(knownEvents.contains(eventName) || eventService.existsByName(eventName) == 1)
                            continue;
 
-                        // If the first 5 characters of the event name is a number, disreguard this link
+                        // If the first characters of the link after the baseUrl are numbers, disregard this link
                         try
                         {
-                            Integer.parseInt(eventName.substring(0,5));
+                            Integer.parseInt(eventURL.substring(36,41));
                             continue;
                         }
                         catch(Exception e)
                         {
                            
-                        }
+                        } 
+                   
                         // Add new event item and update known set
                         PageItem newPageItem = new PageItem(eventName, eventURL);
                         pageItems.add(newPageItem);
@@ -141,6 +144,7 @@ public class PageScraperService {
             testOutput = "[There are a total of " + eventItems.size() + " events]\n\n";
 
             for(PageItem eventItem : eventItems){
+            /*
                 // Get the document using URL, and get element containing needed data
                 Document doc = Jsoup.connect(eventItem.getUrl()).get();
                 Element content = doc.getElementsByClass("content-top grid_container").first()
@@ -151,12 +155,20 @@ public class PageScraperService {
                 String description = this.getDescription(content);
                 String location = this.getLocation(content);
                 String datetime = this.getDatetime(content);
-                
+            */
+                // Get the document using URL
+                Document doc = Jsoup.connect(eventItem.getUrl()).get();
+                String pageHtml = doc.html();
+
+                // Save a copy of the page all lowercase
+                String pageHtmlLowercase = pageHtml.toLowerCase();
+                String title = eventItem.getTitle();
+
                 /* TESTING PURPOSES */
                 testOutput += "---------------------------TITLE---------------------------\n" + title + "\n";
-                testOutput += "---------------------------DESCRIPTION---------------------------\n" + description + "\n";
-                testOutput += "---------------------------LOCATION---------------------------\n" + location + "\n";
-                testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime + "\n\n\n";
+                //testOutput += "---------------------------DESCRIPTION---------------------------\n" + description + "\n";
+                //testOutput += "---------------------------LOCATION---------------------------\n" + location + "\n";
+                //testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime + "\n\n\n";
                 /*                  */
 
 
@@ -164,7 +176,7 @@ public class PageScraperService {
                  * location string needs to be parsed first
                  * TODO: need to have full team discussion on Location information
                  */
-
+                /*
                 // Find something in parenthesis
                 int startIndex = location.indexOf("("); 
                 int endIndex = location.indexOf(")");
@@ -234,6 +246,7 @@ public class PageScraperService {
             /* TODO: Post all new events to database and flush
              * return string indicating number of new events
              */
+            
         }
         catch(Exception e){
             System.out.println("Exception thown:" + e.getMessage());
