@@ -37,7 +37,7 @@ public class Event {
     @Column(unique = true)
     private String photoSubDirectory;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
     /* An Event has a OneToOne relationship with an Appointment */
