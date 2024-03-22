@@ -158,14 +158,20 @@ public class PageScraperService {
             */
                 // Get the document using URL
                 Document doc = Jsoup.connect(eventItem.getUrl()).get();
-                String pageHtml = doc.html();
+                //String pageHtml = doc.html();
 
-                // Save a copy of the page all lowercase
-                String pageHtmlLowercase = pageHtml.toLowerCase();
                 String title = eventItem.getTitle();
 
                 /* TESTING PURPOSES */
                 testOutput += "---------------------------TITLE---------------------------\n" + title + "\n";
+                                
+                Elements paragraphs = doc.select("p");
+                for(Element p : paragraphs)
+                {
+                    testOutput += "--Paragraph--\n" + p.text() + "\n";
+
+                }
+
                 //testOutput += "---------------------------DESCRIPTION---------------------------\n" + description + "\n";
                 //testOutput += "---------------------------LOCATION---------------------------\n" + location + "\n";
                 //testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime + "\n\n\n";
