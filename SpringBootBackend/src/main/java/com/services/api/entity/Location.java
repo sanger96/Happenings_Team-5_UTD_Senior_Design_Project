@@ -19,14 +19,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "LOCATION")
 public class Location {
-
     @Id
     @GeneratedValue
     private int locationID;
+    
     private String name;
-    private double latitude;
-    private double longitude;
-    private String building;
     private String room;
 
     // One location has one appointment

@@ -32,7 +32,7 @@ public class AppointmentController {
         List<Appointment> allCurrAppointments = getAll();
         for (Appointment apt : allCurrAppointments) {
 
-            if ((appointment.getLocation().getBuilding().equals(apt.getLocation().getBuilding()) &&
+            if ((appointment.getLocation().getName().equals(apt.getLocation().getName()) &&
             appointment.getLocation().getRoom().equals(apt.getLocation().getRoom())) &&
             (appointment.getStartTime().isBefore(apt.getEndTime()) || appointment.getEndTime().isAfter(apt.getStartTime()))) {
                 System.out.println("Conflicts with: " + apt.getAppointmentID());

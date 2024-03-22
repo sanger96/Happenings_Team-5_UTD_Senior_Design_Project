@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -49,7 +50,7 @@ public class Appointment {
     private UserAccount userAccount;
 
     /* An Appointment has a OneToOne relationship with a Location */
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "locationID")
     private Location location;
 

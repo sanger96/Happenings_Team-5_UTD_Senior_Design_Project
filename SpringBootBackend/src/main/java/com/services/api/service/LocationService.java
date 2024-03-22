@@ -33,13 +33,8 @@ public class LocationService {
         return repository.getByName(name);
     }
 
-    // Get a location by building
-    public List<Location> getByBuilding(String building) {
-        return repository.getByBuilding(building);
-    }
-
-     // Get a location by room
-     public List<Location> getByRoom(String room) {
+    // Get a location by room
+    public List<Location> getByRoom(String room) {
         return repository.getByRoom(room);
     }
 
