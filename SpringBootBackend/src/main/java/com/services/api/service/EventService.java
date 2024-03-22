@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import com.services.api.entity.Event;
+import com.services.api.entity.Location;
+import com.services.api.entity.Appointment;
+import com.services.api.entity.Club;
 import com.services.api.repository.EventRepository;
 
 import jakarta.annotation.Nonnull;
@@ -19,6 +23,12 @@ import jakarta.persistence.TemporalType;
 public class EventService {
     @Autowired
     private EventRepository repository;
+    @Autowired
+    private LocationService locationService;
+    @Autowired
+    private AppointmentService appointmentService;
+    @Autowired
+    private ClubService clubService;
 
     // Create/Update an Event
     public Event save(Event event) {
@@ -26,9 +36,36 @@ public class EventService {
     }
 
     public Event createFromForm
-    (String eventName, Optional<Integer> clubLeaderID, Optional<String> clubName,
+    (String eventName, Optional<Integer> clubLeaderID,
      String startTime, String endTime, String locationName, Optional<String> room){
-        return new Event();
+        // Create a new Location, flush to DB
+        Location eventLocation;
+        if(room.isPresent())
+            eventLocation = new Location(locationName, room.get());
+        else
+            eventLocation = new Location(locationName);
+        eventLocation = locationService.save(eventLocation);
+        locationService.flush();
+
+        // Create a new Appointment, flush to DB
+        LocalDateTime newStartTime = LocalDateTime.parse(startTime);
+        LocalDateTime newEndTime = LocalDateTime.parse(endTime);
+        Appointment eventAppointment = new Appointment(newStartTime, newEndTime, "event", eventLocation);
+        eventAppointment = appointmentService.save(eventAppointment);
+        appointmentService.flush();
+
+        // Create a new Event, save to DB
+        Event newEvent;
+        if(clubLeaderID.isPresent())
+        {
+            List<Club> tmp = clubService.getByLeaderId(clubLeaderID.get());
+            Club eventClub = tmp.get(0);
+            newEvent = new Event(eventName, eventName + "Gallery", eventAppointment, eventClub);
+        }
+        else
+            newEvent = new Event(eventName, eventName + "Gallery", eventAppointment);
+
+        return repository.save(newEvent);
     }
 
     // Get an Event

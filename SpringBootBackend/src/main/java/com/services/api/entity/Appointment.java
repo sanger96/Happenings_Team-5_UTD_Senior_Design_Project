@@ -54,4 +54,10 @@ public class Appointment {
     @JoinColumn(name = "locationID")
     private Location location;
 
+    public Appointment(LocalDateTime startTime, LocalDateTime endTime, String type, Location location){
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.type = type;
+        this.location = location;
+    }
 }

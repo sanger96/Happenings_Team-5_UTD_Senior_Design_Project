@@ -13,25 +13,5 @@ import jakarta.annotation.Nonnull;
 
 @Data
 public class EventCreationDTO {
-    @Nonnull
-    private String eventName;
 
-    /* Club info may not be applicable */
-    private Integer clubLeaderID;
-    private String clubName;
-
-    @Basic
-    @Temporal(TemporalType.TIMESTAMP)
-    @Nonnull
-    private LocalDateTime startTime;
-
-    @Basic
-    @Temporal(TemporalType.TIMESTAMP)
-    @Nonnull
-    private LocalDateTime endTime;
-
-    @Nonnull
-    private String locationName;
-
-    private String room;
 }

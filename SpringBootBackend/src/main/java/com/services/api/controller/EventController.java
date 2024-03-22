@@ -32,9 +32,9 @@ public class EventController {
 
     @PostMapping("/createFromForm")
     public Event createFromForm
-    (@RequestParam String eventName, Optional<Integer> clubLeaderID, Optional<String> clubName,
+    (String eventName, Optional<Integer> clubLeaderID,
      String startTime, String endTime, String locationName, Optional<String> room){
-        return service.createFromForm(eventName, clubLeaderID, clubName, startTime, endTime, locationName, room);
+        return service.createFromForm(eventName, clubLeaderID, startTime, endTime, locationName, room);
     }
 
     @PutMapping("/update")
