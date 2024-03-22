@@ -173,7 +173,7 @@ public class PageScraperService {
                     //testOutput += "--Paragraph--\n" + p.text() + "\n";
                     //Location l = tryParseLocation(p);
                     ArrayList<String> locData = tryParseLocation(p);
-                    if(locData.get(0).equals("") == false && locData.get(0).equals("ADA") == false && locData.get(0).equals(previous) == false)
+                    if(isBuilding(locData.get(0)) && !locData.get(0).equals(previous))
                     {
                         testOutput += "-----LOCATION------\n";
                         testOutput += "Building: " + locData.get(0) + "\n";
@@ -223,6 +223,62 @@ public class PageScraperService {
 
         return testOutput;
         // return null;
+    }
+
+    private boolean isBuilding(String s)
+    {
+        if(    s.equals("AB")
+            || s.equals("AD")
+            || s.equals("AH1")
+            || s.equals("AH2")
+            || s.equals("BE")
+            || s.equals("BSB")
+            || s.equals("CR")
+            || s.equals("CRA")
+            || s.equals("GR")
+            || s.equals("CB")
+            || s.equals("CB3")
+            || s.equals("DGA")
+            || s.equals("ATC")
+            || s.equals("ECSN")
+            || s.equals("ECSS")
+            || s.equals("ECSW")
+            || s.equals("JO")
+            || s.equals("MC")
+            || s.equals("FM")
+            || s.equals("FA")
+            || s.equals("FO")
+            || s.equals("FN")
+            || s.equals("HH")
+            || s.equals("ML1")
+            || s.equals("ML2")
+            || s.equals("RL")
+            || s.equals("JSOM")
+            || s.equals("NL")
+            || s.equals("NB")
+            || s.equals("PS3")
+            || s.equals("PHA")
+            || s.equals("PHY")
+            || s.equals("PD")
+            || s.equals("ROC")
+            || s.equals("ROW")
+            || s.equals("SG")
+            || s.equals("SLC")
+            || s.equals("SCI")
+            || s.equals("SB")
+            || s.equals("SSB")
+            || s.equals("SSA")
+            || s.equals("SU")
+            || s.equals("SPN")
+            || s.equals("SP2")
+            || s.equals("TH")
+            || s.equals("VCB")
+            || s.equals("WSTC"))
+                return true;
+            
+        else    
+        return false;
+
     }
 
     private ArrayList<String> tryParseLocation(Element p)
