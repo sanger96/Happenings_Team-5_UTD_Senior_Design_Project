@@ -5,12 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.services.api.entity.Event;
 import com.services.api.service.EventService;
@@ -24,8 +26,15 @@ public class EventController {
     private EventService service;
 
     @PostMapping("/add")
-    public Event addEvent(@RequestBody Event event) {
+    public Event add(@RequestBody Event event) {
         return service.save(event);
+    }
+
+    @PostMapping("/createFromForm")
+    public Event createFromForm
+    (@RequestParam String eventName, Optional<Integer> clubLeaderID, Optional<String> clubName,
+     String startTime, String endTime, String locationName, Optional<String> room){
+        return service.createFromForm(eventName, clubLeaderID, clubName, startTime, endTime, locationName, room);
     }
 
     @PutMapping("/update")

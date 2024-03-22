@@ -1,11 +1,19 @@
 package com.services.api.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.services.api.entity.Event;
 import com.services.api.repository.EventRepository;
+
+import jakarta.annotation.Nonnull;
+import jakarta.persistence.Basic;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Service
 public class EventService {
@@ -15,6 +23,12 @@ public class EventService {
     // Create/Update an Event
     public Event save(Event event) {
         return repository.save(event);
+    }
+
+    public Event createFromForm
+    (String eventName, Optional<Integer> clubLeaderID, Optional<String> clubName,
+     String startTime, String endTime, String locationName, Optional<String> room){
+        return new Event();
     }
 
     // Get an Event
