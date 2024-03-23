@@ -1,7 +1,0 @@
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.datasource.url = jdbc:mysql://localhost:{SQL_SERVER_PORT}/{YOUR_SCHEMA_NAME}
-spring.datasource.username = root
-spring.datasource.password = {YOUR_PASSWORD}
-spring.jpa.show-sql = true
-spring.jpa.hibernate.ddl-auto = update
-server.port= {SERVER_PORT}
