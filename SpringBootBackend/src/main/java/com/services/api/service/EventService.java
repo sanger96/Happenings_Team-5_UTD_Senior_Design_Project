@@ -58,6 +58,9 @@ public class EventService {
         Event newEvent;
         if(clubLeaderID.isPresent())
         {
+            /* Might be better to get the club by club name since the leaderID is a useraccountID
+             * but a user could be a leader to multiple clubs, therefore, multiple clubs could have the same leaderID
+             */
             List<Club> tmp = clubService.getByLeaderId(clubLeaderID.get());
             Club eventClub = tmp.get(0);
             newEvent = new Event(eventName, eventName + "Gallery", eventAppointment, eventClub);
