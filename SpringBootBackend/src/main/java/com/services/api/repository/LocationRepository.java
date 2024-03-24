@@ -21,8 +21,8 @@ public interface LocationRepository extends JpaRepository<Location, Integer> {
     @Query(value = "SELECT * FROM location l WHERE l.room = ?1", nativeQuery = true)
     List<Location> getByRoom(String room);
 
-
-
+    @Query(value = "SELECT * FROM location l WHERE l.name = ?1 AND l.room = ?2 LIMIT 1", nativeQuery = true)
+    Location getByNameAndRoom(String name, String room);
 }
     
 

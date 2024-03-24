@@ -29,6 +29,8 @@ public class PageScraperService {
     @Value("${website.url}")
     private String thisWeekURL;
 
+    private final int MAX_PAGES = 30;
+
     @Autowired
     LocationService locationService;
 
@@ -46,33 +48,68 @@ public class PageScraperService {
      * scraped event items to be added to the database
      */
     private ArrayList<PageItem> scrapePageItems(){
-        try{
-            // Retrieve document using URL, and get element containing list of events
-            Document doc = Jsoup.connect(thisWeekURL).get();
-            Elements eventList = doc.getElementsByClass("summary");
-            
+
+            String thisWeekURLChangeable = "";
+            int currentPageNumber = 1;
+
             // Init list to store event items, and set to not store duplicate events
             ArrayList<PageItem> pageItems = new ArrayList<PageItem>();
-            HashSet<String> knownEvents = new HashSet<String>();
             
-            // Store the url and name of each event
-            for (Element event : eventList)
-            {
-                Elements links = event.select("a[href]");
-                String eventURL = links.attr("href");
-                String eventName = eventURL.substring(36).replace('_', ' ');
+            HashSet<String> knownEvents = new HashSet<String>();
+
+            try {
+            
+                while (currentPageNumber <= MAX_PAGES) {
+                    
+                    boolean found = false;
+                    
+                    thisWeekURLChangeable = (currentPageNumber == 1? thisWeekURL : thisWeekURL + "/" + currentPageNumber);
+                    // Retrieve document using URL, and get element containing list of events
+                    Document doc = Jsoup.connect(thisWeekURLChangeable).get();
+                    //Elements eventList = doc.getElementsByClass("summary");
+                    Elements links = doc.getElementsByTag("a");
+
+                    // Store the url and name of each event
+                    for (Element link : links)
+                    {
+                        String eventURL = "";
+                        String eventName = "";
+
+                        eventURL = link.attr("href");
+                        eventName = link.text();
+
+                        if(eventURL.startsWith("https://calendar.utdallas.edu/event/") && !eventURL.endsWith("/event/create"))
+                        {
+                            // Don't store duplicate events or events that already exist by name
+                            if(knownEvents.contains(eventName) || eventService.existsByName(eventName) == 1)
+                                continue;
+
+                            // If the first characters of the link after the baseUrl are numbers, disregard this link
+                            try
+                            {
+                                Integer.parseInt(eventURL.substring(36,41));
+                                continue;
+                            }
+                            catch(Exception e)
+                            {
+                                
+                            } 
+                        
+                            // Add new event item and update known set
+                            PageItem newPageItem = new PageItem(eventName, eventURL);
+                            pageItems.add(newPageItem);
+                            knownEvents.add(eventName);
+                            found = true;
                 
-                // Don't store duplicate events or events that already exist by name
-                if(knownEvents.contains(eventName) || eventService.existsByName(eventName) == 1)
-                    continue;
-                
-                // Add new event item and update known set
-                PageItem newPageItem = new PageItem(eventName, eventURL);
-                pageItems.add(newPageItem);
-                knownEvents.add(eventName);
-            }
+                        }
+                    }
+                    
+                    if (!found) break;
+                    currentPageNumber++;
+                }
 
             return pageItems;
+            
         }
         catch(Exception e){
             System.out.println("Exception thown:" + e.getMessage());
@@ -107,7 +144,7 @@ public class PageScraperService {
         try{
             // Call helper method to extract pageItems, and init new list to populate
             ArrayList<PageItem> eventItems = this.scrapePageItems();
-
+            
             // Exit if no new events retrieved
             if(eventItems.size() == 0)
                 return "No new events added";
@@ -116,6 +153,7 @@ public class PageScraperService {
             testOutput = "[There are a total of " + eventItems.size() + " events]\n\n";
 
             for(PageItem eventItem : eventItems){
+            /*
                 // Get the document using URL, and get element containing needed data
                 Document doc = Jsoup.connect(eventItem.getUrl()).get();
                 Element content = doc.getElementsByClass("content-top grid_container").first()
@@ -126,75 +164,47 @@ public class PageScraperService {
                 String description = this.getDescription(content);
                 String location = this.getLocation(content);
                 String datetime = this.getDatetime(content);
-                
+            */
+                // Get the document using URL
+                Document doc = Jsoup.connect(eventItem.getUrl()).get();
+                //String pageHtml = doc.html();
+
+                String title = eventItem.getTitle();
+
                 /* TESTING PURPOSES */
                 testOutput += "---------------------------TITLE---------------------------\n" + title + "\n";
-                testOutput += "---------------------------DESCRIPTION---------------------------\n" + description + "\n";
-                testOutput += "---------------------------LOCATION---------------------------\n" + location + "\n";
-                testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime + "\n\n\n";
-                /*                  */
+                                
+                Elements paragraphs = doc.select("p");
+                
+                String previous = "";
+                for(Element p : paragraphs)
+                {
+                    //testOutput += "--Paragraph--\n" + p.text() + "\n";
+                    //Location l = tryParseLocation(p);
+                    ArrayList<String> locData = tryParseLocation(p);
+                    if(isBuilding(locData.get(0)) && !locData.get(0).equals(previous))
+                    {
+                        testOutput += "-----LOCATION------\n";
+                        testOutput += "Building: " + locData.get(0) + "\n";
+                        testOutput += "Room Number: " + locData.get(1) + "\n";
+                        previous = locData.get(0);
+                    }
+                    //testOutput += "Building: " + l.getBuilding() + "\n";
+                    //testOutput += "Room: " + l.getRoom() + "\n";
+                }
+
+                //testOutput += "---------------------------DESCRIPTION---------------------------\n" + description + "\n";
+                //testOutput += "---------------------------LOCATION---------------------------\n" + location + "\n";
+                //testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime + "\n\n\n";
+                
 
 
                 /* TODO: Create Location object, if it doesn't already exist in DB
                  * location string needs to be parsed first
                  * TODO: need to have full team discussion on Location information
                  */
-
                 
-                // Find something in parenthesis
-                int startIndex = location.indexOf("("); 
-                int endIndex = location.indexOf(")");
-
-                String building = "";
-                String roomNumber = "";
-
-                // Get all the location tokens
-                String locTokens [] = location.split(" |, ");
-
-                // If something was found in parenthesis
-                if (startIndex != -1) {
-
-                    // Assume that the parenthesis has the building
-                    building = location.substring(startIndex+1, endIndex);
-
-                    // If the building length is longer than 4, there is more information (potentially useless) here
-                    if (building.length() > 4) {
-                        String inParen [] = building.split(" ");
-
-                        // If the second value in the parenthesis contains a period, then we probably have a building-room combo
-                        if (inParen.length > 1 && inParen[1].contains(".")) {
-                            building = inParen[0];
-                            roomNumber = inParen[1];    
-                        } else {
-                            
-                            // Else we probably did not have a building in the first place
-                            building = "";
-                        }
-                    } 
-                }
-
-                // If we have no room number, go through and find one
-                if (roomNumber.isEmpty()) {
-                    for (int i=0; i < locTokens.length; i++) {
-                        if (locTokens[i].contains(".") && locTokens[i].length() > 3) {
-                            roomNumber = locTokens[i];
-                            if (building.isEmpty() && i>0) {
-                                building = locTokens[i-1]; // guess about the building 
-                            }
-                        }
-                    }
-                }
-                
-                // If we still have no building, good chance we can get the building code from the first token
-                if (building.isEmpty() && location.length() > 0 && Character.isUpperCase(location.charAt(1))) {
-                    building = locTokens[0];
-                }
-                testOutput += "PARSED LOCATION BUILDING IS: " + building + "\n";
-                testOutput += "PARSED LOCATION ROOM IS: " + roomNumber + "\n";
-
-
-
-                /* TODO: Create Appointment object
+                 /* TODO: Create Appointment object
                  * Use the given Location object in its instantiation
                  * the datetime string can include one or two dates, separated by tab
                  */
@@ -209,6 +219,7 @@ public class PageScraperService {
             /* TODO: Post all new events to database and flush
              * return string indicating number of new events
              */
+            
         }
         catch(Exception e){
             System.out.println("Exception thown:" + e.getMessage());
@@ -221,6 +232,126 @@ public class PageScraperService {
 
         return testOutput;
         // return null;
+    }
+
+    private boolean isBuilding(String s)
+    {
+        if(    s.equals("AB")
+            || s.equals("AD")
+            || s.equals("AH1")
+            || s.equals("AH2")
+            || s.equals("BE")
+            || s.equals("BSB")
+            || s.equals("CR")
+            || s.equals("CRA")
+            || s.equals("GR")
+            || s.equals("CB")
+            || s.equals("CB3")
+            || s.equals("DGA")
+            || s.equals("ATC")
+            || s.equals("ECSN")
+            || s.equals("ECSS")
+            || s.equals("ECSW")
+            || s.equals("JO")
+            || s.equals("MC")
+            || s.equals("FM")
+            || s.equals("FA")
+            || s.equals("FO")
+            || s.equals("FN")
+            || s.equals("HH")
+            || s.equals("ML1")
+            || s.equals("ML2")
+            || s.equals("RL")
+            || s.equals("JSOM")
+            || s.equals("NL")
+            || s.equals("NB")
+            || s.equals("PS3")
+            || s.equals("PHA")
+            || s.equals("PHY")
+            || s.equals("PD")
+            || s.equals("ROC")
+            || s.equals("ROW")
+            || s.equals("SG")
+            || s.equals("SLC")
+            || s.equals("SCI")
+            || s.equals("SB")
+            || s.equals("SSB")
+            || s.equals("SSA")
+            || s.equals("SU")
+            || s.equals("SPN")
+            || s.equals("SP2")
+            || s.equals("TH")
+            || s.equals("VCB")
+            || s.equals("WSTC"))
+                return true;
+            
+        else    
+        return false;
+
+    }
+
+    private ArrayList<String> tryParseLocation(Element p)
+    {
+        ArrayList<String> ret = new ArrayList<String>();
+
+        String location = p.text();
+
+        // System.out.println("Location: " + location);
+    
+
+        // Find something in parenthesis
+        int startIndex = location.indexOf("("); 
+        int endIndex = location.indexOf(")");
+ 
+        String building = "";
+        String roomNumber = "";
+ 
+        // Get all the location tokens
+        String locTokens [] = location.split(" |, ");
+
+        // If something was found in parenthesis
+        if (startIndex != -1) {
+
+            // Assume that the parenthesis has the building
+            building = location.substring(startIndex+1, endIndex);
+
+            // If the building length is longer than 4, there is more information (potentially useless) here
+            if (building.length() > 4) {
+                String inParen [] = building.split(" ");
+
+                // If the second value in the parenthesis contains a period, then we probably have a building-room combo
+                if (inParen.length > 1 && inParen[1].contains(".")) {
+                    building = inParen[0];
+                    roomNumber = inParen[1];    
+                } else {
+
+                    // Else we probably did not have a building in the first place
+                    building = "";
+                }
+            } 
+        }
+
+        // If we have no room number, go through and find one
+        if (roomNumber.isEmpty()) {
+            for (int i=0; i < locTokens.length; i++) {
+                if (locTokens[i].contains(".") && locTokens[i].length() > 3) {
+                    roomNumber = locTokens[i];
+                    if (building.isEmpty() && i>0) {
+                        building = locTokens[i-1]; // guess about the building 
+                    }
+                }
+            }
+        }
+
+        // If we still have no building, good chance we can get the building code from the first token
+        if (building.isEmpty() && location.length() > 0 && Character.isUpperCase(location.charAt(1))) {
+            building = locTokens[0];
+        }
+
+        ret.add(building);
+        ret.add(roomNumber);
+        return ret;
+        
     }
 
     /**

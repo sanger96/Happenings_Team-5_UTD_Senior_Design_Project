@@ -56,4 +56,8 @@ public class LocationService {
         repository.deleteById(id);
         return toBeDeleted;
     }
+
+    public Location getByNameAndRoom(String name, String room) {
+        return repository.getByNameAndRoom(name, room);
+    }
 }

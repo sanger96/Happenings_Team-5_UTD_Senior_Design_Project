@@ -2,6 +2,8 @@ package com.services.api.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -27,9 +29,10 @@ public class Location {
     private String room;
 
     // One location has one appointment
-    @OneToOne
-    @JoinColumn(name = "appointmentID")
-    private Appointment appointment;
+    // @JsonIgnoreProperties("location")
+    // @OneToOne
+    // @JoinColumn(name = "appointmentID")
+    // private Appointment appointment;
 
     
 }
