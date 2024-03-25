@@ -34,6 +34,10 @@ public class EventListFragment extends Fragment {
         //setContentView(myWebView);
         myWebView.loadUrl("https://www.google.com");
 
+        //alternative is to get it from online
+        //https://www.geeksforgeeks.org/how-to-make-an-http-request-with-android/
+        //dependicies already in app
+
         return root;
     }
 
