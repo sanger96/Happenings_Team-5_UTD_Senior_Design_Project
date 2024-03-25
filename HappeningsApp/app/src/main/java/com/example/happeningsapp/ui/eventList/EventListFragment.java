@@ -31,7 +31,7 @@ public class EventListFragment extends Fragment {
         //webView for iframe on event list page
         WebView myWebView = new WebView(binding.webView.getContext());
         //myWebView.getSettings().setJavaScriptEnabled(true);
-        setContentView(myWebView);
+        //setContentView(myWebView);
         myWebView.loadUrl("https://www.google.com");
 
         return root;
