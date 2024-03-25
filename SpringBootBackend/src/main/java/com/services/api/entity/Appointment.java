@@ -57,6 +57,7 @@ public class Appointment {
     /* An Appointment has a OneToOne relationship with a Location */
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "locationID")
+    @Column(nullable = false)
     private Location location;
 
     public Appointment(LocalDateTime startTime, LocalDateTime endTime, String type, Location location){
