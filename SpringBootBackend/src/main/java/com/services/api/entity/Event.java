@@ -43,6 +43,7 @@ public class Event {
     /* An Event has a OneToOne relationship with an Appointment */
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "appointmentID")
+    @Column(nullable = false)
     private Appointment appointment;
 
     /* An Event has a ManyToOne relationship with a Club */
