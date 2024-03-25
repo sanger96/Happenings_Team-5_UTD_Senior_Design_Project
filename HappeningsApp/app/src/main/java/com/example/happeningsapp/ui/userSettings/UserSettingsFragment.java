@@ -29,34 +29,39 @@ public class UserSettingsFragment extends Fragment {
         View root = binding.getRoot();
 
         // bind default text at top of page
-        final TextView textView = binding.textUserSettings;
+        final TextView pageTitle = binding.textUserSettings;
+
+
+        //Many things are commented out as part of frame that was transferred to login page,
+        //these things are only here for reference and will be deleted
+
         // bind username and password
         // bind interests, get list of interests from math department club chooser page utd
         // bind email and password for now, may not need later because SSO.
         // create and move login code to another page just encase SSO falls through.
-        EditText username = binding.inTextUserName;
-        EditText password = binding.inTextPassword;
+        //EditText username = binding.inTextUserName;
+        //EditText password = binding.inTextPassword;
         // get text for top of page
-        UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), textView::setText);
+        UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), pageTitle::setText);
         // these commands will make sure the variables are observed for their "life cycle"
-        UserSettingsViewModelProvider.getUsername().observe(getViewLifecycleOwner(), username::setText);
-        UserSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
+        //UserSettingsViewModelProvider.getUsername().observe(getViewLifecycleOwner(), username::setText);
+       //UserSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
 
 
         //start of adding action on button click
         //binding submit button
-        Button submit = (Button) root.findViewById(R.id.button_submitUserSettings);
-        submit.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                //if statement for seeing if username and password is accepted
-                if(username.getText().toString().equals("Enter Username")&& password.getText().toString().equals("Enter Password")){
-                    Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
-                } else{
-                    Toast.makeText(root.getContext(), "Login Failed Miserably",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        //Button submit = (Button) root.findViewById(R.id.button_submitUserSettings);
+//        submit.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view){
+//                //if statement for seeing if username and password is accepted
+//                if(username.getText().toString().equals("Enter Username")&& password.getText().toString().equals("Enter Password")){
+//                    Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
+//                } else{
+//                    Toast.makeText(root.getContext(), "Login Failed Miserably",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
         //end of adding action on button click
 
 

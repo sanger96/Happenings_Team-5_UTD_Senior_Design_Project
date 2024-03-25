@@ -33,5 +33,7 @@
 
     <string name="submit">Submit</string>
 
+    <!-- Page Title -->
+    <string name="pageTitle_userSettings">User Settings</string>
 
 </resources>
