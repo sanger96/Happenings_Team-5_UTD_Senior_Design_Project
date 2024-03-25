@@ -50,6 +50,7 @@ public class Event {
     @JsonIgnoreProperties("events")
     @ManyToOne
     @JoinColumn(name = "clubID")
+    @Column(nullable = true)
     private Club club;
 
     /* An Event has a ManyToMany relationship with a UserAccount over the Attends table */
