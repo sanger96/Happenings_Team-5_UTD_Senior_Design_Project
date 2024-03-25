@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel;
 public class UserSettingsViewModel extends ViewModel {
 
     private final MutableLiveData<String> pageTitle;
-    private final MutableLiveData<String> username;
-    private final MutableLiveData<String> password;
+//    private final MutableLiveData<String> username;
+//    private final MutableLiveData<String> password;
 
     public UserSettingsViewModel() {
         //instantiates pageTitle as a MutableLiveData, I know this should not be mutable, but for now following a known working method.
@@ -28,10 +28,10 @@ public class UserSettingsViewModel extends ViewModel {
     public LiveData<String> getText() {
         return pageTitle;
     }
-    public LiveData<String> getUsername() {
-        return username;
-    }
-    public LiveData<String> getPassword() {
-        return password;
-    }
+//    public LiveData<String> getUsername() {
+//        return username;
+//    }
+//    public LiveData<String> getPassword() {
+//        return password;
+//    }
 }
