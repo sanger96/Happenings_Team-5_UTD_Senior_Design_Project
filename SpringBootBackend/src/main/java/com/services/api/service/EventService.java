@@ -38,7 +38,12 @@ public class EventService {
     public Event createFromForm
     (String eventName, Optional<Integer> clubLeaderID,
      String startTime, String endTime, String locationName, Optional<String> room){
+        //TODO: it might be beneficial to modularize this code, adding some as methods in other service files depending on how they will be used
+        //TODO: can we send detailed error messages back without changing the return type of the methods?
+        //TODO: check for location and time conflicts given supplied fields
+
         // Create a new Location, flush to DB
+        //TODO: check if location already exists
         Location eventLocation;
         if(room.isPresent())
             eventLocation = new Location(locationName, room.get());
@@ -58,7 +63,8 @@ public class EventService {
         Event newEvent;
         if(clubLeaderID.isPresent())
         {
-            /* Might be better to get the club by club name since the leaderID is a useraccountID
+            /* TODO:
+             * Might be better to get the club by club name since the leaderID is a useraccountID
              * but a user could be a leader to multiple clubs, therefore, multiple clubs could have the same leaderID
              */
             List<Club> tmp = clubService.getByLeaderId(clubLeaderID.get());
