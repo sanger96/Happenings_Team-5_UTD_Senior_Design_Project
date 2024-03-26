@@ -50,7 +50,4 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     //Location Services SDK for Android dependencies
     implementation("com.google.android.gms:play-services-location:21.2.0")
-    //Dexter permissions library
-    implementation("com.karumi:dexter:6.2.3")
-
 }
