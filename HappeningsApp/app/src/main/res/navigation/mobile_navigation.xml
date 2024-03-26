@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_nav_login_to_nav_eventList"
             app:destination="@id/nav_eventList" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_accountCreation"
+            app:destination="@id/nav_userProfileSetting" />
     </fragment>
 
 

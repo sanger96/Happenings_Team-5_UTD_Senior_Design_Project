@@ -67,6 +67,19 @@ public class loginFragment extends Fragment {
         });
         //end of adding action on button click
 
+        //start of adding action on account creation button click
+        //binding account creation button
+        Button accountCreator = (Button) root.findViewById(R.id.button_goToAccountCreation);
+        accountCreator.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View lambda){
+                //go to account creation page
+                Navigation.findNavController(lambda).navigate(R.id.action_nav_login_to_nav_accountCreation);
+
+            }
+        });
+        //end of adding action on button click
+
 
         return root;
     }

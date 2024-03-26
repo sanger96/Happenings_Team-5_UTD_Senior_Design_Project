@@ -14,10 +14,10 @@
         android:id="@+id/inText_userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:hint="@string/inText_username"
         android:autofillHints="Enter Username"
+        android:ems="10"
+        android:hint="@string/inText_username"
+        android:inputType="textEmailAddress"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/inText_password"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,10 +29,10 @@
         android:id="@+id/inText_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textVisiblePassword"
-        android:hint="@string/inText_password"
         android:autofillHints="Enter Password"
+        android:ems="10"
+        android:hint="@string/inText_password"
+        android:inputType="textVisiblePassword"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,5 +63,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.161" />
+
+    <Button
+        android:id="@+id/button_goToAccountCreation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_submitLogin"
+        app:layout_constraintVertical_bias="0.325" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
