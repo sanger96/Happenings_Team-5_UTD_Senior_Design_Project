@@ -19,6 +19,6 @@ public class Interest {
     @GeneratedValue
     private int interestID;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 }

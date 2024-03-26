@@ -33,11 +33,13 @@ public class Club {
     @GeneratedValue
     private int clubID;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String description;
     
+    //TODO: needs to be not nullable, but not added for testing convenience for now
     private int leaderID;
     
     // One club has many events
