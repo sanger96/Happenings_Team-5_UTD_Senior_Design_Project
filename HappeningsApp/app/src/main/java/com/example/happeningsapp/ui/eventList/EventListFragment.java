@@ -28,15 +28,8 @@ public class EventListFragment extends Fragment {
         binding = FragmentEventListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //webView for iframe on event list page
-        WebView myWebView = new WebView(binding.webView.getContext());
-        //myWebView.getSettings().setJavaScriptEnabled(true);
-        //setContentView(myWebView);
-        myWebView.loadUrl("https://www.google.com");
-
-        //alternative is to get it from online
-        //https://www.geeksforgeeks.org/how-to-make-an-http-request-with-android/
-        //dependicies already in app
+        //use get method grab events list and populate a table
+        //http://localhost:<port>/event/getAll
 
         return root;
     }
