@@ -52,13 +52,11 @@ public class Appointment {
     /* An Appointment has a ManyToOne relationship with a UserAccount */
     @ManyToOne
     @JoinColumn(name = "userAccountID")
-    @Column(nullable = true)
     private UserAccount userAccount;
 
     /* An Appointment has a OneToOne relationship with a Location */
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "locationID")
-    @Column(nullable = false)
     private Location location;
 
     public Appointment(LocalDateTime startTime, LocalDateTime endTime, String type, Location location){
