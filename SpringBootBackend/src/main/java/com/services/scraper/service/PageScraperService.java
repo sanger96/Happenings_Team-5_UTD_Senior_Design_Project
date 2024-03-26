@@ -214,39 +214,20 @@ public class PageScraperService {
                 
                 if (building.isEmpty()) {
                     building = locationName;
-                }
-
-                /* 
-                Location locationToAdd = locationService.getByNameAndRoom(building, roomNumber);
-                if (locationToAdd == null) {
-                    locationToAdd = new Location();
-                    locationToAdd.setName(building);
-                    locationToAdd.setRoom(roomNumber);
-                    locationService.quickSave(locationToAdd);
-                } 
-                */               
+                }           
                  
-                Location locationToAdd = new Location();
-                locationToAdd.setName(building);
-                locationToAdd.setRoom(roomNumber);
+                Location locationToAdd = new Location(building, roomNumber);
 
                 // Check for dupe location
                 locationToAdd = locationService.save(locationToAdd);
                 
-                Appointment appointmentToAdd = new Appointment();
-                appointmentToAdd.setEndTime(dateFormatter(endDate));
-                appointmentToAdd.setStartTime(dateFormatter(startDate));
-                appointmentToAdd.setType("event");
-                appointmentToAdd.setLocation(locationToAdd);
+                Appointment appointmentToAdd = new Appointment(dateFormatter(startDate), dateFormatter(endDate), "event", locationToAdd);
 
                 // Quick Save to bypass checking
                 appointmentService.quickSave(appointmentToAdd);
                 
-                Event eventToAdd = new Event();
-                eventToAdd.setName(name);
-                eventToAdd.setDescription(description);
-                eventToAdd.setAppointment(appointmentToAdd);
-
+                Event eventToAdd = new Event(name, description, null, appointmentToAdd);
+            
                 eventService.save(eventToAdd);
 
             }

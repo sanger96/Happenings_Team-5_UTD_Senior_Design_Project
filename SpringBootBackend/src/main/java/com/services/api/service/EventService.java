@@ -69,10 +69,10 @@ public class EventService {
              */
             List<Club> tmp = clubService.getByLeaderId(clubLeaderID.get());
             Club eventClub = tmp.get(0);
-            newEvent = new Event(eventName, eventName + "Gallery", eventAppointment, eventClub);
+            newEvent = new Event(eventName, null, eventName + "Gallery", eventAppointment, eventClub);
         }
         else
-            newEvent = new Event(eventName, eventName + "Gallery", eventAppointment);
+            newEvent = new Event(eventName, null, eventName + "Gallery", eventAppointment);
 
         return repository.save(newEvent);
     }
