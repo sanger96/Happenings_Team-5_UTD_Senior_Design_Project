@@ -27,21 +27,6 @@ public class AppointmentController {
         return service.save(appointment);
     }
 
-    @PostMapping("/addOrOmit")
-    public Appointment addOrOmit(@RequestBody Appointment appointment) {
-        List<Appointment> allCurrAppointments = getAll();
-        for (Appointment apt : allCurrAppointments) {
-
-            if ((appointment.getLocation().getName().equals(apt.getLocation().getName()) &&
-            appointment.getLocation().getRoom().equals(apt.getLocation().getRoom())) &&
-            (appointment.getStartTime().isBefore(apt.getEndTime()) || appointment.getEndTime().isAfter(apt.getStartTime()))) {
-                System.out.println("Conflicts with: " + apt.getAppointmentID());
-                return null;
-            }
-        }
-        return add(appointment);
-    }
-
     @PutMapping("/update")
     public Appointment update(@RequestBody Appointment appointment) {
         return service.save(appointment);

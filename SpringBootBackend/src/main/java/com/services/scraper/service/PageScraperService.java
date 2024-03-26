@@ -8,7 +8,6 @@ import com.services.api.service.EventService;
 import com.services.api.service.LocationService;
 import com.services.scraper.entity.PageItem;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,19 +16,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
-import java.util.HashMap;
-import java.util.List;
+
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.Arrays;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 @Service
 public class PageScraperService {
     @Value("${website.url}")
     private String thisWeekURL;
-
-    private final int MAX_PAGES = 30;
 
     @Autowired
     LocationService locationService;
@@ -39,6 +42,16 @@ public class PageScraperService {
 
     @Autowired
     EventService eventService;
+
+    private static final HashSet<String> BUILDINGS = new HashSet<>(Arrays.asList(
+        "AB", "AD", "AH1", "AH2", "BE", "BSB", "CR", "CRA", "GR", "CB", 
+        "CB3", "DGA", "ATC", "ECSN", "ECSS", "ECSW", "JO", "MC", "FM", 
+        "FA", "FO", "FN", "HH", "ML1", "ML2", "RL", "JSOM", "NL", "NB", 
+        "PS3", "PHA", "PHY", "PD", "ROC", "ROW", "SG", "SLC", "SCI", "SB", 
+        "SSB", "SSA", "SU", "SPN", "SP2", "TH", "VCB", "WSTC"
+    ));
+
+    private final int MAX_PAGES = 32;
 
     /**
      * scrapePageItems
@@ -54,14 +67,10 @@ public class PageScraperService {
 
             // Init list to store event items, and set to not store duplicate events
             ArrayList<PageItem> pageItems = new ArrayList<PageItem>();
-            
-            HashSet<String> knownEvents = new HashSet<String>();
-
+            HashSet<String> knownEventNames = new HashSet<String>();
             try {
             
                 while (currentPageNumber <= MAX_PAGES) {
-                    
-                    boolean found = false;
                     
                     thisWeekURLChangeable = (currentPageNumber == 1? thisWeekURL : thisWeekURL + "/" + currentPageNumber);
                     // Retrieve document using URL, and get element containing list of events
@@ -70,41 +79,39 @@ public class PageScraperService {
                     Elements links = doc.getElementsByTag("a");
 
                     // Store the url and name of each event
-                    for (Element link : links)
-                    {
-                        String eventURL = "";
-                        String eventName = "";
+                    for (Element link : links) {
+                        String eventURL = link.attr("href");
+                        String eventName = "";      
 
-                        eventURL = link.attr("href");
-                        eventName = link.text();
-
-                        if(eventURL.startsWith("https://calendar.utdallas.edu/event/") && !eventURL.endsWith("/event/create"))
-                        {
+                        if(eventURL.startsWith("https://calendar.utdallas.edu/event/") && !eventURL.endsWith("/event/create")) {
                             // Don't store duplicate events or events that already exist by name
-                            if(knownEvents.contains(eventName) || eventService.existsByName(eventName) == 1)
-                                continue;
-
+                            
                             // If the first characters of the link after the baseUrl are numbers, disregard this link
-                            try
-                            {
+                            try {
                                 Integer.parseInt(eventURL.substring(36,41));
                                 continue;
                             }
-                            catch(Exception e)
-                            {
+                            catch(Exception e) {
                                 
                             } 
-                        
+
+                            eventName = link.text();
+                            if (eventName.isEmpty()) continue;
+                            System.out.println("EventName: " + eventName);
+
+                            if(knownEventNames.contains(eventName) || eventService.getByName(eventName) != null) {
+                                System.out.println("EventName Not added: "+ eventName);
+                                continue;
+                            }
+                            
                             // Add new event item and update known set
                             PageItem newPageItem = new PageItem(eventName, eventURL);
                             pageItems.add(newPageItem);
-                            knownEvents.add(eventName);
-                            found = true;
-                
+                            System.out.println("Just Added: " + newPageItem.getTitle());
+                            knownEventNames.add(eventName);
+                            System.out.println("To known: " + eventName);
                         }
                     }
-                    
-                    if (!found) break;
                     currentPageNumber++;
                 }
 
@@ -122,25 +129,13 @@ public class PageScraperService {
     }
 
     /**
-     * didPageUpdate
-     * Checks if the html page added any new events
-     * @return Boolean if the page updated
-     */
-    public Boolean didPageUpdate(){
-        /*
-         * retrieve event list and compare to cached event list (cached list cannot be null)
-         */
-        return true;
-    }
-
-    /**
      * addNewEvents
      * Uses helper methods and Jsoup to retrieve necessary data for an Event
      * and stores Events in a list
      * @return String indicates how many new events were stored or no new events
      */
     public String addNewEvents(){
-        String testOutput = "";
+        int numNewEvents = -99;
         try{
             // Call helper method to extract pageItems, and init new list to populate
             ArrayList<PageItem> eventItems = this.scrapePageItems();
@@ -149,77 +144,100 @@ public class PageScraperService {
             if(eventItems.size() == 0)
                 return "No new events added";
 
-            /* TESTING PURPOSES */
-            testOutput = "[There are a total of " + eventItems.size() + " events]\n\n";
+            numNewEvents = eventItems.size();
+            
 
-            for(PageItem eventItem : eventItems){
-            /*
-                // Get the document using URL, and get element containing needed data
+            for (PageItem eventItem : eventItems) {
                 Document doc = Jsoup.connect(eventItem.getUrl()).get();
-                Element content = doc.getElementsByClass("content-top grid_container").first()
-                                     .getElementsByClass("box_content vevent grid_8").first();
-                
-                // Call helper methods to retrieve data
-                String title = this.getTitle(content);
-                String description = this.getDescription(content);
-                String location = this.getLocation(content);
-                String datetime = this.getDatetime(content);
-            */
-                // Get the document using URL
-                Document doc = Jsoup.connect(eventItem.getUrl()).get();
-                //String pageHtml = doc.html();
 
-                String title = eventItem.getTitle();
-
-                /* TESTING PURPOSES */
-                testOutput += "---------------------------TITLE---------------------------\n" + title + "\n";
-                                
                 Elements paragraphs = doc.select("p");
-                
+                String building, roomNumber;
+                building = roomNumber = "";
                 String previous = "";
                 for(Element p : paragraphs)
                 {
-                    //testOutput += "--Paragraph--\n" + p.text() + "\n";
-                    //Location l = tryParseLocation(p);
                     ArrayList<String> locData = tryParseLocation(p);
-                    if(isBuilding(locData.get(0)) && !locData.get(0).equals(previous))
-                    {
-                        testOutput += "-----LOCATION------\n";
-                        testOutput += "Building: " + locData.get(0) + "\n";
-                        testOutput += "Room Number: " + locData.get(1) + "\n";
+                    if(isBuilding(locData.get(0)) && !locData.get(0).equals(previous)) {
+                        building = locData.get(0);
+                        roomNumber = locData.get(1);
                         previous = locData.get(0);
                     }
-                    //testOutput += "Building: " + l.getBuilding() + "\n";
-                    //testOutput += "Room: " + l.getRoom() + "\n";
                 }
 
-                //testOutput += "---------------------------DESCRIPTION---------------------------\n" + description + "\n";
-                //testOutput += "---------------------------LOCATION---------------------------\n" + location + "\n";
-                //testOutput += "---------------------------DATE/TIME---------------------------\n" + datetime + "\n\n\n";
-                
+                Element eventJson = doc.select("script[type=application/ld+json]").first();
+                String jsonString = eventJson.html();
 
+                // Parse JSON string to JSON object
+                Gson gson = new Gson();
 
-                /* TODO: Create Location object, if it doesn't already exist in DB
-                 * location string needs to be parsed first
-                 * TODO: need to have full team discussion on Location information
-                 */
+                // Get the first JSON object of the list
+                JsonObject [] jsonObjects = gson.fromJson(jsonString, JsonObject[].class);
+                JsonObject jsonObject = jsonObjects[0];
                 
-                 /* TODO: Create Appointment object
-                 * Use the given Location object in its instantiation
-                 * the datetime string can include one or two dates, separated by tab
-                 */
+                // Fields that we can possibly extract (not all can be, not all are used)
+                String name, description, startDate, endDate, eventStatus, imageUrl, locationName, locationAddress, locationUrl;
+                name = description = startDate = endDate = eventStatus = imageUrl = locationName = locationAddress = locationUrl = "";
                 
-                /* TODO: Create Event object
-                 * Use given Appointment object
-                 * photoSubDirectory should utilize event's title
-                 */
+                // Sometimes there is no location 
+                JsonObject locationObj = null;
+
+                name = eventItem.getTitle();
+    
+                try {
+                    description = jsonObject.get("description").getAsString();
+                } catch (Exception e) {}
+                
+                try {
+                    startDate = jsonObject.get("startDate").getAsString();
+                } catch (Exception e) {}
+                
+                try {
+                    endDate = jsonObject.get("endDate").getAsString();
+                } catch (Exception e) {}
+
+                try {
+                    eventStatus = jsonObject.get("eventStatus").getAsString();
+                    imageUrl = jsonObject.get("image").getAsString();
+                } catch (Exception e) {}
+                
+                try {
+                    locationObj = jsonObject.getAsJsonObject("location");
+                } catch (Exception e) {}
+
+                if (locationObj != null) {
+                    try {
+                        locationName = locationObj.get("name").getAsString();
+                        locationAddress = locationObj.get("address").getAsString();
+                        locationUrl = locationObj.get("url").getAsString();
+                    } catch (Exception E) {}
+                }
+                
+                if (building.isEmpty()) {
+                    building = locationName;
+                }
+                Location locationToAdd = locationService.getByNameAndRoom(building, roomNumber);
+                if (locationToAdd == null) {
+                    locationToAdd = new Location();
+                    locationToAdd.setName(building);
+                    locationToAdd.setRoom(roomNumber);
+                    locationService.save(locationToAdd);
+                } 
+                
+                Appointment appointmentToAdd = new Appointment();
+                appointmentToAdd.setEndTime(dateFormatter(endDate));
+                appointmentToAdd.setStartTime(dateFormatter(startDate));
+                appointmentToAdd.setType("event");
+                appointmentToAdd.setLocation(locationToAdd);
+                appointmentService.quickSave(appointmentToAdd);
+                
+                Event eventToAdd = new Event();
+                eventToAdd.setName(name);
+                eventToAdd.setDescription(description);
+                eventToAdd.setAppointment(appointmentToAdd);
+
+                eventService.save(eventToAdd);
 
             }
-
-            /* TODO: Post all new events to database and flush
-             * return string indicating number of new events
-             */
-            
         }
         catch(Exception e){
             System.out.println("Exception thown:" + e.getMessage());
@@ -230,74 +248,61 @@ public class PageScraperService {
             return null;
         }
 
-        return testOutput;
-        // return null;
+        return "[There are a total of " + numNewEvents + " events]\n";
+        
     }
 
-    private boolean isBuilding(String s)
-    {
-        if(    s.equals("AB")
-            || s.equals("AD")
-            || s.equals("AH1")
-            || s.equals("AH2")
-            || s.equals("BE")
-            || s.equals("BSB")
-            || s.equals("CR")
-            || s.equals("CRA")
-            || s.equals("GR")
-            || s.equals("CB")
-            || s.equals("CB3")
-            || s.equals("DGA")
-            || s.equals("ATC")
-            || s.equals("ECSN")
-            || s.equals("ECSS")
-            || s.equals("ECSW")
-            || s.equals("JO")
-            || s.equals("MC")
-            || s.equals("FM")
-            || s.equals("FA")
-            || s.equals("FO")
-            || s.equals("FN")
-            || s.equals("HH")
-            || s.equals("ML1")
-            || s.equals("ML2")
-            || s.equals("RL")
-            || s.equals("JSOM")
-            || s.equals("NL")
-            || s.equals("NB")
-            || s.equals("PS3")
-            || s.equals("PHA")
-            || s.equals("PHY")
-            || s.equals("PD")
-            || s.equals("ROC")
-            || s.equals("ROW")
-            || s.equals("SG")
-            || s.equals("SLC")
-            || s.equals("SCI")
-            || s.equals("SB")
-            || s.equals("SSB")
-            || s.equals("SSA")
-            || s.equals("SU")
-            || s.equals("SPN")
-            || s.equals("SP2")
-            || s.equals("TH")
-            || s.equals("VCB")
-            || s.equals("WSTC"))
-                return true;
+    private LocalDateTime dateFormatter(String date) {
+        
+        try {
+            // Define a DateTimeFormatter for the input format
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+
+            // Parse the original date-time string into a ZonedDateTime object
+            ZonedDateTime zonedDateTime = ZonedDateTime.parse(date, formatter);
+
+            // Convert ZonedDateTime to LocalDateTime (without time zone information)
+            LocalDateTime localDateTime = zonedDateTime.toLocalDateTime();
+
+            // Print the converted LocalDateTime object
+            return localDateTime;
+        } catch (Exception e) {
             
-        else    
-        return false;
+        }
+
+        try {
+            // Parse the original date string into a LocalDate object
+            LocalDate originalDate = LocalDate.parse(date);
+
+            // Combine the LocalDate with a default LocalTime to create a LocalDateTime object
+            LocalDateTime localDateTime = LocalDateTime.of(originalDate, LocalTime.MIN);
+
+            return localDateTime;
+        } catch (Exception e) {
+            
+        }
+
+        try {
+            // Define a DateTimeFormatter for the input format
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+            // Parse the original date-time string into a LocalDateTime object
+            LocalDateTime localDateTime = LocalDateTime.parse(date, formatter);
+
+            // Print the parsed LocalDateTime object
+            return localDateTime;
+        } catch (Exception e) {
+            
+        }
+
+        return null;
 
     }
 
-    private ArrayList<String> tryParseLocation(Element p)
-    {
+    private ArrayList<String> tryParseLocation(Element p) {
         ArrayList<String> ret = new ArrayList<String>();
 
-        String location = p.text();
-
-        // System.out.println("Location: " + location);
-    
+        String location = p.text();    
 
         // Find something in parenthesis
         int startIndex = location.indexOf("("); 
@@ -354,88 +359,8 @@ public class PageScraperService {
         
     }
 
-    /**
-     * getTitle
-     * @param content The element containing necessary content for an Event
-     * @return String containing the title of an event
-     */
-    private String getTitle(Element content){
-        Elements titleElement = content.getElementsByClass("summary");
-        return titleElement.first().text();
+    private static boolean isBuilding(String building) {
+        return BUILDINGS.contains(building);
     }
-
-    /**
-     * getDescription
-     * @param content The element containing necessary content for an Event
-     * @return String containing the description of an event
-     */
-    private String getDescription(Element content){
-        Elements descriptionElement = content.getElementsByClass("description").first().getAllElements();
-
-        String description = "";
-        if (descriptionElement.first().hasText()){
-            description = descriptionElement.first().text();
-        }
-
-        return description;
-    }
-
-    /**
-     * getLocation
-     * @param content The element containing necessary content for an Event
-     * @return String containing the location of an event
-     * TODO: might need to be edited once location information is decided amongst members
-     */
-    private String getLocation(Element content){
-        /**
-         * The location element, and/or children
-         * A location element may contain no text or no children
-         * If it does contain text, get the text from the <a> tag if it exists, if not then get any text
-         * (location may be virtual, on campus, off campus, or empty(maybe))
-         */
-        Elements locationElement = content.getElementsByClass("location").first().getAllElements();
-
-        String location = "";
-        if(locationElement.first().hasText()){
-            location = locationElement.first().text();
-
-            if(locationElement.first().childrenSize() != 0){
-                if(locationElement.first().getElementsByTag("a").first() != null && locationElement.first().getElementsByTag("a").first().hasText())
-                    location = locationElement.first().getElementsByTag("a").first().text();
-            }
-        }
-
-        return location;
-    }
-
-    /**
-     * getDatetime
-     * @param content The element containing necessary content for an Event
-     * @return String containing the start and end datetimes of an event, one or both may be missing
-     */
-    private String getDatetime(Element content){
-        /**
-         * The datetime element, and/or children
-         * There are usually two child <abbr> elements containing a title attribute,
-         * title = "dtstart"/"dtend", with the exact date and time format needed
-         *      Both children can be missing, or "dtend" child can be missing
-         * TODO:(worth noting that there are sometimes extra dates under the <div id="x-all-dates" style="display: none"> tag)
-         */
-        Elements datetimeElement = content.getElementsByClass("dateright").first().children();
-        String datetime = "";
-        if(datetimeElement.first().hasText()){
-            int numChildren = datetimeElement.size();
-
-            if(numChildren == 2){
-                datetime = datetimeElement.first().attribute("title").getValue() + "\t" + datetimeElement.first().nextElementSibling().attribute("title").getValue();
-            }
-            else if(numChildren == 1){
-                datetime = datetimeElement.first().attribute("title").getValue();
-            }
-        }
-
-        return datetime;
-    }
-
-    
+   
 }
