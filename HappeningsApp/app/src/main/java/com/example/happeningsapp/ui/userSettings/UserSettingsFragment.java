@@ -54,11 +54,7 @@ public class UserSettingsFragment extends Fragment {
                 //if statement for passing email and password to back end to create account
                 //http://localhost:<3306>/useraccount/add
 
-//                if(email.getText().toString().equals("Enter Username")&& password.getText().toString().equals("Enter Password")){
-//                    Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
-//                } else{
-//                    Toast.makeText(root.getContext(), "Login Failed Miserably",Toast.LENGTH_SHORT).show();
-//                }
+
             }
         });
 //        end of adding action on button click
