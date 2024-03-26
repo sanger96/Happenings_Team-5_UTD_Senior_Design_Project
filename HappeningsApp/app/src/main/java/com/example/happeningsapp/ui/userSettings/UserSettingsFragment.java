@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentUserSettingsBinding;
 
+import org.w3c.dom.Text;
+
 public class UserSettingsFragment extends Fragment {
 
     private FragmentUserSettingsBinding binding;
@@ -31,38 +33,35 @@ public class UserSettingsFragment extends Fragment {
         // bind default text at top of page
         final TextView pageTitle = binding.textUserSettings;
 
-
-        //Many things are commented out as part of frame that was transferred to login page,
-        //these things are only here for reference and will be deleted
-
-        // bind username and password
+        // bind email and password
         // bind interests, get list of interests from math department club chooser page utd
-        // bind email and password for now, may not need later because SSO.
-        // create and move login code to another page just encase SSO falls through.
-        //EditText username = binding.inTextUserName;
-        //EditText password = binding.inTextPassword;
+        EditText email = binding.inTextEmail;
+        EditText password = binding.inTextPassword;
         // get text for top of page
         UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), pageTitle::setText);
         // these commands will make sure the variables are observed for their "life cycle"
-        //UserSettingsViewModelProvider.getUsername().observe(getViewLifecycleOwner(), username::setText);
-       //UserSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
+        UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), email::setText);
+        UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), password::setText);
 
 
-        //start of adding action on button click
-        //binding submit button
-        //Button submit = (Button) root.findViewById(R.id.button_submitUserSettings);
-//        submit.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view){
-//                //if statement for seeing if username and password is accepted
-//                if(username.getText().toString().equals("Enter Username")&& password.getText().toString().equals("Enter Password")){
+//        start of adding action on button click
+//        binding submit button
+        Button submit = (Button) root.findViewById(R.id.button_createAccount);
+        submit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                //TODO add Post method here
+                //if statement for passing email and password to back end to create account
+                //http://localhost:<3306>/useraccount/add
+
+//                if(email.getText().toString().equals("Enter Username")&& password.getText().toString().equals("Enter Password")){
 //                    Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
 //                } else{
 //                    Toast.makeText(root.getContext(), "Login Failed Miserably",Toast.LENGTH_SHORT).show();
 //                }
-//            }
-//        });
-        //end of adding action on button click
+            }
+        });
+//        end of adding action on button click
 
 
         return root;

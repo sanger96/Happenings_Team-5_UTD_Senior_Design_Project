@@ -28,7 +28,7 @@
     <!-- EventListFragment Strings -->
     <string name="fragment_eventList">Event List</string>
 
-    <string name="inText_username">Enter username</string>
+    <string name="inText_username">Enter email</string>
     <string name="inText_password">Enter password</string>
 
     <string name="submit">Submit</string>

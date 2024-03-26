@@ -55,6 +55,9 @@ public class loginFragment extends Fragment {
                 if(username.getText().toString().equals("Enter username")&& password.getText().toString().equals("Enter password")){
                     Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
                     //the below line should make the app go to that page on successful login
+
+                    //send back end the email and password
+                    //get back true or false to login in or tell user to try again
                     Navigation.findNavController(lambda).navigate(R.id.action_nav_login_to_nav_eventList);
 
                 } else{
