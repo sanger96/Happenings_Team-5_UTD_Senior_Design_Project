@@ -19,6 +19,18 @@ public class LocationService {
 
     // Create a location
     public Location save(Location location) {
+
+        // Check for duplicate location
+        Location locationExists = getByNameAndRoom(location.getName(), location.getRoom());
+        if (locationExists != null) {
+            System.out.println("Location already exists");
+            return locationExists;
+        }
+        
+        return repository.save(location);
+    }
+
+    public Location quickSave(Location location) {
         return repository.save(location);
     }
 
