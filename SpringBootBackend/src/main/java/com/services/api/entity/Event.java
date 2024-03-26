@@ -37,7 +37,7 @@ public class Event {
     @Column(unique = true)
     private String photoSubDirectory;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
     @Column(length = 5000)
@@ -61,4 +61,16 @@ public class Event {
         inverseJoinColumns = @JoinColumn(name = "userAccountID"))
     private Set<UserAccount> userAccounts;
 
+    public Event(String name, String photoSubDirectory, Appointment appointment){
+        this.name = name;
+        this.photoSubDirectory = photoSubDirectory;
+        this.appointment = appointment;
+    }
+
+    public Event(String name, String photoSubDirectory, Appointment appointment, Club club){
+        this.name = name;
+        this.photoSubDirectory = photoSubDirectory;
+        this.appointment = appointment;
+        this.club = club;
+    }
 }

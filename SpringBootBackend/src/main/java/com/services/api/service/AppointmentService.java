@@ -18,6 +18,10 @@ public class AppointmentService {
         return repository.save(appointment);
     }
 
+    public void flush(){
+        repository.flush();
+    }
+
     // Get an Appointment
     public Appointment getById(int id) {
         return repository.findById(id).orElse(null);

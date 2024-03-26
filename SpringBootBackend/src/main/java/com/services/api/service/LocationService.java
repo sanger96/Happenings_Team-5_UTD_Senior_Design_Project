@@ -13,6 +13,10 @@ public class LocationService {
     @Autowired
     private LocationRepository repository;
 
+    public void flush(){
+        repository.flush();
+    }
+
     // Create a location
     public Location save(Location location) {
         return repository.save(location);

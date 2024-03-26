@@ -15,7 +15,6 @@ import jakarta.persistence.Table;;
 @Entity
 @Table(name = "interest")
 public class Interest {
-    
     @Id
     @GeneratedValue
     private int interestID;

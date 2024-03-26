@@ -1,9 +1,5 @@
 package com.services.api.entity;
 
-
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -13,7 +9,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import lombok.RequiredArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -34,5 +30,12 @@ public class Location {
     // @JoinColumn(name = "appointmentID")
     // private Appointment appointment;
 
-    
+    public Location(String name, String room){
+        this.name = name;
+        this.room = room;
+    }
+
+    public Location(String name){
+        this.name = name;
+    }
 }
