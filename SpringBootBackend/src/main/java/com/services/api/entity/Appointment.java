@@ -5,7 +5,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -49,7 +52,8 @@ public class Appointment {
     private UserAccount userAccount;
 
     /* An Appointment has a OneToOne relationship with a Location */
-    @OneToOne
+    // @JsonIgnoreProperties("appointment")
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "locationID")
     private Location location;
 

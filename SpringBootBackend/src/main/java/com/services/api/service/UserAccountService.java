@@ -27,6 +27,11 @@ public class UserAccountService {
         return repository.findAll();
     }
 
+    public Integer checkLogin(String email, String password){
+        Integer result = repository.checkLogin(email, password);
+        return (result == null? 0 : result);
+    }
+
     public String deleteById(int id) {
         UserAccount entityExists = repository.findById(id).orElse(null);
         String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists.toString());

@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -30,13 +32,17 @@ public class Club {
     @Id
     @GeneratedValue
     private int clubID;
+
+    @Column(unique = true)
     private String name;
+
     private String description;
+    
     private int leaderID;
     
     // One club has many events
     @JsonIgnoreProperties("CLUB")
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "clubID")
     private List<Event> events;
     

@@ -22,6 +22,10 @@ public class EventService {
         return repository.findById(id).orElse(null);
     }
 
+    public Event getByName(String name) {
+        return repository.findByName(name);
+    }
+
     // Get all Events
     public List<Event> getAll() {
         return repository.findAll();

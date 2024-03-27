@@ -45,11 +45,6 @@ public class LocationController {
         return service.getByName(name);
     }
 
-    @GetMapping("/getByBuilding/{building}")
-    public List<Location> getByBuilding(@PathVariable String building) {
-        return service.getByBuilding(building);
-    }
-
     @GetMapping("/getByRoom/{room}")
     public List<Location> getByRoom(@PathVariable String room) {
         return service.getByRoom(room);

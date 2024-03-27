@@ -5,6 +5,9 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+
 // import org.hibernate.mapping.Set;
 
 import jakarta.persistence.Entity;
@@ -31,11 +34,17 @@ public class Event {
     @GeneratedValue
     private int eventID;
 
+    @Column(unique = true)
     private String photoSubDirectory;
+
+    @Column(unique = true)
     private String name;
 
+    @Column(length = 5000)
+    private String description;
+
     /* An Event has a OneToOne relationship with an Appointment */
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "appointmentID")
     private Appointment appointment;
 

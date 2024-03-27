@@ -17,7 +17,6 @@ import lombok.EqualsAndHashCode;
 @Table(name = "useraccount")
 @PrimaryKeyJoinColumn(name = "useraccountID")
 public class UserAccount extends Account{
-
     @ManyToMany
     @JoinTable(name = "hasinterest",
         joinColumns = @JoinColumn(name = "useraccountid"),

@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="Widget.Theme.HappeningsApp.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/greenUTD</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+</resources>

@@ -1,16 +1,37 @@
 <resources>
+    <!-- This is how you comment in XML -->
+    <!-- Strings for the application -->
     <string name="app_name">HappeningsApp</string>
+    <!-- Strings for the navigation drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Hello</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">User\'s name</string>
+    <string name="nav_header_subtitle">User\'s email@utdallas.edu</string>
     <string name="nav_header_desc">Navigation header</string>
+
     <string name="action_settings">Settings</string>
-    <!--
-    This is how you comment in XML
-    -->
-    <string name="clickStart">Testing Change</string>
+
+    <string name="clickStart">Testing Change</string> <!-- Button on content.xml -->
+    <!-- Menu Strings -->
     <string name="menu_map">Map</string>
-    <string name="menu_eventsList">Events List</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_event_list">Event List</string>
+    <string name="menu_club_search">Club Search</string>
+    <string name="menu_photo_gallery">Photo Gallery</string>
+    <string name="menu_user_profile">User Profile</string>
+    <string name="menu_settings">Settings</string>
+    <!-- MapsActivity Strings -->
+    <string name="fragment_maps">Map</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="MapsAPIKey">AIzaSyC27iSTA9_X4srnNQ_opPFL8_-DV402kao</string> <!-- Google Maps API Key -->
+    <string name="default_location">University of Texas at Dallas</string>
+
+    <!-- EventListFragment Strings -->
+    <string name="fragment_eventList">Event List</string>
+
+    <string name="inText_username">Enter username</string>
+    <string name="inText_password">Enter password</string>
+
+    <string name="submit">Submit</string>
+
+
 </resources>

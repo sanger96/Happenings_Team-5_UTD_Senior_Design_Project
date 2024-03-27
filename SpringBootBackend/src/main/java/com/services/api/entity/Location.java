@@ -2,6 +2,8 @@ package com.services.api.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -19,20 +21,18 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "LOCATION")
 public class Location {
-
     @Id
     @GeneratedValue
     private int locationID;
+    
     private String name;
-    private double latitude;
-    private double longitude;
-    private String building;
     private String room;
 
     // One location has one appointment
-    @OneToOne
-    @JoinColumn(name = "appointmentID")
-    private Appointment appointment;
+    // @JsonIgnoreProperties("location")
+    // @OneToOne
+    // @JoinColumn(name = "appointmentID")
+    // private Appointment appointment;
 
     
 }
