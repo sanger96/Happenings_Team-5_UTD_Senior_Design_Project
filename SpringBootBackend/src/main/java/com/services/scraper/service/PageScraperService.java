@@ -214,7 +214,7 @@ public class PageScraperService {
                 
                 if (building.isEmpty()) {
                     building = locationName;
-                }           
+                }
                  
                 Location locationToAdd = new Location(building, roomNumber);
 
