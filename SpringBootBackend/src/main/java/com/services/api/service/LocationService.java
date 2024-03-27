@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.services.api.entity.Club;
+import com.services.api.entity.Event;
 import com.services.api.entity.Location;
 import com.services.api.repository.LocationRepository;
 import java.util.*;
@@ -20,6 +21,12 @@ public class LocationService {
     // Create a location
     public Location save(Location location) {
         return repository.save(location);
+    }
+
+    // Create a location with string parameters
+    public Location save(String name, String room){
+        Location ret = new Location(name, room);
+        return ret;
     }
 
     // Get all locations
