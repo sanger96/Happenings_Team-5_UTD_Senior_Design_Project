@@ -19,7 +19,6 @@ public class LocationService {
 
     // Create a location
     public Location save(Location location) {
-
         // Check for duplicate location
         Location locationExists = getByNameAndRoom(location.getName(), location.getRoom());
         if (locationExists != null) {
@@ -53,7 +52,10 @@ public class LocationService {
     public List<Location> getByRoom(String room) {
         return repository.getByRoom(room);
     }
-
+    
+    public Location getByNameAndRoom(String name, String room) {
+        return repository.getByNameAndRoom(name, room);
+    }
     // Update a location
     public Location update(Location location) {
        return repository.save(location);
@@ -73,7 +75,4 @@ public class LocationService {
         return toBeDeleted;
     }
 
-    public Location getByNameAndRoom(String name, String room) {
-        return repository.getByNameAndRoom(name, room);
-    }
 }
