@@ -122,5 +122,11 @@ public class EventService {
         repository.deleteById(id);
         return toBeDeleted;
     }
+
+    // Delete all expired Events
+    public String deleteExpired(){
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return "";
+    }
     
 }

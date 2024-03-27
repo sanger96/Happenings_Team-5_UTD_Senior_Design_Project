@@ -22,4 +22,10 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     @Query(value = "SELECT * FROM event WHERE name = ?1 LIMIT 1", nativeQuery = true)
     Event findByName(String name);
+
+    /* Get all events such that the difference between the time this method is called and the endTime of
+     * the event is >= 24 hours
+     */
+    // @Query(value = "DELETE FROM event WHERE event IN (SELECT * FROM event)", nativeQuery = true)
+    // List<Event> deleteExpired();
 }
