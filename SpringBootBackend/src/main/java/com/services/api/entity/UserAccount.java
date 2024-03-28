@@ -1,11 +1,13 @@
 package com.services.api.entity;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -17,10 +19,15 @@ import lombok.EqualsAndHashCode;
 @Table(name = "useraccount")
 @PrimaryKeyJoinColumn(name = "useraccountID")
 public class UserAccount extends Account{
+
+   
     @ManyToMany
     @JoinTable(name = "hasinterest",
         joinColumns = @JoinColumn(name = "useraccountid"),
         inverseJoinColumns = @JoinColumn(name = "interestid"))
     private Set<Interest> interests; 
+
+
+
 }
 

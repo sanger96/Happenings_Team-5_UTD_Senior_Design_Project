@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.List;
 import java.util.Optional;
 
+import com.services.api.repository.EventRepository;
 import com.services.api.entity.Event;
 import com.services.api.service.EventService;
 
@@ -70,5 +71,15 @@ public class EventController {
     @DeleteMapping("/deleteById/{id}")
     public String deleteById(@PathVariable int id){
         return service.deleteById(id);
+    }
+
+    @PostMapping("/rsvp/{useraccountID}_{eventID}")
+    public Event rsvp(@PathVariable int useraccountID, @PathVariable int eventID) {
+        return service.rsvp(useraccountID, eventID);
+    }
+
+    @PostMapping("/unrsvp/{useraccountID}_{eventID}")
+    public Event unRsvp(@PathVariable int useraccountID, @PathVariable int eventID) {
+        return service.unRsvp(useraccountID, eventID);
     }
 }

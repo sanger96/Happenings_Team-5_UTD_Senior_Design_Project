@@ -22,4 +22,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     @Query(value = "SELECT * FROM event WHERE name = ?1 LIMIT 1", nativeQuery = true)
     Event findByName(String name);
+
+   
+
 }

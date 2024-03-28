@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
+import org.springframework.beans.factory.annotation.Value;
+
 // import org.hibernate.mapping.Set;
 
 import jakarta.persistence.Entity;
@@ -46,6 +48,16 @@ public class Event {
     @Value("${some.key:0}")
     private int rsvpCount;
 
+    // One event has many useraccounts RSVPing
+    //@JsonIgnoreProperties("EVENT")
+    /*
+    @ManyToMany
+    @JoinTable(name = "rsvps",
+        joinColumns = @JoinColumn(name = "eventID"),
+        inverseJoinColumns = @JoinColumn(name = "userAccountID"))
+    private Set<UserAccount> usersAttending;
+    */
+
     /* An Event has a OneToOne relationship with an Appointment */
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "appointmentID")
@@ -76,4 +88,16 @@ public class Event {
         this.appointment = appointment;
         this.club = club;
     }
+
+    public void addUserAccount(UserAccount user)
+    {
+        userAccounts.add(user);
+    }
+
+    
+    public void delUserAccount(UserAccount user)
+    {
+        userAccounts.remove(user);
+    }
+
 }

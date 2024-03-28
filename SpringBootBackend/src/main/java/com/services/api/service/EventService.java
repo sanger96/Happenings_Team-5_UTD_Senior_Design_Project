@@ -9,10 +9,12 @@ import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import com.services.api.entity.Event;
+import com.services.api.entity.UserAccount;
 import com.services.api.entity.Location;
 import com.services.api.entity.Appointment;
 import com.services.api.entity.Club;
 import com.services.api.repository.EventRepository;
+import com.services.api.repository.UserAccountRepository;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Basic;
@@ -23,6 +25,10 @@ import jakarta.persistence.TemporalType;
 public class EventService {
     @Autowired
     private EventRepository repository;
+
+    @Autowired
+    private UserAccountRepository userRepository;
+
     @Autowired
     private LocationService locationService;
     @Autowired
@@ -121,6 +127,24 @@ public class EventService {
         String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists.toString());
         repository.deleteById(id);
         return toBeDeleted;
+    }
+
+    public Event rsvp(int useraccountID, int eventID)
+    {
+        Event event = repository.findById(eventID).orElse(null);
+        UserAccount useraccount = userRepository.findById(useraccountID).orElse(null);
+        event.addUserAccount(useraccount);
+        repository.save(event);
+        return event;
+    }
+
+    public Event unRsvp(int useraccountID, int eventID)
+    {
+        Event event = repository.findById(eventID).orElse(null);
+        UserAccount useraccount = userRepository.findById(useraccountID).orElse(null);
+        event.delUserAccount(useraccount);
+        repository.save(event);
+        return event;
     }
     
 }
