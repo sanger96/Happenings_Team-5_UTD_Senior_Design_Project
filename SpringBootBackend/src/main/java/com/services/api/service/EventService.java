@@ -57,6 +57,10 @@ public class EventService {
         LocalDateTime newEndTime = LocalDateTime.parse(endTime);
         Appointment eventAppointment = new Appointment(newStartTime, newEndTime, "event", eventLocation);
         eventAppointment = appointmentService.save(eventAppointment);
+
+        // Temporary solution for conflict resolution
+        if(eventAppointment == null)
+            return null;
         appointmentService.flush();
 
         // Create a new Event, save to DB
