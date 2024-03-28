@@ -49,7 +49,7 @@ public class Event {
     /* An Event has a OneToOne relationship with an Appointment */
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "appointmentID")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.CASCADE) // creates the Cascade delete in the database
     private Appointment appointment;
 
     /* An Event has a ManyToOne relationship with a Club */
