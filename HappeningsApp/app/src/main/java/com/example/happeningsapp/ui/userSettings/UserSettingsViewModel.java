@@ -17,21 +17,21 @@ public class UserSettingsViewModel extends ViewModel {
         pageTitle.setValue("Account Creation");
         //the comments below are for reference only, this is from another page
         email = new MutableLiveData<>();
-        //sets username
-        email.setValue("Enter username");
+        //sets username, don't want to set it, so hint in fragment will be used
+        //email.setValue("Enter username");
         password = new MutableLiveData<>();
-        //sets password
-        password.setValue("Enter password");
+        //sets password, don't want to set it, so hint in fragment will be used
+        //password.setValue("Enter password");
 
     }
 
     public LiveData<String> getText() {
         return pageTitle;
     }
-//    public LiveData<String> getUsername() {
-//        return username;
-//    }
-//    public LiveData<String> getPassword() {
-//        return password;
-//    }
+    public LiveData<String> getEmail() {
+        return email;
+    }
+    public LiveData<String> getPassword() {
+        return password;
+    }
 }

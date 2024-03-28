@@ -41,17 +41,17 @@ public class UserSettingsFragment extends Fragment {
         View root = binding.getRoot();
 
         // bind default text at top of page
-        final TextView pageTitle = binding.textUserSettings;
+        TextView pageTitle = binding.textUserSettings;
 
         // bind email and password
         // bind interests, get list of interests from math department club chooser page utd
-        EditText email = binding.inTextEmail;
-        EditText password = binding.inTextPassword;
+        TextView email = binding.inTextEmail;
+        TextView password = binding.inTextPassword;
         // get text for top of page
         UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), pageTitle::setText);
         // these commands will make sure the variables are observed for their "life cycle"
-        UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), email::setText);
-        UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), password::setText);
+        UserSettingsViewModelProvider.getEmail().observe(getViewLifecycleOwner(), email::setText);
+        UserSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
 
 
 //        start of adding action on button click
@@ -60,29 +60,31 @@ public class UserSettingsFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //TODO add Post method here
-                Log.i("UserSettingsFragment","this is in onClick");
-                //volleyPostAddAccount(email.getText().toString(),password.getText().toString());
+//                Log.i("UserSettingsFragment","this is in onClick");
+                //url we are posting to, uses 10.0.2.2 instead of local host, this is what android studio will need to use local host.
+                // if you type local host it will automatically map to 127.0.0.1 aka the wronge place.
                 String postUrl="http://10.0.2.2:8080/account/add";
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
+                //initializing the JSONObject that will be posted
                 JSONObject postData = new JSONObject();
                 try{
+                    //This is how we will add elements to build the JSONObject post data
                     postData.put("email",email.getText().toString());
                     postData.put("password", password.getText().toString());
 
-                    Log.i("UserSettingsFragment","this is try");
+                    //this log method will appear in logcat
+                    Log.i("UserSettingsFragment","JSONObject postData is built");
                 } catch (JSONException e){
-                    Log.i("UserSettingsFragment","this is catch");
+                    Log.i("UserSettingsFragment","JSONObject postData FAILED to build");
                     e.printStackTrace();
                 }
-//                JSONObject postData = JSONObject.quote({ "email": "VScode" , "password": "testing from VScode" });
 
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,postUrl,postData, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         //add toast for success
-                        //Toast.makeText(UserSettingsFragment.getContext(), "Post Successful",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(root.getContext(), "Account Creation Successful",Toast.LENGTH_SHORT).show();
                         Log.i("Volley",response.toString());
                     }
                 }, new Response.ErrorListener(){

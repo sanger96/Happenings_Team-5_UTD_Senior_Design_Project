@@ -52,7 +52,7 @@ public class loginFragment extends Fragment {
                 //if statement for seeing if username and password is accepted
                 //need to add post statement to send this to backend.
                 // Authentication should take place in back end and will verify, then pass a boolean pass/fail back here
-                if(username.getText().toString().equals("Enter username")&& password.getText().toString().equals("Enter password")){
+                if(username.getText().toString().equals("")&& password.getText().toString().equals("")){
                     Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
                     //the below line should make the app go to that page on successful login
 
