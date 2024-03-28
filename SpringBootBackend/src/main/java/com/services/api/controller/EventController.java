@@ -71,4 +71,9 @@ public class EventController {
     public String deleteById(@PathVariable int id){
         return service.deleteById(id);
     }
+
+    @DeleteMapping("/deleteExpired")
+    public void deleteExpired(){
+        service.deleteExpired();
+    }
 }

@@ -128,9 +128,8 @@ public class EventService {
     }
 
     // Delete all expired Events
-    public String deleteExpired(){
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        return "";
+    public void deleteExpired(){
+        repository.deleteExpired();
     }
     
 }
