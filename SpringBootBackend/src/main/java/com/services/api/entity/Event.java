@@ -43,6 +43,9 @@ public class Event {
     @Column(length = 5000)
     private String description;
 
+    @Value("${some.key:0}")
+    private int rsvpCount;
+
     /* An Event has a OneToOne relationship with an Appointment */
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "appointmentID")
