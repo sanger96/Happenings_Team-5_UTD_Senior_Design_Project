@@ -13,8 +13,24 @@ public class LocationService {
     @Autowired
     private LocationRepository repository;
 
+    public void flush(){
+        repository.flush();
+    }
+
     // Create a location
     public Location save(Location location) {
+
+        // Check for duplicate location
+        Location locationExists = getByNameAndRoom(location.getName(), location.getRoom());
+        if (locationExists != null) {
+            System.out.println("Location already exists");
+            return locationExists;
+        }
+        
+        return repository.save(location);
+    }
+
+    public Location quickSave(Location location) {
         return repository.save(location);
     }
 
@@ -55,5 +71,9 @@ public class LocationService {
         String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists).toString();
         repository.deleteById(id);
         return toBeDeleted;
+    }
+
+    public Location getByNameAndRoom(String name, String room) {
+        return repository.getByNameAndRoom(name, room);
     }
 }

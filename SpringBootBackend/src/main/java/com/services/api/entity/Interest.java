@@ -15,11 +15,10 @@ import jakarta.persistence.Table;;
 @Entity
 @Table(name = "interest")
 public class Interest {
-    
     @Id
     @GeneratedValue
     private int interestID;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 }
