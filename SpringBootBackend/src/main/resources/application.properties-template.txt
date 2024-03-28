@@ -1,7 +1,9 @@
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.datasource.url = jdbc:mysql://localhost:{3306}/{anything}
+spring.datasource.url = jdbc:mysql://localhost:{localPortSQL}/{nameOfSqlDataBase}
 spring.datasource.username = root
-spring.datasource.password = {Baldev61!}
+spring.datasource.password = {localPassword}
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 spring.jpa.show-sql = true
 spring.jpa.hibernate.ddl-auto = update
-server.port= {3306}
+server.port= {8080}
+website.url = https://calendar.utdallas.edu/calendar
