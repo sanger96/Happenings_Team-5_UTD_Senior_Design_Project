@@ -50,7 +50,7 @@ public class EventService {
         else
             eventLocation = new Location(locationName);
         eventLocation = locationService.save(eventLocation);
-        locationService.flush();
+        // locationService.flush();
 
         // Create a new Appointment, flush to DB
         LocalDateTime newStartTime = LocalDateTime.parse(startTime);
@@ -61,7 +61,7 @@ public class EventService {
         // Temporary solution for conflict resolution
         if(eventAppointment == null)
             return null;
-        appointmentService.flush();
+        // appointmentService.flush();
 
         // Create a new Event, save to DB
         Event newEvent;
