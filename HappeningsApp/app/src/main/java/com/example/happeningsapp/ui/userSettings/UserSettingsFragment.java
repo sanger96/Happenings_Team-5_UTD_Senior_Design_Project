@@ -13,6 +13,7 @@ import android.widget.Toast; //lets us have pop ups for user
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -86,6 +87,7 @@ public class UserSettingsFragment extends Fragment {
                         //add toast for success
                         Toast.makeText(root.getContext(), "Account Creation Successful",Toast.LENGTH_SHORT).show();
                         Log.i("Volley",response.toString());
+                        Navigation.findNavController(view).navigate(R.id.action_nav_userProfileSetting_to_nav_eventList);
                     }
                 }, new Response.ErrorListener(){
                     @Override
