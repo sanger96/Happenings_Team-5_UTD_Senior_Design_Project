@@ -48,6 +48,11 @@ public class EventController {
         return service.getById(id);
     }
 
+    @GetMapping("/getByName/{name}")
+    public Event getByName(@PathVariable String name){
+        return service.getByName(name);
+    }
+
     @GetMapping("/getAll")
     public List<Event> getAll(){
         return service.getAll();
