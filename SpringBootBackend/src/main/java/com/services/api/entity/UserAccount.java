@@ -21,6 +21,6 @@ public class UserAccount extends Account{
     @JoinTable(name = "hasinterest",
         joinColumns = @JoinColumn(name = "useraccountid"),
         inverseJoinColumns = @JoinColumn(name = "interestid"))
-    private Set<Interest> interests; 
+    private Set<Interest> interests;
 }
 
