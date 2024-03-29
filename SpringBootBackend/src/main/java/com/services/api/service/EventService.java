@@ -35,7 +35,7 @@ public class EventService {
         return repository.save(event);
     }
 
-    public Event createFromForm
+    public Event save
     (String eventName, Optional<Integer> clubLeaderID,
     LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
         //TODO: it might be beneficial to modularize this code, adding some as methods in other service files depending on how they will be used

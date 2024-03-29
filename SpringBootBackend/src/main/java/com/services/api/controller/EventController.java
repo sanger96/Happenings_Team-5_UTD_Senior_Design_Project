@@ -31,11 +31,11 @@ public class EventController {
         return service.save(event);
     }
 
-    @PostMapping("/createFromForm")
-    public Event createFromForm
+    @PostMapping("/add")
+    public Event add
     (String eventName, Optional<Integer> clubLeaderID,
      LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
-        return service.createFromForm(eventName, clubLeaderID, startTime, endTime, locationName, room);
+        return service.save(eventName, clubLeaderID, startTime, endTime, locationName, room);
     }
 
     @PutMapping("/update")
