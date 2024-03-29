@@ -62,7 +62,7 @@ public class loginFragment extends Fragment {
             public void onClick(View view){
                 //if statement for seeing if username and password is accepted
                 //need to add get method statement to send this to backend.
-                String getUrl="http://10.0.0.2:8080/useraccount/checkLogin";
+                String getUrl="http://10.0.2.2:8080/useraccount/checkLogin";
 
                 //holds request queue
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
@@ -106,7 +106,7 @@ public class loginFragment extends Fragment {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.wtf("Volley Fail on line 111",error.toString());
+                        Log.wtf("Volley Fail onErrorResponse",error.toString());
 
                     }
                 });
