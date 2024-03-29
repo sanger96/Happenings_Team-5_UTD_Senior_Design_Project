@@ -59,7 +59,7 @@ public class Appointment {
 
     /* An Appointment has a OneToOne relationship with a Location */
     // @JsonIgnoreProperties("appointment")
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "locationID")
     private Location location;
 
