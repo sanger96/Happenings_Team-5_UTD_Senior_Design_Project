@@ -15,8 +15,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentLoginBinding;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class loginFragment extends Fragment {
 
@@ -34,12 +43,12 @@ public class loginFragment extends Fragment {
         // bind default text at top of page
         final TextView textView = binding.textLogin;
         // bind username and password
-        EditText username = binding.inTextUserName;
+        EditText email = binding.inTextUserName;
         EditText password = binding.inTextPassword;
         // get text for top of page
         LoginViewModelProvider.getText().observe(getViewLifecycleOwner(), textView::setText);
         // these commands will make sure the variables are observed for their "life cycle"
-        LoginViewModelProvider.getUsername().observe(getViewLifecycleOwner(), username::setText);
+        LoginViewModelProvider.getUsername().observe(getViewLifecycleOwner(), email::setText);
         LoginViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
 
 

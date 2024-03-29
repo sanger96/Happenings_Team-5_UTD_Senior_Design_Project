@@ -63,7 +63,7 @@ public class UserSettingsFragment extends Fragment {
             public void onClick(View view){
 //                Log.i("UserSettingsFragment","this is in onClick");
                 //url we are posting to, uses 10.0.2.2 instead of local host, this is what android studio will need to use local host.
-                // if you type local host it will automatically map to 127.0.0.1 aka the wronge place.
+                // if you type local host it will automatically map to 127.0.0.1 aka the wrong place.
                 String postUrl="http://10.0.2.2:8080/account/add";
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
@@ -96,8 +96,8 @@ public class UserSettingsFragment extends Fragment {
                     }
                 });
                 requestQueue.add(jsonObjectRequest);
-            }
-        });
+            } //end of onClick
+        });//end of post request
 //        end of adding action on button click
 
 
