@@ -46,22 +46,31 @@ public class EventListFragment extends Fragment {
 
         binding = FragmentEventListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        TextView topElement = binding.topElement;
+        //decalre variables for eventName, eventClub, eventDescription
+        TextView eventName = binding.eventName;
+        TextView eventClub = binding.eventClub;
+        TextView eventDescription = binding.eventDescription;
 
         //URL to get from
         String getUrl="http://10.0.2.2:8080/event/getAll";
         RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
-        // since the response we get from the api is in JSON,
-        // we need to use `JsonObjectRequest` for
+
+        // since the response we get from the api is in JSONArray,
+        // we need to use `JsonArrayRequest` for
         // parsing the request response
-        // Request a string response from the provided URL.
+        // Request a JSONArray response from the provided URL.
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
                 (Request.Method.GET, getUrl, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            topElement.setText(response.get(0).toString());
+                            //below is where I will get the name, club, and description of events in that order and directly put them on the page.
+                            for(int i=0; i<response.length();i++){
+                                eventName.setText(response.getJSONObject(i).getString("name"));
+                                eventClub.setText(response.getJSONObject(i).getString("club"));
+                                eventDescription.setText(response.getJSONObject(i).getString("description"));
+                            }
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -78,7 +87,9 @@ public class EventListFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-                        topElement.setText("Failed");
+                        eventName.setText("Well");
+                        eventClub.setText("that");
+                        eventDescription.setText("Failed");
                         Log.wtf("Volley Fail",error.toString());
 
                     }

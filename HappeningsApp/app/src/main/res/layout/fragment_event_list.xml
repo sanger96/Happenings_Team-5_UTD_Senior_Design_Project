@@ -13,20 +13,42 @@
         tools:layout_editor_absoluteY="1dp">
 
         <TableRow>
+
             <TextView
-                android:id="@+id/topElement"
-                android:text="Testing 1"
+                android:text="Name"
                 android:textSize="20sp"
                 android:padding="10sp"/>
             <TextView
-                android:text="Testing 2"
+                android:text="club"
+                android:textSize="20sp"
+                android:layout_gravity="right"
+                android:padding="10sp"/>
+            <TextView
+                android:text="Description"
                 android:textSize="20sp"
                 android:layout_gravity="right"
                 android:padding="10sp"/>
         </TableRow>
 
-        <TableRow
-             />
+        <TableRow>
+            <TextView
+                android:id="@+id/eventName"
+                android:hint="Name"
+                android:textSize="20sp"
+                android:padding="10sp"/>
+            <TextView
+                android:id="@+id/eventClub"
+                android:text="club"
+                android:textSize="20sp"
+                android:layout_gravity="right"
+                android:padding="10sp"/>
+            <TextView
+                android:id="@+id/eventDescription"
+                android:text="Description"
+                android:textSize="20sp"
+                android:layout_gravity="right"
+                android:padding="10sp"/>
+        </TableRow>
 
         <TableRow
             />
