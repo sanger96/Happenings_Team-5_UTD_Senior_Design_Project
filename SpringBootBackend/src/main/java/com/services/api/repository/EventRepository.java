@@ -31,7 +31,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
      */
     @Query(value = "SELECT eventid\n" + //
                     "FROM event NATURAL JOIN appointment\n" + //
-                    "WHERE (unix_timestamp(ADDTIME(end_time, '1 00:00:00')) BETWEEN unix_timestamp(start_time) AND unix_timestamp(NOW()))"
+                    "WHERE unix_timestamp(NOW()) >= unix_timestamp(ADDTIME(end_time, '1 00:00:00'))"
     , nativeQuery = true)
     List<Integer> getExpiredIds();
 }
