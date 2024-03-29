@@ -8,6 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PreRemove;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -20,6 +21,9 @@ import lombok.EqualsAndHashCode;
 @PrimaryKeyJoinColumn(name = "useraccountID")
 public class UserAccount extends Account{
 
+    @ManyToMany(mappedBy = "userAccounts")
+    private Set<Event> events; 
+
    
     @ManyToMany
     @JoinTable(name = "hasinterest",
@@ -27,6 +31,12 @@ public class UserAccount extends Account{
         inverseJoinColumns = @JoinColumn(name = "interestid"))
     private Set<Interest> interests; 
 
+    @PreRemove
+    private void removeEventAssociations() {
+        for (Event e: this.events) {
+       e.getUserAccounts().remove(this);
+    }
+}
 
 
 }

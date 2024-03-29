@@ -98,6 +98,20 @@ public class Event {
     public void delUserAccount(UserAccount user)
     {
         userAccounts.remove(user);
+        user.getEvents().remove(this);
     }
+
+    public void decRsvpCount()
+    {
+        if(rsvpCount > 0)
+            rsvpCount--;
+    }
+
+    public void incRsvpCount()
+    {
+        rsvpCount++;
+    }
+
+  
 
 }

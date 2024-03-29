@@ -133,7 +133,10 @@ public class EventService {
     {
         Event event = repository.findById(eventID).orElse(null);
         UserAccount useraccount = userRepository.findById(useraccountID).orElse(null);
+        int size = event.getUserAccounts().size();
         event.addUserAccount(useraccount);
+        if(event.getUserAccounts().size() > size)
+            event.incRsvpCount();
         repository.save(event);
         return event;
     }
@@ -142,8 +145,13 @@ public class EventService {
     {
         Event event = repository.findById(eventID).orElse(null);
         UserAccount useraccount = userRepository.findById(useraccountID).orElse(null);
+        int size = event.getUserAccounts().size();
         event.delUserAccount(useraccount);
+        if(event.getUserAccounts().size() < size)
+            event.decRsvpCount();
+        event.decRsvpCount();
         repository.save(event);
+        repository.flush();
         return event;
     }
     

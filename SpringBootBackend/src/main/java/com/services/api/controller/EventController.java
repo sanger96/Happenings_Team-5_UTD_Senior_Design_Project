@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
+import java.util.Set;
 import java.util.Optional;
 
 import com.services.api.repository.EventRepository;
@@ -81,5 +82,10 @@ public class EventController {
     @PostMapping("/unrsvp/{useraccountID}_{eventID}")
     public Event unRsvp(@PathVariable int useraccountID, @PathVariable int eventID) {
         return service.unRsvp(useraccountID, eventID);
+    }
+
+    @PostMapping("/rsvpCount")
+    public int rsvpCount(@RequestBody Event event){
+        return event.getRsvpCount();
     }
 }
