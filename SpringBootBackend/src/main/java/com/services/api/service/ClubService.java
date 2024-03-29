@@ -23,7 +23,6 @@ public class ClubService {
     return club.getEvents();
     }
 
-
     // Create a club
     public Club add(Club club) {
         return repository.save(club);

@@ -7,6 +7,7 @@ import com.services.api.entity.Appointment;
 import com.services.api.repository.AppointmentRepository;
 
 import java.util.List;
+import java.time.Duration;
 
 @Service
 public class AppointmentService {
@@ -15,7 +16,52 @@ public class AppointmentService {
 
     // Create/Update an Appointment
     public Appointment save(Appointment appointment) {
+
+        // Check for minimum duration
+        if (!isMinDuration(appointment)) {
+            System.out.println("Not of minimum duration");
+            return null;
+        }
+
+        // Check for conflicting appointments (prev in AppointmentController.java)
+        List<Appointment> allCurrAppointments = getAll();
+        for (Appointment apt : allCurrAppointments) {
+
+            if (doAppointmentsOverlap(appointment, apt)) {
+                System.out.println(appointment.toString() + "\nCONFLICTS WITH: \n" + apt.toString());
+                return null;
+            }
+        }
+
         return repository.save(appointment);
+    }
+
+    public boolean isMinDuration(Appointment appointment) {
+
+        Duration duration = Duration.between(appointment.getStartTime(), appointment.getEndTime());
+        Duration minDuration = Duration.ofMinutes(30);
+
+        if (duration.compareTo(minDuration) >= 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean doAppointmentsOverlap(Appointment appointment1, Appointment appointment2) {
+        boolean locationOverlap = appointment1.getLocation().getName().equals(appointment2.getLocation().getName()) &&
+        appointment1.getLocation().getRoom().equals(appointment2.getLocation().getRoom());
+
+        boolean timeOverlap = appointment1.getEndTime().isAfter(appointment2.getStartTime()) && appointment1.getStartTime().isBefore(appointment2.getEndTime());
+        return locationOverlap && timeOverlap;
+    }
+
+    public Appointment quickSave(Appointment appointment) {
+        return repository.save(appointment);
+    }
+
+    public void flush(){
+        repository.flush();
     }
 
     // Get an Appointment

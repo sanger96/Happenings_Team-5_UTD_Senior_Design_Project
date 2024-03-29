@@ -5,8 +5,11 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -35,13 +38,17 @@ public class Appointment {
     // TODO: A name field might be necessary to know what course a UserAccount has
 
     @Basic
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime startTime;
+
     @Basic
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime endTime;
 
     // This type could be an Enumeration in future
+    @Column(nullable = false)
     private String type;
 
     /* An Appointment has a ManyToOne relationship with a UserAccount */
@@ -50,8 +57,15 @@ public class Appointment {
     private UserAccount userAccount;
 
     /* An Appointment has a OneToOne relationship with a Location */
-    @OneToOne(cascade = CascadeType.REMOVE)
+    // @JsonIgnoreProperties("appointment")
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "locationID")
     private Location location;
 
+    public Appointment(LocalDateTime startTime, LocalDateTime endTime, String type, Location location){
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.type = type;
+        this.location = location;
+    }
 }
