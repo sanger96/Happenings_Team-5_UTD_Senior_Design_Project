@@ -126,8 +126,12 @@ public class EventService {
     }
 
     // Delete all expired Events
-    public void deleteExpired(){
-        repository.deleteExpired();
+    public String deleteExpired(){
+        List<Integer> expiredEventIDs = repository.getExpiredIds();
+
+        repository.deleteAllById(expiredEventIDs);
+
+        return expiredEventIDs.size() + " expired events were deleted.";
     }
     
 }

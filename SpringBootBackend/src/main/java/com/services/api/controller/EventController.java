@@ -73,7 +73,7 @@ public class EventController {
     }
 
     @DeleteMapping("/deleteExpired")
-    public void deleteExpired(){
-        service.deleteExpired();
+    public String deleteExpired(){
+        return service.deleteExpired();
     }
 }

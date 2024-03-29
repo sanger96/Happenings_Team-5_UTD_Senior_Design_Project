@@ -29,15 +29,9 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     /* Get all events such that the difference between the time this method is called and the endTime of
      * the event is >= 24 hours
      */
-    @Transactional
-    @Modifying
-    @Query(value = "DELETE FROM event WHERE eventid IN (\n" + //
-                        "SELECT eventid FROM(\n" + //
-                            "SELECT DISTINCT eventid\n" + //
-                            "FROM event NATURAL JOIN appointment\n" + //
-                            "WHERE (unix_timestamp(ADDTIME(end_time, '1 00:00:00')) BETWEEN unix_timestamp(start_time) AND unix_timestamp(NOW()))\n" + //
-                        ") AS e\n" +//
-                    ");\n"
+    @Query(value = "SELECT eventid\n" + //
+                    "FROM event NATURAL JOIN appointment\n" + //
+                    "WHERE (unix_timestamp(ADDTIME(end_time, '1 00:00:00')) BETWEEN unix_timestamp(start_time) AND unix_timestamp(NOW()))"
     , nativeQuery = true)
-    void deleteExpired();
+    List<Integer> getExpiredIds();
 }
