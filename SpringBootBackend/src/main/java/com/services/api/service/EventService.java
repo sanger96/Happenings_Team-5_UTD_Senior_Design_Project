@@ -37,7 +37,7 @@ public class EventService {
 
     public Event createFromForm
     (String eventName, Optional<Integer> clubLeaderID,
-     String startTime, String endTime, String locationName, Optional<String> room){
+    LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
         //TODO: it might be beneficial to modularize this code, adding some as methods in other service files depending on how they will be used
         //TODO: can we send detailed error messages back without changing the return type of the methods?
         //TODO: check for location and time conflicts given supplied fields
@@ -52,9 +52,7 @@ public class EventService {
         eventLocation = locationService.save(eventLocation);
 
         // Create a new Appointment, flush to DB
-        LocalDateTime newStartTime = LocalDateTime.parse(startTime);
-        LocalDateTime newEndTime = LocalDateTime.parse(endTime);
-        Appointment eventAppointment = new Appointment(newStartTime, newEndTime, "event", eventLocation);
+        Appointment eventAppointment = new Appointment(startTime, endTime, "event", eventLocation);
         eventAppointment = appointmentService.save(eventAppointment);
 
         // Temporary solution for conflict resolution
