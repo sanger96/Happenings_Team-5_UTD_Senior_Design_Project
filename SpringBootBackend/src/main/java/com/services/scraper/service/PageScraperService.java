@@ -214,19 +214,19 @@ public class PageScraperService {
                 
                 if (building.isEmpty()) {
                     building = locationName;
-                }           
+                }
                  
                 Location locationToAdd = new Location(building, roomNumber);
 
                 // Check for dupe location
                 locationToAdd = locationService.save(locationToAdd);
                 
-                Appointment appointmentToAdd = new Appointment(dateFormatter(startDate), dateFormatter(endDate), "event", locationToAdd);
+                Appointment appointmentToAdd = new Appointment(dateFormatter(startDate, false), dateFormatter(endDate, true), "event", locationToAdd);
 
                 // Quick Save to bypass checking
                 appointmentService.quickSave(appointmentToAdd);
                 
-                Event eventToAdd = new Event(name, description, null, appointmentToAdd);
+                Event eventToAdd = new Event(name, description, name+"Gallery", appointmentToAdd);
             
                 eventService.save(eventToAdd);
 
@@ -245,10 +245,11 @@ public class PageScraperService {
         
     }
 
-    private LocalDateTime dateFormatter(String date) {
+    private LocalDateTime dateFormatter(String date, Boolean isEndDate) {
         
         try {
             // Define a DateTimeFormatter for the input format
+            // ISO_OFFSET_DATE_TIME: '2011-12-03T10:15:30+01:00'
             DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
             // Parse the original date-time string into a ZonedDateTime object
@@ -265,10 +266,11 @@ public class PageScraperService {
 
         try {
             // Parse the original date string into a LocalDate object
+            // ISO_LOCAL_DATE: '2011-12-03'
             LocalDate originalDate = LocalDate.parse(date);
 
             // Combine the LocalDate with a default LocalTime to create a LocalDateTime object
-            LocalDateTime localDateTime = LocalDateTime.of(originalDate, LocalTime.MIN);
+            LocalDateTime localDateTime = LocalDateTime.of(originalDate, isEndDate? LocalTime.MAX : LocalTime.MIN);
 
             return localDateTime;
         } catch (Exception e) {
@@ -277,6 +279,7 @@ public class PageScraperService {
 
         try {
             // Define a DateTimeFormatter for the input format
+            // ISO_LOCAL_DATE_TIME: '2011-12-03T10:15:30'
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
             // Parse the original date-time string into a LocalDateTime object
@@ -295,7 +298,7 @@ public class PageScraperService {
     private ArrayList<String> tryParseLocation(Element p) {
         ArrayList<String> ret = new ArrayList<String>();
 
-        String location = p.text();    
+        String location = p.text();
 
         // Find something in parenthesis
         int startIndex = location.indexOf("("); 

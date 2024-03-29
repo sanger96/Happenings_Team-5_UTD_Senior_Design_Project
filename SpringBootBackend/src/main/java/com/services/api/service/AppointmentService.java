@@ -24,6 +24,8 @@ public class AppointmentService {
         }
 
         // Check for conflicting appointments (prev in AppointmentController.java)
+
+        // TODO: should only get appointments whose type = 'event', we dont care about appointments that conflict with type = 'course' appointments
         List<Appointment> allCurrAppointments = getAll();
         for (Appointment apt : allCurrAppointments) {
 

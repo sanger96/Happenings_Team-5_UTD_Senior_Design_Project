@@ -1,7 +1,10 @@
 package com.services.api.repository;
 
+import org.antlr.v4.runtime.atn.SemanticContext.AND;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.services.api.entity.Event;
 import java.util.List;
@@ -22,4 +25,13 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     @Query(value = "SELECT * FROM event WHERE name = ?1 LIMIT 1", nativeQuery = true)
     Event findByName(String name);
+
+    /* Get all events such that the difference between the time this method is called and the endTime of
+     * the event is >= 24 hours
+     */
+    @Query(value = "SELECT eventid\n" + //
+                    "FROM event NATURAL JOIN appointment\n" + //
+                    "WHERE unix_timestamp(NOW()) >= unix_timestamp(ADDTIME(end_time, '1 00:00:00'))"
+    , nativeQuery = true)
+    List<Integer> getExpiredIds();
 }

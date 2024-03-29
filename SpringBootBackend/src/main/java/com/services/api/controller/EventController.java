@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,9 +33,9 @@ public class EventController {
 
     @PostMapping("/createFromForm")
     public Event createFromForm
-    (String eventName, Optional<Integer> clubLeaderID,
-     String startTime, String endTime, String locationName, Optional<String> room){
-        return service.createFromForm(eventName, clubLeaderID, startTime, endTime, locationName, room);
+    (String eventName, String description, Optional<Integer> clubID,
+     LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
+        return service.save(eventName, description, clubID, startTime, endTime, locationName, room);
     }
 
     @PutMapping("/update")
@@ -45,6 +46,11 @@ public class EventController {
     @GetMapping("/getById/{id}")
     public Event getById(@PathVariable int id) {
         return service.getById(id);
+    }
+
+    @GetMapping("/getByName/{name}")
+    public Event getByName(@PathVariable String name){
+        return service.getByName(name);
     }
 
     @GetMapping("/getAll")
@@ -70,5 +76,10 @@ public class EventController {
     @DeleteMapping("/deleteById/{id}")
     public String deleteById(@PathVariable int id){
         return service.deleteById(id);
+    }
+
+    @DeleteMapping("/deleteExpired")
+    public String deleteExpired(){
+        return service.deleteExpired();
     }
 }
