@@ -31,8 +31,8 @@ public class EventController {
         return service.save(event);
     }
 
-    @PostMapping("/add")
-    public Event add
+    @PostMapping("/createFromForm")
+    public Event createFromForm
     (String eventName, Optional<Integer> clubLeaderID,
      LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
         return service.save(eventName, clubLeaderID, startTime, endTime, locationName, room);
