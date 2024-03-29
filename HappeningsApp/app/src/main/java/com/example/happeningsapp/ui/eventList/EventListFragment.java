@@ -3,6 +3,7 @@ package com.example.happeningsapp.ui.eventList;
 //import static androidx.databinding.DataBindingUtil.setContentView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,20 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.databinding.FragmentEventListBinding;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class EventListFragment extends Fragment {
 
@@ -41,19 +49,29 @@ public class EventListFragment extends Fragment {
         TextView topElement = binding.topElement;
 
         //URL to get from
-        String getUrl="http://localhost:10.0.2.2/event/getAll";
+        String getUrl="http://10.0.2.2:8080/event/getAll";
         RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
         // since the response we get from the api is in JSON,
         // we need to use `JsonObjectRequest` for
         // parsing the request response
         // Request a string response from the provided URL.
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, getUrl, null, new Response.Listener<JSONObject>() {
-
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
+                (Request.Method.GET, getUrl, null, new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        topElement.setText(response.toString());
+                    public void onResponse(JSONArray response) {
+                        try {
+                            topElement.setText(response.get(0).toString());
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+//                        try {
+//                            topElement.setText(response.getString("name"));
+//                        } catch (JSONException e) {
+//                            Log.wtf("try on line 57","failed to get name");
+//                            throw new RuntimeException(e);
+//                        }
                     }
                 }, new Response.ErrorListener() {
 
@@ -61,11 +79,12 @@ public class EventListFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
                         topElement.setText("Failed");
+                        Log.wtf("Volley Fail",error.toString());
 
                     }
                 });
         //add to queue
-        requestQueue.add(jsonObjectRequest);
+        requestQueue.add(jsonArrayRequest);
         return root;
     }
 
