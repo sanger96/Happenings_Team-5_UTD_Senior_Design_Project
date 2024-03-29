@@ -59,8 +59,8 @@ public class EventListFragment extends Fragment {
         // we need to use `JsonArrayRequest` for
         // parsing the request response
         // Request a JSONArray response from the provided URL.
-
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
+
                 (Request.Method.GET, getUrl, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
