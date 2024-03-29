@@ -33,9 +33,9 @@ public class EventController {
 
     @PostMapping("/createFromForm")
     public Event createFromForm
-    (String eventName, Optional<Integer> clubID,
+    (String eventName, String description, Optional<Integer> clubID,
      LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
-        return service.save(eventName, clubID, startTime, endTime, locationName, room);
+        return service.save(eventName, description, clubID, startTime, endTime, locationName, room);
     }
 
     @PutMapping("/update")

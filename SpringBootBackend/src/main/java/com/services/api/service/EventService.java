@@ -36,7 +36,7 @@ public class EventService {
     }
 
     public Event save
-    (String eventName, Optional<Integer> clubID,
+    (String eventName, String description, Optional<Integer> clubID,
     LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
         //TODO: it might be beneficial to modularize this code, adding some as methods in other service files depending on how they will be used
         //TODO: can we send detailed error messages back without changing the return type of the methods?
@@ -69,10 +69,10 @@ public class EventService {
              */
             List<Club> tmp = clubService.getByLeaderId(clubID.get());
             Club eventClub = tmp.get(0);
-            newEvent = new Event(eventName, null, eventName + "Gallery", eventAppointment, eventClub);
+            newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment, eventClub);
         }
         else
-            newEvent = new Event(eventName, null, eventName + "Gallery", eventAppointment);
+            newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment);
 
         return repository.save(newEvent);
     }
