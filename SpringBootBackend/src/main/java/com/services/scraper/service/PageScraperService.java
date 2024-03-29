@@ -226,7 +226,7 @@ public class PageScraperService {
                 // Quick Save to bypass checking
                 appointmentService.quickSave(appointmentToAdd);
                 
-                Event eventToAdd = new Event(name, description, null, appointmentToAdd);
+                Event eventToAdd = new Event(name, description, name+"Gallery", appointmentToAdd);
             
                 eventService.save(eventToAdd);
 

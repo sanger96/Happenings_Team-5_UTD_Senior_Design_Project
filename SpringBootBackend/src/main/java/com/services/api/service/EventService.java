@@ -128,8 +128,10 @@ public class EventService {
         List<Integer> expiredEventIDs = repository.getExpiredIds();
 
         repository.deleteAllById(expiredEventIDs);
+        String result = expiredEventIDs.size() + " expired events were deleted.";
 
-        return expiredEventIDs.size() + " expired events were deleted.";
+        System.out.println(result);
+        return result;
     }
     
 }
