@@ -29,6 +29,13 @@ public class LocationService {
         return repository.save(location);
     }
 
+    // Create a location with string parameters
+    public Location save(String name, String room){
+        Location ret = new Location(name, room);
+        repository.save(ret);
+        return ret;
+    }
+
     public Location quickSave(Location location) {
         return repository.save(location);
     }
