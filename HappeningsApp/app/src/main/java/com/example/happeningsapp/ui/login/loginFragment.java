@@ -58,8 +58,15 @@ public class loginFragment extends Fragment {
         //binding submit button
         Button submit = (Button) root.findViewById(R.id.button_submitLogin);
         submit.setOnClickListener(new View.OnClickListener(){
+
             @Override
             public void onClick(View view){
+
+                //skip auth
+                if(email.getText().toString().equals("") && password.getText().toString().equals("")){
+                    Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
+                }
+
                 //if statement for seeing if username and password is accepted
                 //need to add get method statement to send this to backend.
                 String getUrl="http://10.0.2.2:8080/useraccount/checkLogin";
