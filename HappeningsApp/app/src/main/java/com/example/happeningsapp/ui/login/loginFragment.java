@@ -22,10 +22,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentLoginBinding;
 
+import java.util.Map;
+import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,6 +78,7 @@ public class loginFragment extends Fragment {
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
                 //for JSONObject to be sent as request
+
                 JSONObject emailAndPass = new JSONObject();
                 //try to put the email and password in emailAndPass
                 try{
@@ -84,44 +88,58 @@ public class loginFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                JsonObjectRequest auth = new JsonObjectRequest(Request.Method.GET, getUrl, emailAndPass, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        //log method for debugging
-                        Log.d("Volley PASS onResponse", "This is before the if statement");
-
-                        // Authentication should take place in back end and will verify, then pass a boolean pass/fail back here
-                        if(response.toString().equals("1")){
-                            Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
-                            //the below line should make the app go to that page on successful login
-                            Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
-
+                JsonObjectRequest auth = new JsonObjectRequest(Request.Method.POST, getUrl, emailAndPass,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
                             //log method for debugging
-                            Log.d("Volley PASS onResponse", "This is inside the if statement; if true");
+                            Log.d("Volley PASS onResponse", "This is before the if statement");
+                            // Authentication should take place in back end and will verify, then pass a boolean pass/fail back here
+                            if(response.toString().equals("1")){
+                                Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
+                                //the below line should make the app go to that page on successful login
+                                Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
 
-                        }else{
-                            Toast.makeText(root.getContext(), "Incorrect email and password combination",Toast.LENGTH_SHORT).show();
+                                //log method for debugging
+                                Log.d("Volley PASS onResponse", "This is inside the if statement; if true");
 
-                            //log method for debugging
-                            Log.d("Volley PASS onResponse", "This is inside the if statement; if false");
+                            }else{
+                                Toast.makeText(root.getContext(), "Incorrect email and password combination",Toast.LENGTH_SHORT).show();
+
+                                //log method for debugging
+                                Log.d("Volley PASS onResponse", "This is inside the if statement; if false");
+                            }
+                        }//end of onResponse
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //Log.wtf("account json object", emailAndPass.toString());
+                            Log.wtf("Volley Fail onErrorResponse",error.toString() + "\n"+error.getMessage());
                         }
-
-                    }//end of onResponse
-                }, new Response.ErrorListener() {
-
+                }) {
+//                    @Override
+//                    protected Map<String, String> getParams() {
+//                        Map<String, String> params = new HashMap<String, String>();
+////                        params.put("useraccountid", "1");
+//                        params.put("email", email.getText().toString());
+//                        params.put("password", password.getText().toString());
+//
+//                        return params;
+//                    }
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.wtf("Volley Fail onErrorResponse",error.toString());
+                    public Map<String, String> getHeaders() {
+                        Map<String, String>  params = new HashMap<String, String>();
+                        params.put("Content-Type", "application/json");
 
+                        return params;
                     }
-                });
+                };
                 //add to queue
                 requestQueue.add(auth);
 
                 //add retry policy, seconds * millisec to sec conversion, number of retries, multiply  last timeout by this on the retry
-                auth.setRetryPolicy(new DefaultRetryPolicy(10*1000,3,2.0f));
+//                auth.setRetryPolicy(new DefaultRetryPolicy(10*1000,3,2.0f));
             }
         });
         //end of adding action on button click
@@ -144,9 +162,9 @@ public class loginFragment extends Fragment {
     }
 
 @Override
-public void onDestroyView() {
-    super.onDestroyView();
-    binding = null;
-}
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 
 }
