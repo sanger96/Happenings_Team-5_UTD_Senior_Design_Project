@@ -13,13 +13,13 @@ public class LoginViewModel extends ViewModel {
     public LoginViewModel() {
         topPrompt = new MutableLiveData<>();
         //sets top prompt
-        topPrompt.setValue("Login settings page\nFor successful login attempt use default values");
+        topPrompt.setValue("Login settings page\nFor successful login just press submit");
         username = new MutableLiveData<>();
-        //sets username
-        username.setValue("Enter username");
+        //sets username, don't want to set it, so hint in fragment will be used
+        //username.setValue("Enter username");
         password = new MutableLiveData<>();
-        //sets password
-        password.setValue("Enter password");
+        //sets password, don't want to set it, so hint in fragment will be used
+        //password.setValue("Enter password");
 
     }
 
