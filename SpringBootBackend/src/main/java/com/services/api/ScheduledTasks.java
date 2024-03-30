@@ -16,13 +16,13 @@ public class ScheduledTasks {
     @Autowired
     EventService eventService;
     
-    @Scheduled(fixedRate = 86400000)
-    public void dailyEventScraper() {
-        pageScraperService.addNewEvents();
-    }
+    // @Scheduled(fixedRate = 86400000)
+    // public void dailyEventScraper() {
+    //     pageScraperService.addNewEvents();
+    // }
 
-    @Scheduled(fixedRate = 86400000)
-    public void dailyEventExpirationRemoval(){
-        eventService.deleteExpired();
-    }
+    // @Scheduled(fixedRate = 86400000)
+    // public void dailyEventExpirationRemoval(){
+    //     eventService.deleteExpired();
+    // }
 }
