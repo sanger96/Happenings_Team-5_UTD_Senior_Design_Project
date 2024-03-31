@@ -132,8 +132,10 @@ public class loginFragment extends Fragment {
         accountCreator.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View lambda){
-                //go to account creation page
-                Navigation.findNavController(lambda).navigate(R.id.action_nav_login_to_nav_accountCreation);
+                //go to account creation page, and pass pageTitle to be account creation.
+                Bundle bundle_loginToAccountCreation=new Bundle();
+                bundle_loginToAccountCreation.putString("pageTitle", "Account Creation");
+                Navigation.findNavController(lambda).navigate(R.id.action_nav_login_to_nav_accountCreation,bundle_loginToAccountCreation);
 
             }
         });

@@ -50,6 +50,7 @@ public class UserSettingsFragment extends Fragment {
         TextView password = binding.inTextPassword;
         // get text for top of page
         UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), pageTitle::setText);
+        pageTitle.setText(getArguments().getString("pageTitle"));
         // these commands will make sure the variables are observed for their "life cycle"
         UserSettingsViewModelProvider.getEmail().observe(getViewLifecycleOwner(), email::setText);
         UserSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);

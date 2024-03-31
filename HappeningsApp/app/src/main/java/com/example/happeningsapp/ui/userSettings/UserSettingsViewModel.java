@@ -14,7 +14,7 @@ public class UserSettingsViewModel extends ViewModel {
         //instantiates pageTitle as a MutableLiveData, I know this should not be mutable, but for now following a known working method.
         pageTitle = new MutableLiveData<>();
         //sets pageTitle
-        pageTitle.setValue("Account Creation");
+        //pageTitle.setValue("Account Creation");
         //the comments below are for reference only, this is from another page
         email = new MutableLiveData<>();
         //sets username, don't want to set it, so hint in fragment will be used
