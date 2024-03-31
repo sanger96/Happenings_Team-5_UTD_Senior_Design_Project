@@ -36,6 +36,8 @@
     <!-- Page Title -->
     <string name="pageTitle_userSettings">User Settings</string>
     <string name="pageTitle_eventList">Event List</string>
+    <string name="pageTitle_settings">Settings</string>
+
 
 
 </resources>
