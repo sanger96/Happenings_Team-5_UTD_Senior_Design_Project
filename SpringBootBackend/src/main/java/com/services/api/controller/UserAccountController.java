@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.services.api.entity.UserAccount;
@@ -55,9 +58,10 @@ public class UserAccountController {
         return appointments;
     }
 
-    @GetMapping("/checkLogin")
-    public Integer checkLogin(@RequestBody UserAccount acc){
-        return service.checkLogin(acc.getEmail(), acc.getPassword());
+    @PostMapping("/checkLogin")
+    @ResponseBody
+    public ResponseEntity<Integer> checkLogin(@RequestBody UserAccount acc){
+        return new ResponseEntity<Integer>(service.checkLogin(acc.getEmail(), acc.getPassword()), HttpStatus.OK);
     }
 
     @PutMapping("/update")
