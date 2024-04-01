@@ -22,12 +22,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentLoginBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Map;
 
 public class loginFragment extends Fragment {
 
@@ -62,7 +65,7 @@ public class loginFragment extends Fragment {
             @Override
             public void onClick(View view){
 
-                //skip auth
+                //skip auth BYPASS
                 if(email.getText().toString().equals("") && password.getText().toString().equals("")){
                     Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
                 }
@@ -70,6 +73,7 @@ public class loginFragment extends Fragment {
                 //if statement for seeing if username and password is accepted
                 //need to add get method statement to send this to backend.
                 String getUrl="http://10.0.2.2:8080/useraccount/checkLogin";
+
 
                 //holds request queue
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
@@ -84,10 +88,11 @@ public class loginFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                JsonObjectRequest auth = new JsonObjectRequest(Request.Method.GET, getUrl, emailAndPass, new Response.Listener<JSONObject>() {
+
+                StringRequest auth = new StringRequest(Request.Method.POST, getUrl, new Response.Listener<String>() {
 
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(String response) {
 
                         //log method for debugging
                         Log.d("Volley PASS onResponse", "This is before the if statement");
@@ -116,7 +121,15 @@ public class loginFragment extends Fragment {
                         Log.wtf("Volley Fail onErrorResponse",error.toString());
 
                     }
-                });
+                }){
+                    @Override
+                    public byte[] getBody() {
+                        return emailAndPass.toString().getBytes();
+                    }
+                    public String getBodyContentType() {
+                        return "application/json";
+                    }
+                };
                 //add to queue
                 requestQueue.add(auth);
 

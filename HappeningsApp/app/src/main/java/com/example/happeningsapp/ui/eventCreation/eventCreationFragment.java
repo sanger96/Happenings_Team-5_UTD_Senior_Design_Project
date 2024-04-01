@@ -93,17 +93,17 @@ public class eventCreationFragment extends Fragment {
                     postEvent.put("description", description.getText().toString());
 
                     //create appointment to be put in event
-                    postEvent.put("startTime", startTime.getText().toString());
-                    postEvent.put("endTime", endTime.getText().toString());
+                    postAppointment.put("startTime", startTime.getText().toString());
+                    postAppointment.put("endTime", endTime.getText());
 //                    postAppointment.put("type", "event");
 
                     //add location in appointment
-                    postEvent.put("locationName", location.getText().toString());
-                    postEvent.put("room", room.getText().toString());
-//                    postAppointment.put("location",postLocation.toString());
+                    postLocation.put("locationName", location.getText().toString());
+                    postLocation.put("room", room.getText().toString());
+                    postAppointment.put("location",postLocation);
 
                     //put appointment in event
-//                    postEvent.put("appointment",postAppointment.toString());
+                    postEvent.put("appointment",postAppointment.toString());
 
                     //this log method will appear in logcat
                     Log.i("eventCreationFragment post data","JSONObject postData is built");
