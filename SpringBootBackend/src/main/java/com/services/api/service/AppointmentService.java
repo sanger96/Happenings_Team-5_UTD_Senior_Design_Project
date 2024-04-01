@@ -26,7 +26,7 @@ public class AppointmentService {
         // Check for conflicting appointments (prev in AppointmentController.java)
 
         // TODO: should only get appointments whose type = 'event', we dont care about appointments that conflict with type = 'course' appointments
-        List<Appointment> allCurrAppointments = getAll();
+        List<Appointment> allCurrAppointments = getByType("event");
         for (Appointment apt : allCurrAppointments) {
 
             if (doAppointmentsOverlap(appointment, apt)) {
@@ -73,6 +73,10 @@ public class AppointmentService {
 
     public List<Appointment> getAll() {
         return repository.findAll();
+    }
+
+    public List<Appointment> getByType(String type) {
+        return repository.getByType(type);
     }
 
     // Delete by Appointment
