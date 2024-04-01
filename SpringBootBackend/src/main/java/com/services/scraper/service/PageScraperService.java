@@ -177,7 +177,7 @@ public class PageScraperService {
                 
                 // Fields that we can possibly extract (not all can be, not all are used)
                 String name, description, startDate, endDate, eventStatus, imageUrl, locationName, locationAddress, locationUrl;
-                name = description = startDate = endDate = eventStatus = imageUrl = locationName = locationAddress = locationUrl = "";
+                name = description = startDate = endDate = eventStatus = imageUrl = locationName = locationAddress = locationUrl = null;
                 
                 // Sometimes there is no location
                 JsonObject locationObj = null;
@@ -197,8 +197,7 @@ public class PageScraperService {
                 } catch (Exception e) {}
 
                 // Check if the event is already expired
-                // TODO: Should be endDate + 24 hours
-                if (dateFormatter(endDate, true).isBefore(LocalDateTime.now())) {
+                if ((dateFormatter(endDate, true).plusDays(1)).isBefore(LocalDateTime.now())) {
                     continue;
                 }
 

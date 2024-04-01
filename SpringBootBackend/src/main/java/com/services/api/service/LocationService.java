@@ -19,7 +19,6 @@ public class LocationService {
 
     // Create a location
     public Location save(Location location){
-        //TODO: The location name should never be null anyways. I think this is enforced by event controller parameter list but I could be wrong
         Location locationExists = getByNameAndRoom(location.getName(), location.getRoom());
         // Check for duplicate location
         if (locationExists != null) {
