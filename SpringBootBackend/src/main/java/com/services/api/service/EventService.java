@@ -61,14 +61,8 @@ public class EventService {
 
         // Create a new Event, save to DB
         Event newEvent;
-        
-        if(clubID.isPresent())
-        {
-            Club eventClub = clubService.getById(clubID.get());
-            newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment, eventClub);
-        }
-        else
-            newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment);
+        Club eventClub = clubID.isPresent()? clubService.getById(clubID.get()) : null;
+        newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment, eventClub);
 
         return repository.save(newEvent);
     }
