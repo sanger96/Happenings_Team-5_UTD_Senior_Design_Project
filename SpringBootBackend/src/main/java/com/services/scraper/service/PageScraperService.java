@@ -165,6 +165,7 @@ public class PageScraperService {
                 }
 
                 Element eventJson = doc.select("script[type=application/ld+json]").first();
+                //TODO: try catch if eventJson not found
                 String jsonString = eventJson.html();
 
                 // Parse JSON string to JSON object

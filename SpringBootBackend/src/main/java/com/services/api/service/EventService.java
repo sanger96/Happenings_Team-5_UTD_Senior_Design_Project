@@ -42,12 +42,12 @@ public class EventService {
         //TODO: try catch blocks for each create and save calls, returning a ResponseEntity<Event> Object containing necessary exception info
 
         // Create a new Location
-        Location eventLocation = new Location(locationName, room.isPresent()? room.get() : "");
+        Location eventLocation = new Location(locationName, room.isPresent()? room.get() : null);
         eventLocation = locationService.save(eventLocation);
 
         // Create a new Appointment
         Appointment eventAppointment = new Appointment(startTime, endTime, "event", eventLocation);
-        // TODO:Throw custom "appointment conflict" exception detailing the dates and times of conflicts
+        // TODO: Throw custom "appointment conflict" exception detailing the dates and times of conflicts
         eventAppointment = appointmentService.save(eventAppointment);
         // Temporary solution for appointment conflict resolution
         if(eventAppointment == null)
