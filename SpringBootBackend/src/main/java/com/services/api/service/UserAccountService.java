@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.services.api.repository.UserAccountRepository;
 import com.services.api.repository.EventRepository;
+import com.services.api.repository.InterestRepository;
 import com.services.api.entity.UserAccount;
 import com.services.api.entity.Appointment;
 import com.services.api.entity.Event;
+import com.services.api.entity.Interest;
 
 @Service
 public class UserAccountService {
@@ -19,6 +21,9 @@ public class UserAccountService {
 
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
+    private InterestRepository interestRepository;
 
     public UserAccount add(UserAccount userAccount) {
         return repository.save(userAccount);
@@ -74,5 +79,27 @@ public class UserAccountService {
         repository.save(useraccount);
         return event;
         
+    }
+
+    public UserAccount addInterest(int useraccountID, int interestID)
+    {
+        Interest interest = interestRepository.findById(interestID).orElse(null);
+        UserAccount useraccount = repository.findById(useraccountID).orElse(null);
+        
+        useraccount.addInterest(interest);
+      
+        repository.save(useraccount);
+        return useraccount;
+    }
+
+    public UserAccount delInterest(int useraccountID, int interestID)
+    {
+        Interest interest = interestRepository.findById(interestID).orElse(null);
+        UserAccount useraccount = repository.findById(useraccountID).orElse(null);
+        
+        useraccount.delInterest(interest);
+      
+        repository.save(useraccount);
+        return useraccount;
     }
 }

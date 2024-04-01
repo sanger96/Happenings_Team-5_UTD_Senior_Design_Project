@@ -85,4 +85,16 @@ public class UserAccountController {
     public Event unRsvp(@PathVariable int useraccountID, @PathVariable int eventID) {
         return service.unRsvp(useraccountID, eventID);
     }
+
+    @PostMapping("/addInterest/{useraccountID}_{interestID}")
+    public UserAccount addInterest(@PathVariable int useraccountID, @PathVariable int interestID) {
+        return service.addInterest(useraccountID, interestID);
+    }
+
+    @PostMapping("/delInterest/{useraccountID}_{interestID}")
+    public UserAccount delInterest(@PathVariable int useraccountID, @PathVariable int interestID) {
+        return service.delInterest(useraccountID, interestID);
+    }
+    
+
 }

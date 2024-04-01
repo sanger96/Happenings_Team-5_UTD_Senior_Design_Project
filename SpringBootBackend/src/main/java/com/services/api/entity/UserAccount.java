@@ -16,6 +16,8 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import com.services.api.entity.Interest;
+
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Entity
@@ -31,12 +33,22 @@ public class UserAccount extends Account{
             inverseJoinColumns = @JoinColumn(name = "event_id", referencedColumnName = "eventID"))
     private Set<Event> events = new HashSet<>();
 
-   
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "hasinterest",
+            joinColumns = @JoinColumn(name = "useraccount_id", referencedColumnName = "useraccountID"),
+            inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "interestID"))
+    private Set<Interest> interests = new HashSet<>();
+
+   /*
     @ManyToMany
     @JoinTable(name = "hasinterest",
         joinColumns = @JoinColumn(name = "useraccountid"),
         inverseJoinColumns = @JoinColumn(name = "interestid"))
     private Set<Interest> interests; 
+*/
+
+
 
     public void addEvent(Event event)
     {
@@ -46,6 +58,16 @@ public class UserAccount extends Account{
     public void delEvent(Event event)
     {
         events.remove(event);
+    }
+
+    public void addInterest(Interest interest)
+    {
+        interests.add(interest);
+    }
+
+    public void delInterest(Interest interest)
+    {
+        interests.remove(interest);
     }
 }
 
