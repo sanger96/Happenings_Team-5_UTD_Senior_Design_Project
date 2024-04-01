@@ -195,6 +195,10 @@ public class PageScraperService {
                     endDate = jsonObject.get("endDate").getAsString();
                 } catch (Exception e) {}
 
+                if (dateFormatter(endDate, true).isBefore(LocalDateTime.now())) {
+                    continue;
+                }
+
                 try {
                     eventStatus = jsonObject.get("eventStatus").getAsString();
                     imageUrl = jsonObject.get("image").getAsString();
