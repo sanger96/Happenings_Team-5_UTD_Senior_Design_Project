@@ -21,7 +21,7 @@ import com.services.api.service.UserAccountService;
 import com.services.api.service.AppointmentService;
 import com.services.api.entity.Account;
 import com.services.api.entity.Appointment;
-
+import com.services.api.entity.Event;
 
 @RestController
 @RequestMapping("useraccount")
@@ -61,6 +61,26 @@ public class UserAccountController {
     @GetMapping("/checkLogin")
     public Integer checkLogin(@RequestBody UserAccount acc){
         return service.checkLogin(acc.getEmail(), acc.getPassword());
+    }
+
+    @PostMapping("/rsvp/{useraccountID}_{eventID}")
+    public Event rsvp(@PathVariable int useraccountID, @PathVariable int eventID) {
+        return service.rsvp(useraccountID, eventID);
+    }
+
+    @PostMapping("/unrsvp/{useraccountID}_{eventID}")
+    public Event unRsvp(@PathVariable int useraccountID, @PathVariable int eventID) {
+        return service.unRsvp(useraccountID, eventID);
+    }
+
+    @PostMapping("/addInterest/{useraccountID}_{interestID}")
+    public UserAccount addInterest(@PathVariable int useraccountID, @PathVariable int interestID) {
+        return service.addInterest(useraccountID, interestID);
+    }
+
+    @PostMapping("/delInterest/{useraccountID}_{interestID}")
+    public UserAccount delInterest(@PathVariable int useraccountID, @PathVariable int interestID) {
+        return service.delInterest(useraccountID, interestID);
     }
 
     @PutMapping("/update")

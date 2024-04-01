@@ -76,9 +76,31 @@ public class EventService {
         return repository.findAll();
     }
 
-    // Get number of attending users at event by ID
-    public Integer getRSVPcount(Integer id){
-        return repository.getRSVPcount(id);
+    public int rsvpCount(int id)
+    {
+        return repository.rsvpCount(id);
+    }
+
+    public Event joinClub(int eventid, int clubid)
+    {
+        Club club = clubService.getById(clubid);
+        Event event = repository.findById(eventid).orElse(null);
+        event.setClub(club);
+      
+        repository.save(event);
+        return event;
+
+    }
+
+    public Event quitClub(int eventid)
+    {
+        
+        Event event = repository.findById(eventid).orElse(null);
+        event.setClub(null);
+      
+        repository.save(event);
+        return event;
+
     }
 
     // Check if event exists by name
