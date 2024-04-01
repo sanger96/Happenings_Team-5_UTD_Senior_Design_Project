@@ -47,6 +47,7 @@ public class EventService {
 
         // Create a new Appointment
         Appointment eventAppointment = new Appointment(startTime, endTime, "event", eventLocation);
+        // TODO:Throw custom "appointment conflict" exception detailing the dates and times of conflicts
         eventAppointment = appointmentService.save(eventAppointment);
         // Temporary solution for appointment conflict resolution
         if(eventAppointment == null)
@@ -54,6 +55,7 @@ public class EventService {
 
         // Create a new Event
         Event newEvent;
+        // TODO:Throw custom "club does not exist" exception if the club cannot be retrieved from DB
         Club eventClub = clubID.isPresent()? clubService.getById(clubID.get()) : null;
         newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment, eventClub);
 

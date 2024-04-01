@@ -43,7 +43,7 @@ public class Event {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @Column(length = 5000)
+    @Column(length = 10000)
     private String description;
 
     /* An Event has a OneToOne relationship with an Appointment */
