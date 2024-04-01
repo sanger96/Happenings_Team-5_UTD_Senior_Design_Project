@@ -58,10 +58,9 @@ public class UserAccountController {
         return appointments;
     }
 
-    @PostMapping("/checkLogin")
-    @ResponseBody
-    public ResponseEntity<Integer> checkLogin(@RequestBody UserAccount acc){
-        return new ResponseEntity<Integer>(service.checkLogin(acc.getEmail(), acc.getPassword()), HttpStatus.OK);
+    @GetMapping("/checkLogin")
+    public Integer checkLogin(@RequestBody UserAccount acc){
+        return service.checkLogin(acc.getEmail(), acc.getPassword());
     }
 
     @PutMapping("/update")
