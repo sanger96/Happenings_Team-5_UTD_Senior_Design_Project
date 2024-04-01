@@ -69,5 +69,10 @@ public class Event {
         this.club = club;
     }
 
+    public void setClub(Club club)
+    {
+        this.club = club;
+    }
+
 
 }

@@ -15,6 +15,7 @@ import com.services.api.entity.Appointment;
 import com.services.api.entity.Club;
 import com.services.api.repository.EventRepository;
 import com.services.api.repository.UserAccountRepository;
+import com.services.api.repository.ClubRepository;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Basic;
@@ -28,6 +29,9 @@ public class EventService {
 
     @Autowired
     private UserAccountRepository userRepository;
+
+    @Autowired
+    private ClubRepository clubRepository;
 
     @Autowired
     private LocationService locationService;
@@ -127,5 +131,27 @@ public class EventService {
     public int rsvpCount(int id)
     {
         return repository.rsvpCount(id);
+    }
+
+    public Event joinClub(int eventid, int clubid)
+    {
+        Club club = clubRepository.findById(clubid).orElse(null);
+        Event event = repository.findById(eventid).orElse(null);
+        event.setClub(club);
+      
+        repository.save(event);
+        return event;
+
+    }
+
+    public Event quitClub(int eventid)
+    {
+        
+        Event event = repository.findById(eventid).orElse(null);
+        event.setClub(null);
+      
+        repository.save(event);
+        return event;
+
     }
 }

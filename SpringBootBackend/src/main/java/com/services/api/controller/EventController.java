@@ -75,5 +75,18 @@ public class EventController {
         return service.rsvpCount(id);
     }
 
+    @PostMapping("/joinClub/{eventID}_{clubID}")
+    public Event joinClub(@PathVariable int eventID, @PathVariable int clubID)
+    {
+        return service.joinClub(eventID, clubID);
+    }
+
+    @PostMapping("/quitClub/{eventID}")
+    public Event quitClub(@PathVariable int eventID)
+    {
+        return service.quitClub(eventID);
+    }
+
+
 
 }
