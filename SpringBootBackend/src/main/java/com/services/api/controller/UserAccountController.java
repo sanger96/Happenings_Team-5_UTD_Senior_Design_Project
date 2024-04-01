@@ -18,6 +18,7 @@ import com.services.api.service.UserAccountService;
 import com.services.api.service.AppointmentService;
 import com.services.api.entity.Account;
 import com.services.api.entity.Appointment;
+import com.services.api.entity.Event;
 
 
 @RestController
@@ -73,5 +74,15 @@ public class UserAccountController {
     @DeleteMapping("/delete")
     public String delete(@RequestBody UserAccount userAccount) {
         return service.delete(userAccount);
+    }
+
+    @PostMapping("/rsvp/{useraccountID}_{eventID}")
+    public Event rsvp(@PathVariable int useraccountID, @PathVariable int eventID) {
+        return service.rsvp(useraccountID, eventID);
+    }
+
+    @PostMapping("/unrsvp/{useraccountID}_{eventID}")
+    public Event unRsvp(@PathVariable int useraccountID, @PathVariable int eventID) {
+        return service.unRsvp(useraccountID, eventID);
     }
 }

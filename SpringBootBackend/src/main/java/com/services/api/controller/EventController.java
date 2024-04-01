@@ -53,12 +53,7 @@ public class EventController {
     public List<Event> getAll(){
         return service.getAll();
     }
-
-    @GetMapping("/getRSVPcount/{id}")
-    public Integer getRSVPcount(@PathVariable int id){
-        return service.getRSVPcount(id);
-    }
-
+   
     @GetMapping("/existsByName/{name}")
     public Integer existsByName(@PathVariable String name){
         return service.existsByName(name);
@@ -74,18 +69,11 @@ public class EventController {
         return service.deleteById(id);
     }
 
-    @PostMapping("/rsvp/{useraccountID}_{eventID}")
-    public Event rsvp(@PathVariable int useraccountID, @PathVariable int eventID) {
-        return service.rsvp(useraccountID, eventID);
+    @GetMapping("/rsvpCount/{id}")
+    public int rsvpCount(@PathVariable int id)
+    {
+        return service.rsvpCount(id);
     }
 
-    @PostMapping("/unrsvp/{useraccountID}_{eventID}")
-    public Event unRsvp(@PathVariable int useraccountID, @PathVariable int eventID) {
-        return service.unRsvp(useraccountID, eventID);
-    }
 
-    @PostMapping("/rsvpCount")
-    public int rsvpCount(@RequestBody Event event){
-        return event.getRsvpCount();
-    }
 }

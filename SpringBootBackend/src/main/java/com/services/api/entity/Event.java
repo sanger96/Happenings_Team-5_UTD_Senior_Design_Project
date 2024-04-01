@@ -45,19 +45,6 @@ public class Event {
     @Column(length = 5000)
     private String description;
 
-    @Value("${some.key:0}")
-    private int rsvpCount;
-
-    // One event has many useraccounts RSVPing
-    //@JsonIgnoreProperties("EVENT")
-    /*
-    @ManyToMany
-    @JoinTable(name = "rsvps",
-        joinColumns = @JoinColumn(name = "eventID"),
-        inverseJoinColumns = @JoinColumn(name = "userAccountID"))
-    private Set<UserAccount> usersAttending;
-    */
-
     /* An Event has a OneToOne relationship with an Appointment */
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "appointmentID")
@@ -68,13 +55,6 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "clubID")
     private Club club;
-
-    /* An Event has a ManyToMany relationship with a UserAccount over the Attends table */
-    @ManyToMany
-    @JoinTable(name = "attends",
-        joinColumns = @JoinColumn(name = "eventID"),
-        inverseJoinColumns = @JoinColumn(name = "userAccountID"))
-    private Set<UserAccount> userAccounts;
 
     public Event(String name, String photoSubDirectory, Appointment appointment){
         this.name = name;
@@ -89,29 +69,5 @@ public class Event {
         this.club = club;
     }
 
-    public void addUserAccount(UserAccount user)
-    {
-        userAccounts.add(user);
-    }
-
-    
-    public void delUserAccount(UserAccount user)
-    {
-        userAccounts.remove(user);
-        user.getEvents().remove(this);
-    }
-
-    public void decRsvpCount()
-    {
-        if(rsvpCount > 0)
-            rsvpCount--;
-    }
-
-    public void incRsvpCount()
-    {
-        rsvpCount++;
-    }
-
-  
 
 }

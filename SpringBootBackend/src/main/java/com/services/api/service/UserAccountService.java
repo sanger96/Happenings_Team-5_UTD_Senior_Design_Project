@@ -6,14 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.services.api.repository.UserAccountRepository;
+import com.services.api.repository.EventRepository;
 import com.services.api.entity.UserAccount;
 import com.services.api.entity.Appointment;
+import com.services.api.entity.Event;
 
 @Service
 public class UserAccountService {
     
     @Autowired
     private UserAccountRepository repository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     public UserAccount add(UserAccount userAccount) {
         return repository.save(userAccount);
@@ -46,5 +51,28 @@ public class UserAccountService {
 
     public List<Integer> getAllAppointments(int id) {
         return repository.getAllAppointments(id);
+    }
+
+    public Event rsvp(int useraccountID, int eventID)
+    {
+        Event event = eventRepository.findById(eventID).orElse(null);
+        UserAccount useraccount = repository.findById(useraccountID).orElse(null);
+        
+        useraccount.addEvent(event);
+      
+        repository.save(useraccount);
+        return event;
+    }
+
+    public Event unRsvp(int useraccountID, int eventID)
+    {
+        Event event = eventRepository.findById(eventID).orElse(null);
+        UserAccount useraccount = repository.findById(useraccountID).orElse(null);
+        
+        useraccount.delEvent(event);
+      
+        repository.save(useraccount);
+        return event;
+        
     }
 }

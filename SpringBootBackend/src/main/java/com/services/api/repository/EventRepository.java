@@ -17,12 +17,11 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     Integer existsByName(String name);
 
     // Get number of useraccounts attending an event by event ID
-    @Query(value = "SELECT COUNT(*) FROM attends a WHERE a.eventID = ?1", nativeQuery = true)
-    Integer getRSVPcount(Integer id);
+    @Query(value = "SELECT COUNT(*) FROM attends a WHERE a.event_id = ?1", nativeQuery = true)
+    Integer rsvpCount(Integer id);
 
     @Query(value = "SELECT * FROM event WHERE name = ?1 LIMIT 1", nativeQuery = true)
     Event findByName(String name);
 
-   
 
 }

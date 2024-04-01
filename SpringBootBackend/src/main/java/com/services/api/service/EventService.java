@@ -97,11 +97,6 @@ public class EventService {
         return repository.findAll();
     }
 
-    // Get number of attending users at event by ID
-    public Integer getRSVPcount(Integer id){
-        return repository.getRSVPcount(id);
-    }
-
     // Check if event exists by name
     public Integer existsByName(String name){
         Integer response = repository.existsByName(name);
@@ -129,30 +124,8 @@ public class EventService {
         return toBeDeleted;
     }
 
-    public Event rsvp(int useraccountID, int eventID)
+    public int rsvpCount(int id)
     {
-        Event event = repository.findById(eventID).orElse(null);
-        UserAccount useraccount = userRepository.findById(useraccountID).orElse(null);
-        int size = event.getUserAccounts().size();
-        event.addUserAccount(useraccount);
-        if(event.getUserAccounts().size() > size)
-            event.incRsvpCount();
-        repository.save(event);
-        return event;
+        return repository.rsvpCount(id);
     }
-
-    public Event unRsvp(int useraccountID, int eventID)
-    {
-        Event event = repository.findById(eventID).orElse(null);
-        UserAccount useraccount = userRepository.findById(useraccountID).orElse(null);
-        int size = event.getUserAccounts().size();
-        event.delUserAccount(useraccount);
-        if(event.getUserAccounts().size() < size)
-            event.decRsvpCount();
-        event.decRsvpCount();
-        repository.save(event);
-        repository.flush();
-        return event;
-    }
-    
 }

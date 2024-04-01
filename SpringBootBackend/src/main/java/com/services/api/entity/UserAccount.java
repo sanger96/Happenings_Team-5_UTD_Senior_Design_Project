@@ -1,9 +1,11 @@
 package com.services.api.entity;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -21,8 +23,13 @@ import lombok.EqualsAndHashCode;
 @PrimaryKeyJoinColumn(name = "useraccountID")
 public class UserAccount extends Account{
 
-    @ManyToMany(mappedBy = "userAccounts")
-    private Set<Event> events; 
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "attends",
+            joinColumns = @JoinColumn(name = "useraccount_id", referencedColumnName = "useraccountID"),
+            inverseJoinColumns = @JoinColumn(name = "event_id", referencedColumnName = "eventID"))
+    private Set<Event> events = new HashSet<>();
 
    
     @ManyToMany
@@ -31,13 +38,17 @@ public class UserAccount extends Account{
         inverseJoinColumns = @JoinColumn(name = "interestid"))
     private Set<Interest> interests; 
 
-    @PreRemove
-    private void removeEventAssociations() {
-        for (Event e: this.events) {
-       e.getUserAccounts().remove(this);
+    public void addEvent(Event event)
+    {
+        events.add(event);
+    }
+
+    public void delEvent(Event event)
+    {
+        events.remove(event);
     }
 }
 
 
-}
+
 
