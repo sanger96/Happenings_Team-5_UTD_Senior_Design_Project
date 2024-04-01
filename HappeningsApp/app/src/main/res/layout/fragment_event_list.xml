@@ -12,6 +12,7 @@
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
 
+<!--        this is the description of the columns-->
         <TableRow>
 
             <TextView
@@ -30,6 +31,7 @@
                 android:padding="10sp"/>
         </TableRow>
 
+<!--        here are the columns we want to dynamcially keep being set-->
         <TableRow>
             <TextView
                 android:id="@+id/eventName"
@@ -50,10 +52,5 @@
                 android:padding="10sp"/>
         </TableRow>
 
-        <TableRow
-            />
-
-        <TableRow
-             />
     </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
