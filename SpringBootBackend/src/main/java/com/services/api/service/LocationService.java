@@ -18,7 +18,7 @@ public class LocationService {
     }
 
     // Create a location
-    public Location save(Location location) {
+    public Location save(Location location){
         // Check for duplicate location
         Location locationExists = getByNameAndRoom(location.getName(), location.getRoom());
         if (locationExists != null) {

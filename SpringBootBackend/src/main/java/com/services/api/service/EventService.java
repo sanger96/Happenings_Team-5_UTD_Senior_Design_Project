@@ -38,28 +38,21 @@ public class EventService {
     public Event save
     (String eventName, String description, Optional<Integer> clubID,
     LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
-        //TODO: it might be beneficial to modularize this code, adding some as methods in other service files depending on how they will be used
         //TODO: can we send detailed error messages back without changing the return type of the methods?
-        //TODO: check for location and time conflicts given supplied fields
+        //TODO: try catch blocks for each create and save calls, returning a ResponseEntity<Event> Object containing necessary exception info
 
-        // Create a new Location, flush to DB
-        //TODO: check if location already exists
-        Location eventLocation;
-        if(room.isPresent())
-            eventLocation = new Location(locationName, room.get());
-        else
-            eventLocation = new Location(locationName);
+        // Create a new Location
+        Location eventLocation = new Location(locationName, room.isPresent()? room.get() : "");
         eventLocation = locationService.save(eventLocation);
 
-        // Create a new Appointment, flush to DB
+        // Create a new Appointment
         Appointment eventAppointment = new Appointment(startTime, endTime, "event", eventLocation);
         eventAppointment = appointmentService.save(eventAppointment);
-
-        // Temporary solution for conflict resolution
+        // Temporary solution for appointment conflict resolution
         if(eventAppointment == null)
             return null;
 
-        // Create a new Event, save to DB
+        // Create a new Event
         Event newEvent;
         Club eventClub = clubID.isPresent()? clubService.getById(clubID.get()) : null;
         newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment, eventClub);
