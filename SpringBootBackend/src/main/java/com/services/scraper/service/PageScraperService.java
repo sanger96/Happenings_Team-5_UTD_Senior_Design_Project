@@ -150,6 +150,7 @@ public class PageScraperService {
             for (PageItem eventItem : eventItems) {
                 Document doc = Jsoup.connect(eventItem.getUrl()).get();
 
+                /* Try to get location data from all paragraphs */
                 Elements paragraphs = doc.select("p");
                 String building, roomNumber;
                 building = roomNumber = "";
@@ -164,8 +165,8 @@ public class PageScraperService {
                     }
                 }
 
+                /* Try to get all data from script element */
                 Element eventJson = doc.select("script[type=application/ld+json]").first();
-                //TODO: try catch if eventJson not found
                 String jsonString = eventJson.html();
 
                 // Parse JSON string to JSON object
@@ -218,24 +219,25 @@ public class PageScraperService {
                     } catch (Exception E) {}
                 }
                 
+                // A building wasn't found in paragraphs
                 if (building.isEmpty()) {
                     building = locationName;
+                    // A building wasn't found in script element
+                    if(building.isEmpty())
+                        continue;
                 }
                  
+                // Create and save new location
                 Location locationToAdd = new Location(building, roomNumber);
-
-                // Check for dupe location
                 locationToAdd = locationService.save(locationToAdd);
                 
+                // Create and quicksave new appointment to bypass conflict checking
                 Appointment appointmentToAdd = new Appointment(dateFormatter(startDate, false), dateFormatter(endDate, true), "event", locationToAdd);
-
-                // Quick Save to bypass checking
                 appointmentService.quickSave(appointmentToAdd);
                 
+                // Create and save new event
                 Event eventToAdd = new Event(name, description, name+"Gallery", appointmentToAdd);
-            
                 eventService.save(eventToAdd);
-
             }
         }
         catch(Exception e){
