@@ -55,7 +55,7 @@ public class UserAccountController {
         return appointments;
     }
 
-    @GetMapping("/checkLogin")
+    @PostMapping("/checkLogin")
     public Integer checkLogin(@RequestBody UserAccount acc){
         return service.checkLogin(acc.getEmail(), acc.getPassword());
     }
