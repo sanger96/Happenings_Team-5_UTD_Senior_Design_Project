@@ -67,8 +67,7 @@ public class EventService {
              * Might be better to get the club by club name since the leaderID is a useraccountID
              * but a user could be a leader to multiple clubs, therefore, multiple clubs could have the same leaderID
              */
-            List<Club> tmp = clubService.getByLeaderId(clubID.get());
-            Club eventClub = tmp.get(0);
+            Club eventClub = clubService.getById(clubID.get());
             newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment, eventClub);
         }
         else

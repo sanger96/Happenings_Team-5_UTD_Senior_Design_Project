@@ -20,12 +20,7 @@ public class LocationService {
     // Create a location
     public Location save(Location location) {
         
-        String locName = location.getName();
-        String locRoom = location.getRoom();
-
-        locName = (locName == null? "" : locName);
-        locRoom = (locRoom == null? "" : locRoom);
-        Location locationExists = getByNameAndRoom(locName, locRoom);
+        Location locationExists = getByNameAndRoom(location.getName(), location.getRoom());
         if (locationExists != null) {
             System.out.println("Location already exists");
             return locationExists;

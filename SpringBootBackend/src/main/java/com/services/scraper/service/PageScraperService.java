@@ -176,7 +176,7 @@ public class PageScraperService {
                 
                 // Fields that we can possibly extract (not all can be, not all are used)
                 String name, description, startDate, endDate, eventStatus, imageUrl, locationName, locationAddress, locationUrl;
-                name = description = startDate = endDate = eventStatus = imageUrl = locationName = locationAddress = locationUrl = "";
+                name = description = startDate = endDate = eventStatus = imageUrl = locationName = locationAddress = locationUrl = null;
                 
                 // Sometimes there is no location 
                 JsonObject locationObj = null;
@@ -219,11 +219,21 @@ public class PageScraperService {
                 if (building.isEmpty()) {
                     building = locationName;
                 }
-                 
-                Location locationToAdd = new Location(building, roomNumber);
 
-                // Check for dupe location
-                locationToAdd = locationService.save(locationToAdd);
+                if (roomNumber.isEmpty()) {
+                    roomNumber = null;
+                }
+
+                Location locationToAdd;
+                if (building == null) {
+                    locationToAdd = null;
+                } else {
+                    locationToAdd = new Location(building, roomNumber);
+                    // Check for dupe location
+                    locationToAdd = locationService.save(locationToAdd);
+                }
+
+                
                 
                 Appointment appointmentToAdd = new Appointment(dateFormatter(startDate, false), dateFormatter(endDate, true), "event", locationToAdd);
 
