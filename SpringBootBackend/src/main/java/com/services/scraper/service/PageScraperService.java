@@ -228,6 +228,10 @@ public class PageScraperService {
                     if(building == null)
                         continue;
                 }
+
+                if (roomNumber.isEmpty()) {
+                    roomNumber = null;
+                }
                  
                 // Create and save new location
                 Location locationToAdd = new Location(building, roomNumber);
