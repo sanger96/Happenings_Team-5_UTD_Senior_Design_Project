@@ -28,6 +28,7 @@
         android:hint="@string/eventCreationForm_eventName"
         app:layout_constraintBottom_toTopOf="@+id/inText_eventDescription"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pageTitle"
         app:layout_constraintVertical_bias="0.5" />
