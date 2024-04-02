@@ -38,40 +38,26 @@ public class EventService {
     public Event save
     (String eventName, String description, Optional<Integer> clubID,
     LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
-        //TODO: it might be beneficial to modularize this code, adding some as methods in other service files depending on how they will be used
         //TODO: can we send detailed error messages back without changing the return type of the methods?
-        //TODO: check for location and time conflicts given supplied fields
+        //TODO: try catch blocks for each create and save calls, returning a ResponseEntity<Event> Object containing necessary exception info
 
-        // Create a new Location, flush to DB
-        //TODO: check if location already exists
-        Location eventLocation;
-        if(room.isPresent())
-            eventLocation = new Location(locationName, room.get());
-        else
-            eventLocation = new Location(locationName);
+        // Create a new Location
+        Location eventLocation = new Location(locationName, room.isPresent()? room.get() : null);
         eventLocation = locationService.save(eventLocation);
 
-        // Create a new Appointment, flush to DB
+        // Create a new Appointment
         Appointment eventAppointment = new Appointment(startTime, endTime, "event", eventLocation);
+        // TODO: Throw custom "appointment conflict" exception detailing the dates and times of conflicts
         eventAppointment = appointmentService.save(eventAppointment);
-
-        // Temporary solution for conflict resolution
+        // Temporary solution for appointment conflict resolution
         if(eventAppointment == null)
             return null;
 
-        // Create a new Event, save to DB
+        // Create a new Event
         Event newEvent;
-        if(clubID.isPresent())
-        {
-            /* TODO:
-             * Might be better to get the club by club name since the leaderID is a useraccountID
-             * but a user could be a leader to multiple clubs, therefore, multiple clubs could have the same leaderID
-             */
-            Club eventClub = clubService.getById(clubID.get());
-            newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment, eventClub);
-        }
-        else
-            newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment);
+        // TODO:Throw custom "club does not exist" exception if the club cannot be retrieved from DB
+        Club eventClub = clubID.isPresent()? clubService.getById(clubID.get()) : null;
+        newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment, eventClub);
 
         return repository.save(newEvent);
     }
@@ -90,9 +76,31 @@ public class EventService {
         return repository.findAll();
     }
 
-    // Get number of attending users at event by ID
-    public Integer getRSVPcount(Integer id){
-        return repository.getRSVPcount(id);
+    public int rsvpCount(int id)
+    {
+        return repository.rsvpCount(id);
+    }
+
+    public Event joinClub(int eventid, int clubid)
+    {
+        Club club = clubService.getById(clubid);
+        Event event = repository.findById(eventid).orElse(null);
+        event.setClub(club);
+      
+        repository.save(event);
+        return event;
+
+    }
+
+    public Event quitClub(int eventid)
+    {
+        
+        Event event = repository.findById(eventid).orElse(null);
+        event.setClub(null);
+      
+        repository.save(event);
+        return event;
+
     }
 
     // Check if event exists by name

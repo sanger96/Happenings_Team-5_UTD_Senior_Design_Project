@@ -27,8 +27,6 @@ public class ClubController {
     @Autowired
     private ClubService service;
 
-
-
     @GetMapping("/getEventsById/{id}")
     public List<Event> getEvents(@PathVariable int id) {
         return service.getEventsById(service.getById(id));

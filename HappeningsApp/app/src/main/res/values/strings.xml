@@ -28,10 +28,14 @@
     <!-- EventListFragment Strings -->
     <string name="fragment_eventList">Event List</string>
 
-    <string name="inText_username">Enter username</string>
+    <string name="inText_username">Enter email</string>
     <string name="inText_password">Enter password</string>
 
     <string name="submit">Submit</string>
+
+    <!-- Page Title -->
+    <string name="pageTitle_userSettings">User Settings</string>
+    <string name="pageTitle_eventList">Event List</string>
 
 
 </resources>

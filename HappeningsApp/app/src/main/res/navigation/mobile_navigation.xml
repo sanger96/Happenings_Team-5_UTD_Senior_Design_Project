@@ -29,7 +29,11 @@
         android:id="@+id/nav_userProfileSetting"
         android:name="com.example.happeningsapp.ui.userSettings.UserSettingsFragment"
         android:label="User Profile Settings"
-        tools:layout="@layout/fragment_user_settings" />
+        tools:layout="@layout/fragment_user_settings" >
+        <action
+            android:id="@+id/action_nav_userProfileSetting_to_nav_eventList"
+            app:destination="@id/nav_eventList" />
+    </fragment>
     <fragment android:id="@+id/nav_login"
         android:name="com.example.happeningsapp.ui.login.loginFragment"
         android:label="Login"
@@ -37,6 +41,9 @@
         <action
             android:id="@+id/action_nav_login_to_nav_eventList"
             app:destination="@id/nav_eventList" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_accountCreation"
+            app:destination="@id/nav_userProfileSetting" />
     </fragment>
 
 

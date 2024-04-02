@@ -21,4 +21,6 @@ public class Interest {
 
     @Column(unique = true, nullable = false)
     private String name;
+
+    public Interest(String name) { this.name = name; }
 }

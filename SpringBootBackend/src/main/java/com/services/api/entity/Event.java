@@ -43,7 +43,7 @@ public class Event {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @Column(length = 7500)
+    @Column(length = 10000)
     private String description;
 
     /* An Event has a OneToOne relationship with an Appointment */
@@ -59,11 +59,16 @@ public class Event {
     private Club club;
 
     /* An Event has a ManyToMany relationship with a UserAccount over the Attends table */
-    @ManyToMany
-    @JoinTable(name = "attends",
-        joinColumns = @JoinColumn(name = "eventID"),
-        inverseJoinColumns = @JoinColumn(name = "userAccountID"))
-    private Set<UserAccount> userAccounts;
+    // @ManyToMany
+    // @JoinTable(name = "attends",
+    //     joinColumns = @JoinColumn(name = "eventID"),
+    //     inverseJoinColumns = @JoinColumn(name = "userAccountID"))
+    // private Set<UserAccount> userAccounts;
+
+    public void setClub(Club club)
+    {
+        this.club = club;
+    }
 
     public Event(String name, String description, String photoSubDirectory, Appointment appointment){
         this.name = name;

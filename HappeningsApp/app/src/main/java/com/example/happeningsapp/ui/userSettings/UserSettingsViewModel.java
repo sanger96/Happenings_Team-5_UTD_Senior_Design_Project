@@ -6,28 +6,30 @@ import androidx.lifecycle.ViewModel;
 
 public class UserSettingsViewModel extends ViewModel {
 
-    private final MutableLiveData<String> topPrompt;
-    private final MutableLiveData<String> username;
+    private final MutableLiveData<String> pageTitle;
+    private final MutableLiveData<String> email;
     private final MutableLiveData<String> password;
 
     public UserSettingsViewModel() {
-        topPrompt = new MutableLiveData<>();
-        //sets top prompt
-        topPrompt.setValue("user profile settings page\nFor successful login attempt; username=user , password=password");
-        username = new MutableLiveData<>();
-        //sets username
-        username.setValue("Enter username");
+        //instantiates pageTitle as a MutableLiveData, I know this should not be mutable, but for now following a known working method.
+        pageTitle = new MutableLiveData<>();
+        //sets pageTitle
+        pageTitle.setValue("Account Creation");
+        //the comments below are for reference only, this is from another page
+        email = new MutableLiveData<>();
+        //sets username, don't want to set it, so hint in fragment will be used
+        //email.setValue("Enter username");
         password = new MutableLiveData<>();
-        //sets password
-        password.setValue("Enter password");
+        //sets password, don't want to set it, so hint in fragment will be used
+        //password.setValue("Enter password");
 
     }
 
     public LiveData<String> getText() {
-        return topPrompt;
+        return pageTitle;
     }
-    public LiveData<String> getUsername() {
-        return username;
+    public LiveData<String> getEmail() {
+        return email;
     }
     public LiveData<String> getPassword() {
         return password;
