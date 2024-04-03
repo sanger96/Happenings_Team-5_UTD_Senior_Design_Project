@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,8 +49,13 @@ public class UserSettingsFragment extends Fragment {
         // bind interests, get list of interests from math department club chooser page utd
         TextView email = binding.inTextEmail;
         TextView password = binding.inTextPassword;
-        // get text for top of page
-        UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), pageTitle::setText);
+
+        // get text for top of page if coming from account creation button
+        if(!(getArguments()==null)){
+            UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), pageTitle::setText);
+            pageTitle.setText(getArguments().getString("pageTitle"));
+        }
+
         // these commands will make sure the variables are observed for their "life cycle"
         UserSettingsViewModelProvider.getEmail().observe(getViewLifecycleOwner(), email::setText);
         UserSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);

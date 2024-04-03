@@ -13,11 +13,8 @@
 
     TODO:
     1. Display account name/ email at top of page
-    2. Show list of clubs user is following with toggle switch to control notifications
-    3. Change password option
-    4. Add class schedule
-        4.1 This should also double as do not disturb times.
-        4.2 This should allow for location and time based checking of events near user when not using location.
+    2. Change password option
+
     . (optional if there is time) light and dark mode toggle switch
 
 

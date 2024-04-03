@@ -32,6 +32,8 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 public class loginFragment extends Fragment {
 
    private FragmentLoginBinding binding;
@@ -65,7 +67,7 @@ public class loginFragment extends Fragment {
             @Override
             public void onClick(View view){
 
-                //skip auth
+                //skip auth BYPASS
                 if(email.getText().toString().equals("") && password.getText().toString().equals("")){
                     Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
                 }
@@ -73,6 +75,7 @@ public class loginFragment extends Fragment {
                 //if statement for seeing if username and password is accepted
                 //need to add get method statement to send this to backend.
                 String getUrl="http://10.0.2.2:8080/useraccount/checkLogin";
+
 
                 //holds request queue
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
@@ -88,17 +91,20 @@ public class loginFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                JsonObjectRequest auth = new JsonObjectRequest(Request.Method.POST, getUrl, emailAndPass,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            //log method for debugging
-                            Log.d("Volley PASS onResponse", "This is before the if statement");
-                            // Authentication should take place in back end and will verify, then pass a boolean pass/fail back here
-                            if(response.toString().equals("1")){
-                                Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
-                                //the below line should make the app go to that page on successful login
-                                Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
+
+                StringRequest auth = new StringRequest(Request.Method.POST, getUrl, new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        //log method for debugging
+                        Log.d("Volley PASS onResponse", "This is before the if statement");
+
+                        // Authentication should take place in back end and will verify, then pass a boolean pass/fail back here
+                        if(response.toString().equals("1")){
+                            Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
+                            //the below line should make the app go to that page on successful login
+                            Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
 
                                 //log method for debugging
                                 Log.d("Volley PASS onResponse", "This is inside the if statement; if true");
@@ -134,6 +140,14 @@ public class loginFragment extends Fragment {
 
                         return params;
                     }
+                }){
+                    @Override
+                    public byte[] getBody() {
+                        return emailAndPass.toString().getBytes();
+                    }
+                    public String getBodyContentType() {
+                        return "application/json";
+                    }
                 };
                 //add to queue
                 requestQueue.add(auth);
@@ -150,8 +164,10 @@ public class loginFragment extends Fragment {
         accountCreator.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View lambda){
-                //go to account creation page
-                Navigation.findNavController(lambda).navigate(R.id.action_nav_login_to_nav_accountCreation);
+                //go to account creation page, and pass pageTitle to be account creation.
+                Bundle bundle_loginToAccountCreation=new Bundle();
+                bundle_loginToAccountCreation.putString("pageTitle", "Account Creation");
+                Navigation.findNavController(lambda).navigate(R.id.action_nav_login_to_nav_accountCreation,bundle_loginToAccountCreation);
 
             }
         });
