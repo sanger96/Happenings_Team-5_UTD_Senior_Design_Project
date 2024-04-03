@@ -93,7 +93,6 @@ public class loginFragment extends Fragment {
 
 
                 StringRequest auth = new StringRequest(Request.Method.POST, getUrl, new Response.Listener<String>() {
-
                     @Override
                     public void onResponse(String response) {
 
@@ -122,25 +121,9 @@ public class loginFragment extends Fragment {
                         public void onErrorResponse(VolleyError error) {
                             //Log.wtf("account json object", emailAndPass.toString());
                             Log.wtf("Volley Fail onErrorResponse",error.toString() + "\n"+error.getMessage());
-                        }
-                }) {
-//                    @Override
-//                    protected Map<String, String> getParams() {
-//                        Map<String, String> params = new HashMap<String, String>();
-////                        params.put("useraccountid", "1");
-//                        params.put("email", email.getText().toString());
-//                        params.put("password", password.getText().toString());
-//
-//                        return params;
-//                    }
-                    @Override
-                    public Map<String, String> getHeaders() {
-                        Map<String, String>  params = new HashMap<String, String>();
-                        params.put("Content-Type", "application/json");
-
-                        return params;
                     }
-                }){
+                })
+                {
                     @Override
                     public byte[] getBody() {
                         return emailAndPass.toString().getBytes();
@@ -153,7 +136,7 @@ public class loginFragment extends Fragment {
                 requestQueue.add(auth);
 
                 //add retry policy, seconds * millisec to sec conversion, number of retries, multiply  last timeout by this on the retry
-//                auth.setRetryPolicy(new DefaultRetryPolicy(10*1000,3,2.0f));
+                //auth.setRetryPolicy(new DefaultRetryPolicy(10*1000,3,2.0f));
             }
         });
         //end of adding action on button click
