@@ -1,6 +1,7 @@
 package com.example.happeningsapp.ui.login;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,21 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentLoginBinding;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
 
 public class loginFragment extends Fragment {
 
@@ -34,12 +48,12 @@ public class loginFragment extends Fragment {
         // bind default text at top of page
         final TextView textView = binding.textLogin;
         // bind username and password
-        EditText username = binding.inTextUserName;
+        EditText email = binding.inTextUserName;
         EditText password = binding.inTextPassword;
         // get text for top of page
         LoginViewModelProvider.getText().observe(getViewLifecycleOwner(), textView::setText);
         // these commands will make sure the variables are observed for their "life cycle"
-        LoginViewModelProvider.getUsername().observe(getViewLifecycleOwner(), username::setText);
+        LoginViewModelProvider.getUsername().observe(getViewLifecycleOwner(), email::setText);
         LoginViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
 
 
@@ -47,22 +61,80 @@ public class loginFragment extends Fragment {
         //binding submit button
         Button submit = (Button) root.findViewById(R.id.button_submitLogin);
         submit.setOnClickListener(new View.OnClickListener(){
+
             @Override
-            public void onClick(View lambda){
-                //if statement for seeing if username and password is accepted
-                //need to add post statement to send this to backend.
-                // Authentication should take place in back end and will verify, then pass a boolean pass/fail back here
-                if(username.getText().toString().equals("")&& password.getText().toString().equals("")){
-                    Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
-                    //the below line should make the app go to that page on successful login
+            public void onClick(View view){
 
-                    //send back end the email and password
-                    //get back true or false to login in or tell user to try again
-                    Navigation.findNavController(lambda).navigate(R.id.action_nav_login_to_nav_eventList);
-
-                } else{
-                    Toast.makeText(root.getContext(), "Login Failed Miserably",Toast.LENGTH_SHORT).show();
+                //skip auth BYPASS
+                if(email.getText().toString().equals("") && password.getText().toString().equals("")){
+                    Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
                 }
+
+                //if statement for seeing if username and password is accepted
+                //need to add get method statement to send this to backend.
+                String getUrl="http://10.0.2.2:8080/useraccount/checkLogin";
+
+
+                //holds request queue
+                RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
+
+                //for JSONObject to be sent as request
+                JSONObject emailAndPass = new JSONObject();
+                //try to put the email and password in emailAndPass
+                try{
+                    emailAndPass.put("email",email.getText().toString());
+                    emailAndPass.put("password", password.getText().toString());
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
+                StringRequest auth = new StringRequest(Request.Method.POST, getUrl, new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        //log method for debugging
+                        Log.d("Volley PASS onResponse", "This is before the if statement");
+
+                        // Authentication should take place in back end and will verify, then pass a boolean pass/fail back here
+                        if(response.toString().equals("1")){
+                            Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
+                            //the below line should make the app go to that page on successful login
+                            Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
+
+                            //log method for debugging
+                            Log.d("Volley PASS onResponse", "This is inside the if statement; if true");
+
+                        }else{
+                            Toast.makeText(root.getContext(), "Incorrect email and password combination",Toast.LENGTH_SHORT).show();
+
+                            //log method for debugging
+                            Log.d("Volley PASS onResponse", "This is inside the if statement; if false");
+                        }
+
+                    }//end of onResponse
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.wtf("Volley Fail onErrorResponse",error.toString());
+
+                    }
+                }){
+                    @Override
+                    public byte[] getBody() {
+                        return emailAndPass.toString().getBytes();
+                    }
+                    public String getBodyContentType() {
+                        return "application/json";
+                    }
+                };
+                //add to queue
+                requestQueue.add(auth);
+
+                //add retry policy, seconds * millisec to sec conversion, number of retries, multiply  last timeout by this on the retry
+                auth.setRetryPolicy(new DefaultRetryPolicy(10*1000,3,2.0f));
             }
         });
         //end of adding action on button click
@@ -73,8 +145,10 @@ public class loginFragment extends Fragment {
         accountCreator.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View lambda){
-                //go to account creation page
-                Navigation.findNavController(lambda).navigate(R.id.action_nav_login_to_nav_accountCreation);
+                //go to account creation page, and pass pageTitle to be account creation.
+                Bundle bundle_loginToAccountCreation=new Bundle();
+                bundle_loginToAccountCreation.putString("pageTitle", "Account Creation");
+                Navigation.findNavController(lambda).navigate(R.id.action_nav_login_to_nav_accountCreation,bundle_loginToAccountCreation);
 
             }
         });

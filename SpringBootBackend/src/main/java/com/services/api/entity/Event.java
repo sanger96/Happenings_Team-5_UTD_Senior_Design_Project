@@ -3,6 +3,9 @@ package com.services.api.entity;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -46,6 +49,7 @@ public class Event {
     /* An Event has a OneToOne relationship with an Appointment */
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "appointmentID")
+    @OnDelete(action = OnDeleteAction.CASCADE) // creates the Cascade delete in the database
     private Appointment appointment;
 
     /* An Event has a ManyToOne relationship with a Club */

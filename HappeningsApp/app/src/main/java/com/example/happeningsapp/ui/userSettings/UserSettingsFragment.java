@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,8 +49,13 @@ public class UserSettingsFragment extends Fragment {
         // bind interests, get list of interests from math department club chooser page utd
         TextView email = binding.inTextEmail;
         TextView password = binding.inTextPassword;
-        // get text for top of page
-        UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), pageTitle::setText);
+
+        // get text for top of page if coming from account creation button
+        if(!(getArguments()==null)){
+            UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), pageTitle::setText);
+            pageTitle.setText(getArguments().getString("pageTitle"));
+        }
+
         // these commands will make sure the variables are observed for their "life cycle"
         UserSettingsViewModelProvider.getEmail().observe(getViewLifecycleOwner(), email::setText);
         UserSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
@@ -63,7 +69,7 @@ public class UserSettingsFragment extends Fragment {
             public void onClick(View view){
 //                Log.i("UserSettingsFragment","this is in onClick");
                 //url we are posting to, uses 10.0.2.2 instead of local host, this is what android studio will need to use local host.
-                // if you type local host it will automatically map to 127.0.0.1 aka the wronge place.
+                // if you type local host it will automatically map to 127.0.0.1 aka the wrong place.
                 String postUrl="http://10.0.2.2:8080/account/add";
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
@@ -96,8 +102,8 @@ public class UserSettingsFragment extends Fragment {
                     }
                 });
                 requestQueue.add(jsonObjectRequest);
-            }
-        });
+            } //end of onClick
+        });//end of post request
 //        end of adding action on button click
 
 

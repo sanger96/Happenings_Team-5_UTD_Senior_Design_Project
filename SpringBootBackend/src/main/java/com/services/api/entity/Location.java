@@ -26,12 +26,6 @@ public class Location {
     private String name;
     private String room;
 
-    // One location has one appointment
-    // @JsonIgnoreProperties("location")
-    // @OneToOne
-    // @JoinColumn(name = "appointmentID")
-    // private Appointment appointment;
-
     public Location(String name, String room){
         this.name = name;
         this.room = room;

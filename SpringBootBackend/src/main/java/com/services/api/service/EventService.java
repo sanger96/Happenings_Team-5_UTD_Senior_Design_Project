@@ -35,9 +35,9 @@ public class EventService {
         return repository.save(event);
     }
 
-    public Event createFromForm
-    (String eventName, Optional<Integer> clubLeaderID,
-     String startTime, String endTime, String locationName, Optional<String> room){
+    public Event save
+    (String eventName, String description, Optional<Integer> clubID,
+    LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
         //TODO: it might be beneficial to modularize this code, adding some as methods in other service files depending on how they will be used
         //TODO: can we send detailed error messages back without changing the return type of the methods?
         //TODO: check for location and time conflicts given supplied fields
@@ -50,29 +50,29 @@ public class EventService {
         else
             eventLocation = new Location(locationName);
         eventLocation = locationService.save(eventLocation);
-        locationService.flush();
 
         // Create a new Appointment, flush to DB
-        LocalDateTime newStartTime = LocalDateTime.parse(startTime);
-        LocalDateTime newEndTime = LocalDateTime.parse(endTime);
-        Appointment eventAppointment = new Appointment(newStartTime, newEndTime, "event", eventLocation);
+        Appointment eventAppointment = new Appointment(startTime, endTime, "event", eventLocation);
         eventAppointment = appointmentService.save(eventAppointment);
-        appointmentService.flush();
+
+        // Temporary solution for conflict resolution
+        if(eventAppointment == null)
+            return null;
 
         // Create a new Event, save to DB
         Event newEvent;
-        if(clubLeaderID.isPresent())
+        if(clubID.isPresent())
         {
             /* TODO:
              * Might be better to get the club by club name since the leaderID is a useraccountID
              * but a user could be a leader to multiple clubs, therefore, multiple clubs could have the same leaderID
              */
-            List<Club> tmp = clubService.getByLeaderId(clubLeaderID.get());
+            List<Club> tmp = clubService.getByLeaderId(clubID.get());
             Club eventClub = tmp.get(0);
-            newEvent = new Event(eventName, null, eventName + "Gallery", eventAppointment, eventClub);
+            newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment, eventClub);
         }
         else
-            newEvent = new Event(eventName, null, eventName + "Gallery", eventAppointment);
+            newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment);
 
         return repository.save(newEvent);
     }
@@ -121,6 +121,17 @@ public class EventService {
         String toBeDeleted = "DELETE " + id + ": " + (entityExists == null? "ERROR, does not exist" : entityExists.toString());
         repository.deleteById(id);
         return toBeDeleted;
+    }
+
+    // Delete all expired Events
+    public String deleteExpired(){
+        List<Integer> expiredEventIDs = repository.getExpiredIds();
+
+        repository.deleteAllById(expiredEventIDs);
+        String result = expiredEventIDs.size() + " expired events were deleted.";
+
+        System.out.println(result);
+        return result;
     }
     
 }
