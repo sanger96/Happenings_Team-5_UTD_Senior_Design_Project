@@ -8,12 +8,20 @@ import org.springframework.stereotype.Service;
 import com.services.api.repository.UserAccountRepository;
 import com.services.api.entity.UserAccount;
 import com.services.api.entity.Appointment;
+import com.services.api.entity.Interest;
+import com.services.api.entity.Event;
 
 @Service
 public class UserAccountService {
     
     @Autowired
     private UserAccountRepository repository;
+
+    @Autowired
+    private EventService eventService;
+
+    @Autowired
+    private InterestService interestService;
 
     public UserAccount add(UserAccount userAccount) {
         return repository.save(userAccount);
@@ -46,5 +54,50 @@ public class UserAccountService {
 
     public List<Integer> getAllAppointments(int id) {
         return repository.getAllAppointments(id);
+    }
+
+    public Event rsvp(int useraccountID, int eventID)
+    {
+        Event event = eventService.getById(eventID);
+        UserAccount useraccount = repository.findById(useraccountID).orElse(null);
+        
+        useraccount.addEvent(event);
+      
+        repository.save(useraccount);
+        return event;
+    }
+
+    public Event unRsvp(int useraccountID, int eventID)
+    {
+        Event event = eventService.getById(eventID);
+        UserAccount useraccount = repository.findById(useraccountID).orElse(null);
+        
+        useraccount.delEvent(event);
+      
+        repository.save(useraccount);
+        return event;
+        
+    }
+
+    public UserAccount addInterest(int useraccountID, int interestID)
+    {
+        Interest interest = interestService.getById(interestID);
+        UserAccount useraccount = repository.findById(useraccountID).orElse(null);
+        
+        useraccount.addInterest(interest);
+      
+        repository.save(useraccount);
+        return useraccount;
+    }
+
+    public UserAccount delInterest(int useraccountID, int interestID)
+    {
+        Interest interest = interestService.getById(interestID);
+        UserAccount useraccount = repository.findById(useraccountID).orElse(null);
+        
+        useraccount.delInterest(interest);
+      
+        repository.save(useraccount);
+        return useraccount;
     }
 }
