@@ -24,15 +24,14 @@
             android:id="@+id/hscrll1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-
                 <TableLayout
                     android:id="@+id/eventListTable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:stretchColumns="*"
                     android:layout_margin="5dp"
-                    android:layout_centerHorizontal="true"></TableLayout>
-
+                    android:layout_centerHorizontal="true">
+                </TableLayout>
         </HorizontalScrollView>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
