@@ -221,10 +221,16 @@ public class PageScraperService {
                 
                 // A building wasn't found in paragraphs
                 if (building.isEmpty()) {
+                    // resort to setting building name as the locationName from the script tag
                     building = locationName;
-                    // A building wasn't found in script element
-                    if(building.isEmpty())
+                    // A building wasn't found in script element (because there was either no location JSON object or no locationName field in the JSON)
+                    // Now, the building value is null, so check for that
+                    if(building == null)
                         continue;
+                }
+
+                if (roomNumber.isEmpty()) {
+                    roomNumber = null;
                 }
                  
                 // Create and save new location

@@ -27,8 +27,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentLoginBinding;
 
-import java.util.Map;
-import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -81,7 +79,6 @@ public class loginFragment extends Fragment {
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
                 //for JSONObject to be sent as request
-
                 JSONObject emailAndPass = new JSONObject();
                 //try to put the email and password in emailAndPass
                 try{
@@ -105,25 +102,25 @@ public class loginFragment extends Fragment {
                             //the below line should make the app go to that page on successful login
                             Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
 
-                                //log method for debugging
-                                Log.d("Volley PASS onResponse", "This is inside the if statement; if true");
+                            //log method for debugging
+                            Log.d("Volley PASS onResponse", "This is inside the if statement; if true");
 
-                            }else{
-                                Toast.makeText(root.getContext(), "Incorrect email and password combination",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(root.getContext(), "Incorrect email and password combination",Toast.LENGTH_SHORT).show();
 
-                                //log method for debugging
-                                Log.d("Volley PASS onResponse", "This is inside the if statement; if false");
-                            }
-                        }//end of onResponse
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            //Log.wtf("account json object", emailAndPass.toString());
-                            Log.wtf("Volley Fail onErrorResponse",error.toString() + "\n"+error.getMessage());
+                            //log method for debugging
+                            Log.d("Volley PASS onResponse", "This is inside the if statement; if false");
+                        }
+
+                    }//end of onResponse
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.wtf("Volley Fail onErrorResponse",error.toString());
+
                     }
-                })
-                {
+                }){
                     @Override
                     public byte[] getBody() {
                         return emailAndPass.toString().getBytes();
@@ -136,7 +133,7 @@ public class loginFragment extends Fragment {
                 requestQueue.add(auth);
 
                 //add retry policy, seconds * millisec to sec conversion, number of retries, multiply  last timeout by this on the retry
-                //auth.setRetryPolicy(new DefaultRetryPolicy(10*1000,3,2.0f));
+                auth.setRetryPolicy(new DefaultRetryPolicy(10*1000,3,2.0f));
             }
         });
         //end of adding action on button click
@@ -161,9 +158,9 @@ public class loginFragment extends Fragment {
     }
 
 @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
+public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
+}
 
 }
