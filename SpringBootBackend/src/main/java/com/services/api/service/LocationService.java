@@ -27,6 +27,7 @@ public class LocationService {
         }
         
         return repository.save(location);
+         
     }
 
     // Create a location with string parameters
