@@ -52,7 +52,8 @@ public class ClubSearchFragment extends Fragment {
                             TableLayout table = (TableLayout) binding.clubSearchTable;
 
                             //create first row manually
-                            TableRow row0 = new TableRow(table.getContext());                             TextView col0 = new TextView(table.getContext());
+                            TableRow row0 = new TableRow(table.getContext());
+                            TextView col0 = new TextView(table.getContext());
                             //row 0 column 0
                             col0.setText("| CLUB NAME |");
 //                            col0.setGravity(Gravity.CENTER);
