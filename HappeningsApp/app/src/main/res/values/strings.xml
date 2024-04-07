@@ -44,6 +44,8 @@
     <string name="button_create_event">create event</string>
     <string name="eventCreationForm_eventDescription">event description</string>
     <string name="eventCreationForm_eventName">event name</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
