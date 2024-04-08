@@ -93,6 +93,7 @@ public class UserSettingsFragment extends Fragment {
                 JSONObject postData = new JSONObject();
                 try{
                     //This is how we will add elements to build the JSONObject post data
+                    postData.put("accountID", com.example.happeningsapp.GlobalVars.getInstance().getUserID());
                     postData.put("email",email.getText().toString());
                     postData.put("password", password.getText().toString());
 
