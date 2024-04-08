@@ -24,31 +24,31 @@
         android:id="@+id/inText_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:hint="@string/inText_username"
         android:autofillHints="username"
+        android:ems="10"
+        android:hint="@string/inText_username"
+        android:inputType="textEmailAddress"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/inText_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.857" />
+        app:layout_constraintVertical_bias="0.927" />
 
     <EditText
         android:id="@+id/inText_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textVisiblePassword"
-        android:hint="@string/inText_password"
         android:autofillHints="password"
+        android:ems="10"
+        android:hint="@string/inText_password"
+        android:inputType="textVisiblePassword"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.54" />
+        app:layout_constraintVertical_bias="0.221" />
 
     <Button
         android:id="@+id/button_createAccount"
@@ -57,15 +57,15 @@
         android:text="Update"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inText_password"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.052" />
+
     <TextView
         android:id="@+id/textUserSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pageTitle_userSettings"
+        android:text="Profile Settings"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
