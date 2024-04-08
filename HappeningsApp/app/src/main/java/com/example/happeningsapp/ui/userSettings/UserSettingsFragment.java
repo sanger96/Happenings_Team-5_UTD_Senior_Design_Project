@@ -50,6 +50,8 @@ public class UserSettingsFragment extends Fragment {
         TextView email = binding.inTextEmail;
         TextView password = binding.inTextPassword;
 
+
+
         com.example.happeningsapp.GlobalVars gVars = com.example.happeningsapp.GlobalVars.getInstance();
         email.setText(gVars.getUsername());
         password.setText(gVars.getPassword());
@@ -64,7 +66,17 @@ public class UserSettingsFragment extends Fragment {
         UserSettingsViewModelProvider.getEmail().observe(getViewLifecycleOwner(), email::setText);
         UserSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
 
+        Button showPassword = (Button) root.findViewById(R.id.button_showPassword);
+        showPassword.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+
+                password.setTransformationMethod(null);
+
+
+            }
+        });
 //        start of adding action on button click
 //        binding submit button
         Button submit = (Button) root.findViewById(R.id.button_createAccount);
