@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.app.PendingIntent;
 import android.content.IntentSender;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,9 +43,14 @@ import com.google.android.gms.location.LocationResult;
 
 //manifest permissions
 import android.Manifest;
-//toast import
+
 import android.os.Looper;
 import android.util.Log;
+import android.webkit.WebViewClient;
+import android.webkit.WebView;
+import android.webkit.WebSettings;
+//toast import
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 //fused location provider imports
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -59,16 +65,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import android.location.Location;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
-    public static final int REQUEST_CHECK_SETTINGS = 100;
     private static final int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 100;
     private static final int FINE_LOCATION_ACCESS_REQUEST_CODE = 10001;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    Location currentLocation;
+    public Location currentLocation;
     // Fused Location Provider
-    FusedLocationProviderClient fusedLocationClient;
+    public FusedLocationProviderClient fusedLocationClient;
     //Geofencing Provider
-    GeofencingClient geofencingClient;
+    public GeofencingClient geofencingClient;
     private GeoFenceHelper geoFenceHelper;
     private String GEOFENCE_ID = "SOME_GEOFENCE_ID";
     private float GEOFENCE_RADIUS = 200;
@@ -83,81 +88,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         assert mapFragment != null;
-        mapFragment.getMapAsync( MapsActivity.this);
+        mapFragment.getMapAsync(MapsActivity.this);
+
         // Fused Location Provider
         fusedLocationClient = (FusedLocationProviderClient) LocationServices.getFusedLocationProviderClient(this);
-        //getCurrentLocationUpdates();
+
         //Geofencing Provider
         geofencingClient = LocationServices.getGeofencingClient(this);
         geoFenceHelper = new GeoFenceHelper(this);
     }
-    /*
-    private void getLastLocation() {
-        //Permissions check
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PackageManager.PERMISSION_GRANTED);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, PackageManager.PERMISSION_GRANTED);
-            return;
-        }
-        Task<Location> task = fusedLocationClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    currentLocation = location;
-
-                   SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-                   assert mapFragment != null;
-                   mapFragment.getMapAsync( MapsActivity.this);
-                }
-            }
-        });
-    }
-
-    private void getCurrentLocationUpdates(){
-        LocationRequest locationRequest = new LocationRequest.Builder(1000)
-                    .setGranularity(Granularity.GRANULARITY_FINE)
-                    .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-                    .setMinUpdateDistanceMeters(10)
-                    .build();
-
-        LocationSettingsRequest locationSettingsRequest = new LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest)
-                .build();
-
-        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
-        settingsClient.checkLocationSettings(locationSettingsRequest).addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
-                if(task.isSuccessful()){
-                fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-
-                }
-                else {
-                    if (task.getException() instanceof ResolvableApiException) {
-                        ResolvableApiException resolvable = (ResolvableApiException) task.getException();
-                        try {
-                            resolvable.startResolutionForResult(MapsActivity.this, REQUEST_CHECK_SETTINGS);
-                        } catch (IntentSender.SendIntentException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    LocationCallback locationCallback = new LocationCallback(){
-        @Override
-        public void onLocationResult(@NonNull LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-            getLastLocation();
-        }
-    };
-    */
 
     /**
      * Created by Google Maps Interface
@@ -299,8 +238,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addCircle(circleOptions);
     }
 
-
-
     @Override
     public void onMapLongClick(LatLng latLng) {
         if (Build.VERSION.SDK_INT >= 29) {
@@ -320,6 +257,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             handleMapLongClick(latLng);
         }
     }
+
     private void handleMapLongClick(LatLng latLng) {
         mMap.clear();
         addMarker(latLng);
