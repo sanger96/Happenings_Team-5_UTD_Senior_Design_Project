@@ -37,7 +37,7 @@ public class UserAccountService {
 
     public Integer checkLogin(String email, String password){
         Integer result = repository.checkLogin(email, password);
-        return (result == null? 0 : result);
+        return (result == null? -1 : result);
     }
 
     public String deleteById(int id) {
