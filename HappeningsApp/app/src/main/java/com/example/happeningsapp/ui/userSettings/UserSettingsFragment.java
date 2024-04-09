@@ -50,6 +50,12 @@ public class UserSettingsFragment extends Fragment {
         TextView email = binding.inTextEmail;
         TextView password = binding.inTextPassword;
 
+
+
+        com.example.happeningsapp.GlobalVars gVars = com.example.happeningsapp.GlobalVars.getInstance();
+        email.setText(gVars.getUsername());
+        password.setText(gVars.getPassword());
+
         // get text for top of page if coming from account creation button
         if(!(getArguments()==null)){
             UserSettingsViewModelProvider.getText().observe(getViewLifecycleOwner(), pageTitle::setText);
@@ -60,8 +66,21 @@ public class UserSettingsFragment extends Fragment {
         UserSettingsViewModelProvider.getEmail().observe(getViewLifecycleOwner(), email::setText);
         UserSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
 
+        Button showPassword = (Button) root.findViewById(R.id.button_showPassword);
+        showPassword.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                password.setTransformationMethod(null);
+
+
+            }
+        });
+
 
 //        start of adding action on button click
+
 //        binding submit button
         Button submit = (Button) root.findViewById(R.id.button_createAccount);
         submit.setOnClickListener(new View.OnClickListener(){
@@ -77,6 +96,7 @@ public class UserSettingsFragment extends Fragment {
                 JSONObject postData = new JSONObject();
                 try{
                     //This is how we will add elements to build the JSONObject post data
+                    postData.put("accountID", com.example.happeningsapp.GlobalVars.getInstance().getUserID());
                     postData.put("email",email.getText().toString());
                     postData.put("password", password.getText().toString());
 
