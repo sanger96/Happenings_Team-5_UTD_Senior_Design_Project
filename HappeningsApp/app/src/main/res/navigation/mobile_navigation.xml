@@ -43,7 +43,7 @@
             app:destination="@id/nav_eventList" />
         <action
             android:id="@+id/action_nav_login_to_nav_accountCreation"
-            app:destination="@id/nav_userProfileSetting" />
+            app:destination="@id/createAccountFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_settings"
@@ -59,6 +59,15 @@
         android:name="com.example.happeningsapp.ui.eventCreation.eventCreationFragment"
         android:label="fragment_event_creation"
         tools:layout="@layout/fragment_event_creation" />
+    <fragment
+        android:id="@+id/createAccountFragment"
+        android:name="com.example.happeningsapp.ui.CreateAccount.CreateAccountFragment"
+        android:label="fragment_create_account"
+        tools:layout="@layout/fragment_create_account" >
+        <action
+            android:id="@+id/action_createAccountFragment_to_nav_eventList"
+            app:destination="@id/nav_eventList" />
+    </fragment>
 
 
 </navigation>
