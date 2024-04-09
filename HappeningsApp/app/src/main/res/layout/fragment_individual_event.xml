@@ -6,23 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.individualEvent.individualEventFragment">
 
-    <!--    1. Show list of clubs user is following with toggle switch to control notifications-->
-    <!--    2. Add class schedule-->
-    <!--        2.1 This should also double as do not disturb times.-->
-    <!--        2.2 This should allow for location and time based checking of events near user when not using location.-->
+    <TextView
+        android:id="@+id/eventIdTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event ID Placeholder"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/Type the name of the text view here"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="Type page name here in layout"-->
-    <!--        android:textSize="25sp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.5"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:layout_constraintVertical_bias="0.041" />-->
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

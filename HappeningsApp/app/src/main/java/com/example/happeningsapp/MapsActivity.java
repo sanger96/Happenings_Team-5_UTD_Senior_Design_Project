@@ -64,20 +64,23 @@ import com.google.android.gms.tasks.OnSuccessListener;
 //location import
 import android.location.Location;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener { //GoogleMap.OnMapLongClickListener is used for testing purposes
     private static final int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 100;
     private static final int FINE_LOCATION_ACCESS_REQUEST_CODE = 10001;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    public Location currentLocation;
+    //public Location currentLocation;
     // Fused Location Provider
     public FusedLocationProviderClient fusedLocationClient;
     //Geofencing Provider
     public GeofencingClient geofencingClient;
     private GeoFenceHelper geoFenceHelper;
     private String GEOFENCE_ID = "SOME_GEOFENCE_ID";
-    private float GEOFENCE_RADIUS = 200;
+    private float GEOFENCE_RADIUS = 200; // probably in pixel size, double check
     //private int GEOFENCE_EXPIRATION = Geofence.NEVER_EXPIRE;
+
+    // create a statically defined HashMap with <key= buildingName, node = LatLng>
+    // <soccor field, LatLng>
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Geofencing Provider
         geofencingClient = LocationServices.getGeofencingClient(this);
         geoFenceHelper = new GeoFenceHelper(this);
+
+
+        // Run a for loop to call alternate version of handleMapLongClick( ) that doesn't do map.clear()
+        // make it acccept both building name and Latlng so that geofence name and point are both set.
+
+        // run method to create markers for events, use addMarker(LatLng) pass the latitude and logitude.
+        // when creating marker for event, call HashMap to get LatLng for building where event is, then pass to create marker
+
     }
 
     /**
@@ -192,8 +203,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void addGeofence(LatLng latLng, float radius) {
-        Geofence geofence = geoFenceHelper.getGeofence(GEOFENCE_ID, latLng, radius, Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_DWELL | Geofence.GEOFENCE_TRANSITION_EXIT);
+    private void addGeofence(LatLng latLng, float radius, String name) {
+        //The GEOFENCE_ID is the name of the geofence, set these to the names of the builds
+        Geofence geofence = geoFenceHelper.getGeofence(name, latLng, radius, Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_DWELL | Geofence.GEOFENCE_TRANSITION_EXIT);
         GeofencingRequest geofencingRequest = geoFenceHelper.getGeofencingRequest(geofence);
         PendingIntent pendingIntent = geoFenceHelper.getPendingIntent();
 
@@ -232,9 +244,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CircleOptions circleOptions = new CircleOptions();
         circleOptions.center(latLng);
         circleOptions.radius(radius);
-        circleOptions.strokeColor(Color.argb(255, 255, 0, 0));
-        circleOptions.fillColor(Color.argb(64, 255, 0, 0));
-        circleOptions.strokeWidth(4);
+        circleOptions.strokeColor(Color.argb(255, 255, 0, 0)); // circle border
+        circleOptions.fillColor(Color.argb(64, 255, 0, 0)); // circle fill color
+        circleOptions.strokeWidth(4); // width in screen pixel for the border
         mMap.addCircle(circleOptions);
     }
 
@@ -258,10 +270,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    // This is where we will statically define the geofences
     private void handleMapLongClick(LatLng latLng) {
         mMap.clear();
-        addMarker(latLng);
-        addCircle(latLng, GEOFENCE_RADIUS);
-        addGeofence(latLng, GEOFENCE_RADIUS);
+        addMarker(latLng); // center of the circle
+        addCircle(latLng, GEOFENCE_RADIUS); // this is how to add the circle, this is just a visual representation of the geofence.
+        addGeofence(latLng, GEOFENCE_RADIUS, "GEOFENCE_ID"); // this sets the geofence, note that its invisible thats why we draw the circle above.
+    }
+
+    // This is where we will statically define the geofences
+    private void createGeofences(String name, LatLng latLng) {
+        addMarker(latLng); // center of the circle
+        addCircle(latLng, GEOFENCE_RADIUS); // this is how to add the circle, this is just a visual representation of the geofence.
+        addGeofence(latLng, GEOFENCE_RADIUS, name); // this sets the geofence, note that its invisible thats why we draw the circle above.
     }
 }

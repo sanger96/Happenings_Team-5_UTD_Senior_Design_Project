@@ -81,12 +81,18 @@ public class UserSettingsFragment extends Fragment {
 //        binding submit button
         Button submit = (Button) root.findViewById(R.id.button_createAccount);
         submit.setOnClickListener(new View.OnClickListener(){
+
+            // These are for usage when updating the GlobalVars after successful profile update
+            String tmpUsername;
+            String tmpPassword;
+
+
             @Override
             public void onClick(View view){
 //                Log.i("UserSettingsFragment","this is in onClick");
                 //url we are posting to, uses 10.0.2.2 instead of local host, this is what android studio will need to use local host.
                 // if you type local host it will automatically map to 127.0.0.1 aka the wrong place.
-                String postUrl="http://10.0.2.2:8080/useraccount/add";
+                String postUrl="http://10.0.2.2:8080/useraccount/update";
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
                 //initializing the JSONObject that will be posted
@@ -97,6 +103,10 @@ public class UserSettingsFragment extends Fragment {
                     postData.put("email",email.getText().toString());
                     postData.put("password", password.getText().toString());
 
+                    // Save so we can update GlobalVars if profile update succeeds.
+                    tmpUsername = email.getText().toString();
+                    tmpPassword = password.getText().toString();
+
                     //this log method will appear in logcat
                     Log.i("UserSettingsFragment","JSONObject postData is built");
                 } catch (JSONException e){
@@ -104,11 +114,18 @@ public class UserSettingsFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,postUrl,postData, new Response.Listener<JSONObject>() {
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT,postUrl,postData, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
+                        // Update GlobalVars since profile info has changed.
+                        com.example.happeningsapp.GlobalVars tmp =  com.example.happeningsapp.GlobalVars.getInstance();
+                        tmp.setUsername(tmpUsername);
+                        tmp.setPassword(tmpPassword);
+
+
                         //add toast for success
-                        Toast.makeText(root.getContext(), "Account Creation Successful",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(root.getContext(), "Profile Updated",Toast.LENGTH_SHORT).show();
                         Log.i("Volley",response.toString());
                         Navigation.findNavController(view).navigate(R.id.action_nav_userProfileSetting_to_nav_eventList);
                     }

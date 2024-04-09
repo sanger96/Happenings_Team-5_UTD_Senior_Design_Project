@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentIndividualClubBinding;
@@ -34,6 +35,15 @@ public class individualEventFragment extends Fragment {
 
         binding = com.example.happeningsapp.databinding.FragmentIndividualEventBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        Bundle args = getArguments();
+        if (args != null) {
+            int eventId = args.getInt("eventID");
+            // Now you have the event ID, you can use it to fetch event details from your data source
+            // For demonstration purposes, let's just display the event ID in a TextView
+            TextView eventIdTextView = root.findViewById(R.id.eventIdTextView);
+            eventIdTextView.setText("Event ID: " + eventId);
+        }
 
         //bind button
 //        Button buttonName = (Button) root.findViewById(R.id.nameOfButtonInLayout);
