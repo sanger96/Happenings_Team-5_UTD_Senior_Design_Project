@@ -86,7 +86,7 @@ public class UserSettingsFragment extends Fragment {
 //                Log.i("UserSettingsFragment","this is in onClick");
                 //url we are posting to, uses 10.0.2.2 instead of local host, this is what android studio will need to use local host.
                 // if you type local host it will automatically map to 127.0.0.1 aka the wrong place.
-                String postUrl="http://10.0.2.2:8080/useraccount/add";
+                String postUrl="http://10.0.2.2:8080/useraccount/update";
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
                 //initializing the JSONObject that will be posted
@@ -104,7 +104,7 @@ public class UserSettingsFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,postUrl,postData, new Response.Listener<JSONObject>() {
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT,postUrl,postData, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         //add toast for success
