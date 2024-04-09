@@ -102,10 +102,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         // Run a for loop to call alternate version of handleMapLongClick( ) that doesn't do map.clear()
-        // make it acccept both building name and Latlng so that geofence name and point are both set.
+        // make it accept both building name and Latlng so that geofence name and point are both set.
 
-        // run method to create markers for events, use addMarker(LatLng) pass the latitude and logitude.
+        //( Gaurav )
+        // run method to create markers for events, use addMarker(LatLng) pass the latitude and longitude.
         // when creating marker for event, call HashMap to get LatLng for building where event is, then pass to create marker
+
+        //( Gaurav )
+        // Don't forget to add system push notification or toast notification if in app currently open, to be set off when near event
+        // How to make app run in background of phone
 
     }
 
