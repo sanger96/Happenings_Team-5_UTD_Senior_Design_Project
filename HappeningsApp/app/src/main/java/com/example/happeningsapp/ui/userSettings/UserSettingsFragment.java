@@ -123,7 +123,6 @@ public class UserSettingsFragment extends Fragment {
         });//end of post request
 //        end of adding action on button click
 
-
         return root;
     }
 

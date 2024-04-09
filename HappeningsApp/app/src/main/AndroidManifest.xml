@@ -9,8 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-<!--    for iframe on eventList-->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +28,7 @@
 
 
         <!--
-             TO DO: Before you run your application, you need a Google Maps API key.
+             TODO: Before you run your application, you need a Google Maps API key.
 
              To get one, follow the directions here:
 
@@ -41,6 +41,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/MapsAPIKey" /> <!-- Google Maps API meta-data and key referenced -->
+        <receiver
+            android:name=".MyReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".MapsActivity"
             android:exported="false"
