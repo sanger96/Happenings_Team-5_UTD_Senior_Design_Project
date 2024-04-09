@@ -57,6 +57,7 @@ public class EventListFragment extends Fragment {
         String getUrl = "http://10.0.2.2:8080/event/getAll";
         RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
+
         // Request a JSONArray response from the provided URL
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET, getUrl, null, new Response.Listener<JSONArray>() {
