@@ -99,7 +99,7 @@ public class loginFragment extends Fragment {
                         Log.d("Volley PASS onResponse", "This is before the if statement");
 
                         // Authentication should take place in back end and will verify, then pass a boolean pass/fail back here
-                        if(response.toString().equals("1")){
+                        if(!response.toString().equals("-1")){
                             Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
                             //the below line should make the app go to that page on successful login
                             Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
@@ -108,6 +108,7 @@ public class loginFragment extends Fragment {
                             // Create instance of GlobalVars to be used.
                             GlobalVars accountDetails = com.example.happeningsapp.GlobalVars.getInstance();
                             try {
+                                accountDetails.setUserID(Integer.parseInt(response.toString()));
                                 accountDetails.setUsername(emailAndPass.getString("email"));
                                 accountDetails.setPassword(emailAndPass.getString("password"));
                                 //get accountID and set it in global vars, need to see if some call to get eid will work.
