@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.happeningsapp.GlobalVars;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentLoginBinding;
 
@@ -102,6 +103,21 @@ public class loginFragment extends Fragment {
                             Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
                             //the below line should make the app go to that page on successful login
                             Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
+
+                            // Set the email, eid and password to global vars
+                            // Create instance of GlobalVars to be used.
+                            GlobalVars accountDetails = com.example.happeningsapp.GlobalVars.getInstance();
+                            try {
+                                accountDetails.setUsername(emailAndPass.getString("email"));
+                                accountDetails.setPassword(emailAndPass.getString("password"));
+                                //get accountID and set it in global vars, need to see if some call to get eid will work.
+
+                            } catch (JSONException e) {
+                                // Log message: if the setting the global accountDetails fails
+                                Log.d("Account Details : login Fragment", "Failed to set the accountDetails at time of user login");
+                                throw new RuntimeException(e);
+                            }
+
 
                             //log method for debugging
                             Log.d("Volley PASS onResponse", "This is inside the if statement; if true");
