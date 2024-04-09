@@ -10,7 +10,7 @@ public class ClubSearchModel extends ViewModel {
 
     public ClubSearchModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is the club search list fragment");
+        mText.setValue("Clubs");
     }
 
     public LiveData<String> getText() {
