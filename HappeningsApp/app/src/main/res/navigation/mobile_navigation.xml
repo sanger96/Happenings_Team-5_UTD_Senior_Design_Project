@@ -15,6 +15,14 @@
         android:name="com.example.happeningsapp.ui.eventList.EventListFragment"
         android:label="@string/fragment_eventList"
         tools:layout="@layout/fragment_event_list" />
+        <action
+            android:id="@+id/action_nav_eventList_to_nav_individualEvent"
+            app:destination="@id/nav_individualEvent"/>
+    <fragment
+        android:id="@+id/nav_individualEvent"
+        android:name="com.example.happeningsapp.ui.individualEvent.individualEventFragment"
+        android:label="Individual Event"
+        tools:layout="@layout/fragment_individual_event"/>
     <fragment
         android:id="@+id/nav_clubSearch"
         android:name="com.example.happeningsapp.ui.clubSearch.ClubSearchFragment"
