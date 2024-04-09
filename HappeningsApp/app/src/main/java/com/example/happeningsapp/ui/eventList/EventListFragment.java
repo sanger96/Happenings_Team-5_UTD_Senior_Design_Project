@@ -1,5 +1,7 @@
 package com.example.happeningsapp.ui.eventList;
 
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -18,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.happeningsapp.R;
 import com.android.volley.Request;
@@ -27,12 +30,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.databinding.FragmentEventListBinding;
+import com.example.happeningsapp.ui.individualEvent.individualEventFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class EventListFragment extends Fragment {
 
@@ -109,24 +116,40 @@ public class EventListFragment extends Fragment {
         eventDetailsLayout.setOrientation(LinearLayout.VERTICAL); // we want the event name, club, desc, to be stacked vertically
 
         // Create TextViews for event name, club, and desc
-        TextView eventNameView = createTextView(context, event.getString("name"), 20, 2);
+        TextView eventNameView = createTextView(context, event.getString("name"), 20, 2, true);
         eventDetailsLayout.addView(eventNameView);
         if (!event.getString("club").equals("null")) {
-            TextView eventClubView = createTextView(context, event.getString("club"), 16, 1);
+            TextView eventClubView = createTextView(context, event.getString("club"), 16, 1, false);
             eventDetailsLayout.addView(eventClubView);
         }
-        TextView eventDescriptionView = createTextView(context, event.getString("description"), 16, 3);
+        TextView eventDescriptionView = createTextView(context, event.getString("description"), 16, 3, false);
         eventDetailsLayout.addView(eventDescriptionView);
 
         // Add event details layout to the event row
         eventRow.addView(eventDetailsLayout);
 
         // Create a TextView for the date information
-        TextView dateView = createDateView(context, "FEB 29");
+        String dateTimeStr = event.getJSONObject("appointment").getString("startTime");
+        LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd");
+        String formattedDateTime = dateTime.format(formatter).toUpperCase();
+        TextView dateView = createDateView(context, formattedDateTime);
         eventRow.addView(dateView);
 
         // Add drawable as the background - a border on the top and bottom
         eventRow.setBackgroundResource(R.drawable.thin_border);
+
+        int eventID = event.getInt("eventID");
+        eventRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle click event here
+                // For example, navigate to EventDetailsFragment passing event ID as argument
+                Bundle args = new Bundle();
+                args.putInt("eventID", eventID);
+                Navigation.findNavController(view).navigate(R.id.action_nav_eventList_to_nav_individualEvent, args);
+            }
+        });
 
         return eventRow;
     }
@@ -144,7 +167,7 @@ public class EventListFragment extends Fragment {
         return dateView;
     }
 
-    private TextView createTextView(Context context, String text, int textSize, int maxLines) {
+    private TextView createTextView(Context context, String text, int textSize, int maxLines, boolean isBold) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int deviceWidth = (int) (0.80 * displayMetrics.widthPixels);
 
@@ -158,6 +181,11 @@ public class EventListFragment extends Fragment {
         textView.setMaxWidth(deviceWidth); // Set maximum width to device width
         textView.setMaxLines(maxLines);
         textView.setEllipsize(TextUtils.TruncateAt.END);
+
+        if (isBold) {
+            textView.setTypeface(null, Typeface.BOLD);
+        }
+
         return textView;
     }
 }
