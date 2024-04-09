@@ -99,10 +99,12 @@ public class ClubSearchFragment extends Fragment {
     private View createClubRow(Context context, JSONObject club) throws JSONException {
         // Create a horizontal LinearLayout for each club
         LinearLayout clubRow = new LinearLayout(context);
-        clubRow.setLayoutParams(new LinearLayout.LayoutParams(
+
+        LinearLayout.LayoutParams rowLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, // will take the width of the parent (the device)
                 LinearLayout.LayoutParams.WRAP_CONTENT  // height will be based on the content
-        ));
+        );
+        clubRow.setLayoutParams(rowLayoutParams);
         clubRow.setOrientation(LinearLayout.HORIZONTAL);
 
         // Padding BETWEEN the text and the outline
@@ -131,6 +133,7 @@ public class ClubSearchFragment extends Fragment {
         // Add drawable as the background - a border on the top and bottom
         clubRow.setBackgroundResource(R.drawable.thin_border);
 
+
         return clubRow;
     }
 
@@ -144,10 +147,14 @@ public class ClubSearchFragment extends Fragment {
         textView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
+
         ));
         textView.setMaxWidth(deviceWidth); // Set maximum width to device width
         textView.setMaxLines(maxLines);
         textView.setEllipsize(TextUtils.TruncateAt.END);
+
+        textView.setPadding(0,0,0,0);
+
         return textView;
     }
 }
