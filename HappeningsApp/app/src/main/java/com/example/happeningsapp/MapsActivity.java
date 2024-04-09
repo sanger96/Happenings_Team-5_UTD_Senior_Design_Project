@@ -1,8 +1,5 @@
 package com.example.happeningsapp;
 
-import static androidx.fragment.app.FragmentManager.TAG;
-
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;

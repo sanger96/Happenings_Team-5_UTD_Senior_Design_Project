@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_userProfileSetting"> <!-- This is the starting destination for the app (will change back later) -->
+    app:startDestination="@+id/nav_login"> <!-- This is the starting destination for the app (will change back later) -->
     <!-- This is the navigation for the maps activity -->
     <activity
         android:id="@+id/nav_map"
@@ -29,7 +29,36 @@
         android:id="@+id/nav_userProfileSetting"
         android:name="com.example.happeningsapp.ui.userSettings.UserSettingsFragment"
         android:label="User Profile Settings"
-        tools:layout="@layout/fragment_user_settings" />
+        tools:layout="@layout/fragment_user_settings" >
+        <action
+            android:id="@+id/action_nav_userProfileSetting_to_nav_eventList"
+            app:destination="@id/nav_eventList" />
+    </fragment>
+    <fragment android:id="@+id/nav_login"
+        android:name="com.example.happeningsapp.ui.login.loginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_nav_login_to_nav_eventList"
+            app:destination="@id/nav_eventList" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_accountCreation"
+            app:destination="@id/nav_userProfileSetting" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.happeningsapp.ui.appSettings.AppSettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_app_settings" >
+        <action
+            android:id="@+id/action_nav_settings_to_eventCreationFragment"
+            app:destination="@id/eventCreationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventCreationFragment"
+        android:name="com.example.happeningsapp.ui.eventCreation.eventCreationFragment"
+        android:label="fragment_event_creation"
+        tools:layout="@layout/fragment_event_creation" />
 
 
 </navigation>

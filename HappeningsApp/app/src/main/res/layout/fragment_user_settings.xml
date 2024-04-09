@@ -6,14 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".ui.userSettings.UserSettingsFragment">
 
+    <!--
+    This page doubles as account creation and user settings
+    This page will be changed to match the
+    template online @ https://docs.google.com/drawings/d/10zKXpk6T4H1hE-rGScVG86tIHmk74nVJlVCATXf5uQY/edit
+
+    TODO:
+    1. Display account name/ email at top of page
+    2. Change password option
+
+    . (optional if there is time) light and dark mode toggle switch
+
+
+    -->
+
     <EditText
-        android:id="@+id/inText_userName"
+        android:id="@+id/inText_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="@string/inText_username"
-        android:autofillHints="Enter Username"
+        android:hint="@string/inText_username"
+        android:autofillHints="username"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/inText_password"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,8 +41,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textVisiblePassword"
-        android:text="@string/inText_password"
-        android:autofillHints="Enter Password"
+        android:hint="@string/inText_password"
+        android:autofillHints="password"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,27 +51,26 @@
         app:layout_constraintVertical_bias="0.54" />
 
     <Button
-        android:id="@+id/button_submitUserSettings"
+        android:id="@+id/button_createAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/submit"
+        android:text="Create Account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inText_password"
         app:layout_constraintVertical_bias="0.5" />
-
     <TextView
         android:id="@+id/textUserSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="page name"
-        app:layout_constraintBottom_toTopOf="@+id/inText_userName"
+        android:text="@string/pageTitle_userSettings"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.161" />
+        app:layout_constraintVertical_bias="0.041" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
