@@ -58,6 +58,16 @@ public class EventController {
         return service.getAll();
     }
 
+    @GetMapping("/getCampusEvents")
+    public List<Event> getCampusEvents(){
+        return service.getCampusEvents();
+    }
+
+    @GetMapping("/getClubEvents")
+    public List<Event> getClubEvents(){
+        return service.getClubEvents();
+    }
+
     @GetMapping("/rsvpCount/{id}")
     public int rsvpCount(@PathVariable int id)
     {
