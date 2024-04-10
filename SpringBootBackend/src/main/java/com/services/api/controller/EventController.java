@@ -34,13 +34,6 @@ public class EventController {
 
     @PostMapping("/createFromForm")
     public Event createFromForm(@RequestBody EventDTO eventDTO) {
-        System.out.println(eventDTO.getEventName());
-        System.out.println(eventDTO.getDescription());
-        System.out.println(eventDTO.getClubID());
-        System.out.println(eventDTO.getStartTime());
-        System.out.println(eventDTO.getEndTime());
-        System.out.println(eventDTO.getLocationName());
-        System.out.println(eventDTO.getRoom());
         return service.save(eventDTO.getEventName(), eventDTO.getDescription(), eventDTO.getClubID(),
                          eventDTO.getStartTime(), eventDTO.getEndTime(), eventDTO.getLocationName(),
                          eventDTO.getRoom());
