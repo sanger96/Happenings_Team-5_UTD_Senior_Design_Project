@@ -19,6 +19,7 @@ import com.example.happeningsapp.R;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -133,6 +134,15 @@ public class ClubSearchFragment extends Fragment {
         // Add drawable as the background - a border on the top and bottom
         clubRow.setBackgroundResource(R.drawable.thin_border);
 
+        int clubID = club.getInt("clubID");
+        clubRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putInt("clubID", clubID);
+                Navigation.findNavController(view).navigate(R.id.action_nav_clubSearch_to_nav_individualClub, args);
+            }
+        });
 
         return clubRow;
     }
