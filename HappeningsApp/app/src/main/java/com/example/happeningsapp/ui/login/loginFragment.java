@@ -95,7 +95,6 @@ public class loginFragment extends Fragment {
 
 
                 StringRequest auth = new StringRequest(Request.Method.POST, getUrl, new Response.Listener<String>() {
-
                     @Override
                     public void onResponse(String response) {
 

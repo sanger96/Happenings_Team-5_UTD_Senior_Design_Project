@@ -31,6 +31,7 @@
 
     <string name="inText_username">Enter email</string>
     <string name="inText_password">Enter password</string>
+    <string name="inText_clubsearch">Enter club name</string>
 
     <string name="submit">Submit</string>
 

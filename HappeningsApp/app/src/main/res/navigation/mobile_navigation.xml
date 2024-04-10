@@ -28,6 +28,14 @@
         android:name="com.example.happeningsapp.ui.clubSearch.ClubSearchFragment"
         android:label="@string/menu_club_search"
         tools:layout="@layout/fragment_club_search" />
+        <action
+            android:id="@+id/action_nav_clubSearch_to_nav_individualClub"
+            app:destination="@id/nav_individualClub"/>
+    <fragment
+        android:id="@+id/nav_individualClub"
+        android:name="com.example.happeningsapp.ui.individualClub.individualClubFragment"
+        android:label="Individual Club"
+        tools:layout="@layout/fragment_individual_club"/>
     <fragment
         android:id="@+id/nav_userProfileSetting"
         android:name="com.example.happeningsapp.ui.userSettings.UserSettingsFragment"
