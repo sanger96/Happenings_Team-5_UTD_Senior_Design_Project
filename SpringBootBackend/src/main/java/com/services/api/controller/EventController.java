@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.services.api.entity.Event;
+import com.services.api.entity.EventDTO;
 import com.services.api.service.EventService;
 
 
@@ -32,12 +33,18 @@ public class EventController {
     }
 
     @PostMapping("/createFromForm")
-    public Event createFromForm
-    (String eventName, String description, Optional<Integer> clubID,
-     LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
-        return service.save(eventName, description, clubID, startTime, endTime, locationName, room);
-    }
-
+    public Event createFromForm(@RequestBody EventDTO eventDTO) {
+        System.out.println(eventDTO.getEventName());
+        System.out.println(eventDTO.getDescription());
+        System.out.println(eventDTO.getClubID());
+        System.out.println(eventDTO.getStartTime());
+        System.out.println(eventDTO.getEndTime());
+        System.out.println(eventDTO.getLocationName());
+        System.out.println(eventDTO.getRoom());
+        return service.save(eventDTO.getEventName(), eventDTO.getDescription(), eventDTO.getClubID(),
+                         eventDTO.getStartTime(), eventDTO.getEndTime(), eventDTO.getLocationName(),
+                         eventDTO.getRoom());
+}
     @PutMapping("/update")
     public Event updateEvent(@RequestBody Event event) {
         return service.save(event);

@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,10 @@ import android.content.Context;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class EventListFragment extends Fragment {
 
@@ -89,8 +94,25 @@ public class EventListFragment extends Fragment {
                         public void onResponse(JSONArray response) {
                             try {
                                 binding.eventListTable.removeAllViews();
+                                List<Pair<JSONObject, LocalDateTime>> eventList = new ArrayList<>();
+
+                                // Parse start times and populate the event list
                                 for (int i = 0; i < response.length(); i++) {
                                     JSONObject event = response.getJSONObject(i);
+                                    String startTimeStr = event.getJSONObject("appointment").getString("startTime");
+                                    LocalDateTime startTime = LocalDateTime.parse(startTimeStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                                    eventList.add(new Pair<>(event, startTime));
+                                }
+
+                                // Sort the event list by start times
+                                Collections.sort(eventList, new Comparator<Pair<JSONObject, LocalDateTime>>() {
+                                    @Override
+                                    public int compare(Pair<JSONObject, LocalDateTime> o1, Pair<JSONObject, LocalDateTime> o2) {
+                                        return o1.second.compareTo(o2.second);
+                                    }
+                                });
+                                for (Pair<JSONObject, LocalDateTime> pair : eventList) {
+                                    JSONObject event = pair.first;
                                     View eventRow = createEventRow(root.getContext(), event);
                                     binding.eventListTable.addView(eventRow);
                                 }
@@ -115,37 +137,7 @@ public class EventListFragment extends Fragment {
                 // Do nothing
             }
         });
-        // URL to fetch events from
-//        String getUrl = "http://10.0.2.2:8080/event/getAll";
-//        RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
-//
-//
-//        // Request a JSONArray response from the provided URL
-//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-//                Request.Method.GET, getUrl, null, new Response.Listener<JSONArray>() {
-//            @Override
-//            public void onResponse(JSONArray response) {
-//                try {
-//                    for (int i = 0; i < response.length(); i++) {
-//                        JSONObject event = response.getJSONObject(i);
-//                        View eventRow = createEventRow(root.getContext(), event);
-//                        binding.eventListTable.addView(eventRow);
-//                    }
-//                } catch (JSONException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.wtf("Volley Fail", error.toString());
-//                    }
-//                }
-//        );
-//
-//        // Add the request to the queue
-//        requestQueue.add(jsonArrayRequest);
+
         return root;
     }
 
