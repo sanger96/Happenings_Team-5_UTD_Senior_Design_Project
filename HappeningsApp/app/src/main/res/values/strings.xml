@@ -19,6 +19,7 @@
     <string name="menu_photo_gallery">Photo Gallery</string>
     <string name="menu_user_profile">User Profile</string>
     <string name="menu_settings">Settings</string>
+    <string name="logout">Logout</string>
     <!-- MapsActivity Strings -->
     <string name="fragment_maps">Map</string>
     <string name="title_activity_maps">MapsActivity</string>

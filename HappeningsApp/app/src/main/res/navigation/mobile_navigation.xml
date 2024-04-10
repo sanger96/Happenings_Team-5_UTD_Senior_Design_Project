@@ -29,11 +29,6 @@
         android:label="@string/menu_club_search"
         tools:layout="@layout/fragment_club_search" />
     <fragment
-        android:id="@+id/nav_photoGallery"
-        android:name="com.example.happeningsapp.ui.photoGallery.PhotoGalleryFragment"
-        android:label="@string/menu_photo_gallery"
-        tools:layout="@layout/fragment_photo_gallery" />
-    <fragment
         android:id="@+id/nav_userProfileSetting"
         android:name="com.example.happeningsapp.ui.userSettings.UserSettingsFragment"
         android:label="User Profile Settings"
@@ -41,6 +36,14 @@
         <action
             android:id="@+id/action_nav_userProfileSetting_to_nav_eventList"
             app:destination="@id/nav_eventList" />
+    </fragment>
+    <fragment android:id="@+id/nav_logout"
+        android:name="com.example.happeningsapp.ui.logout.logoutFragment"
+        android:label="Logout"
+        tools:layout="@layout/fragment_logout">
+        <action
+            android:id="@+id/action_nav_logout_to_nav_login"
+            app:destination="@id/nav_login" />
     </fragment>
     <fragment android:id="@+id/nav_login"
         android:name="com.example.happeningsapp.ui.login.loginFragment"
