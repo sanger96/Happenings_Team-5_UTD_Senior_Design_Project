@@ -43,7 +43,7 @@ import java.util.List;
 public class ClubSearchFragment extends Fragment {
 
     private FragmentClubSearchBinding binding;
-    private ArrayList<JSONObject> clubs;
+    private ArrayList<JSONObject> clubs = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ClubSearchModel clubSearchModel = new ViewModelProvider(this).get(ClubSearchModel.class);
@@ -54,8 +54,10 @@ public class ClubSearchFragment extends Fragment {
         SearchView searchView = binding.SearchView;
 //        searchView.clearFocus();
 
-        clubs = new ArrayList<>();
-        binding.clubSearchTable.removeAllViews();
+
+
+//        searchView.setQuery("qweqwe", true);
+//        Toast.makeText(root.getContext(), "Query: " + searchView.getQuery(), Toast.LENGTH_SHORT).show();
 //        Toast.makeText(root.getContext(),
 //                "table len: " + binding.clubSearchTable.getChildCount() +
 //                "\nlist len: " + clubs.size(), Toast.LENGTH_LONG).show();
@@ -103,6 +105,8 @@ public class ClubSearchFragment extends Fragment {
                 }
             }
         });
+
+
 //        final TextView textView = binding.textGallery;
 //        clubSearchModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 //
@@ -116,11 +120,15 @@ public class ClubSearchFragment extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject club = response.getJSONObject(i);
-                                clubs.add(club);
-                                View clubRow = createClubRow(root.getContext(), club);
-                                binding.clubSearchTable.addView(clubRow);
+//                            clubs = new ArrayList<>();
+//                            binding.clubSearchTable.removeAllViews();
+                            if(binding.clubSearchTable.getChildCount() == 0){
+                                for (int i = 0; i < response.length(); i++) {
+                                    JSONObject club = response.getJSONObject(i);
+                                    clubs.add(club);
+                                    View clubRow = createClubRow(root.getContext(), club);
+                                    binding.clubSearchTable.addView(clubRow);
+                                }
                             }
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
