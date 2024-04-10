@@ -5,9 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast; //lets us have pop ups for user
 
@@ -21,14 +19,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentUserSettingsBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 public class UserSettingsFragment extends Fragment {
 
@@ -66,7 +62,7 @@ public class UserSettingsFragment extends Fragment {
         UserSettingsViewModelProvider.getEmail().observe(getViewLifecycleOwner(), email::setText);
         UserSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
 
-        Button showPassword = (Button) root.findViewById(R.id.button_showPassword);
+        Button showPassword = (Button) root.findViewById(R.id.button_logout);
         showPassword.setOnClickListener(new View.OnClickListener() {
 
             @Override

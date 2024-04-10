@@ -38,7 +38,7 @@
             app:destination="@id/nav_eventList" />
     </fragment>
     <fragment android:id="@+id/nav_logout"
-        android:name="com.example.happeningsapp.ui.logout.logoutFragment"
+        android:name="com.example.happeningsapp.ui.logout.LogoutFragment"
         android:label="Logout"
         tools:layout="@layout/fragment_logout">
         <action
