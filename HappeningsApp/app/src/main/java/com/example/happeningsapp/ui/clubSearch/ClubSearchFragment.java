@@ -14,9 +14,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import android.content.Context;
+import android.widget.Toast;
+
 import com.example.happeningsapp.R;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -33,17 +36,75 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ClubSearchFragment extends Fragment {
 
     private FragmentClubSearchBinding binding;
+    private ArrayList<JSONObject> clubs = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ClubSearchModel clubSearchModel = new ViewModelProvider(this).get(ClubSearchModel.class);
 
         binding = FragmentClubSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        SearchView searchView = binding.SearchView;
+//        searchView.clearFocus();
+
+
+
+//        searchView.setQuery("qweqwe", true);
+//        Toast.makeText(root.getContext(), "Query: " + searchView.getQuery(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(root.getContext(),
+//                "table len: " + binding.clubSearchTable.getChildCount() +
+//                "\nlist len: " + clubs.size(), Toast.LENGTH_LONG).show();
+
+        // Create listener for search bar
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                try {
+                    // Clear the current rows
+                    binding.clubSearchTable.removeAllViews();
+
+                    // If nothing was searched then show all clubs
+                    if(newText == null || newText.isEmpty()){
+
+                        for(JSONObject club : clubs){
+                            View clubRow = createClubRow(root.getContext(), club);
+                            binding.clubSearchTable.addView(clubRow);
+                        }
+                        return true;
+                    }
+
+                    int count = 0;
+                    for(JSONObject club : clubs){
+                        String name = club.getString("name");
+                        if(name.toLowerCase().contains(newText.toLowerCase())){
+                            View clubRow = createClubRow(root.getContext(), club);
+                            binding.clubSearchTable.addView(clubRow);
+                            count++;
+                        }
+                    }
+
+                    if(count == 0){
+                        Toast.makeText(root.getContext(), "There are no clubs with that name", Toast.LENGTH_SHORT).show();
+                    }
+
+                    return true;
+                }catch(JSONException e){
+                    throw new RuntimeException(e);
+                }
+            }
+        });
 
 
 //        final TextView textView = binding.textGallery;
@@ -59,10 +120,15 @@ public class ClubSearchFragment extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject club = response.getJSONObject(i);
-                                View clubRow = createClubRow(root.getContext(), club);
-                                binding.clubSearchTable.addView(clubRow);
+//                            clubs = new ArrayList<>();
+//                            binding.clubSearchTable.removeAllViews();
+                            if(binding.clubSearchTable.getChildCount() == 0){
+                                for (int i = 0; i < response.length(); i++) {
+                                    JSONObject club = response.getJSONObject(i);
+                                    clubs.add(club);
+                                    View clubRow = createClubRow(root.getContext(), club);
+                                    binding.clubSearchTable.addView(clubRow);
+                                }
                             }
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -77,19 +143,6 @@ public class ClubSearchFragment extends Fragment {
         requestQueue.add(jsonArrayRequest);
         return root;
     }
-
-//     For when you are ready for adding input text on clubSearchFragment
-//https://developer.android.com/develop/ui/views/touch-and-input/creating-input-method
-//    @Override
-//    public View onCreateInputView() {
-//        MyKeyboardView inputView =
-//                (MyKeyboardView) getLayoutInflater().inflate(R.layout.input, null);
-//
-//        inputView.setOnKeyboardActionListener(this);
-//        inputView.setKeyboard(latinKeyboard);
-//
-//        return inputView;
-//    }
 
     @Override
     public void onDestroyView() {
