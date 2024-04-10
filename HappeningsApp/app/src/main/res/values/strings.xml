@@ -33,6 +33,9 @@
     <string name="inText_password">Enter password</string>
     <string name="inText_clubsearch">Enter club name</string>
 
+    <string name="searchable_clubList_name">Enter club name</string>
+    <string name="searchable_clubList_label">Club Search Bar</string>
+
     <string name="submit">Submit</string>
 
     <!-- Page Title -->
