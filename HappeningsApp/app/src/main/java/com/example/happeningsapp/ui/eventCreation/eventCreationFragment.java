@@ -77,15 +77,10 @@ public class eventCreationFragment extends Fragment {
                 //url we are posting to, uses 10.0.2.2 instead of local host, this is what android studio will need to use local host.
                 // if you type local host it will automatically map to 127.0.0.1 aka the wrong place.
                 String postUrl="http://10.0.2.2:8080/event/createFromForm";
-                String postUrlCreateEvent="http://10.0.2.2:8080/event/createFromForm";
-                String postUrlCreateAppointment="http://10.0.2.2:8080/appointment/add";
-                String postUrlCreateLocation="http://10.0.2.2:8080/location/add";
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
                 //initializing the JSONObject that will be posted
                 JSONObject postEvent = new JSONObject();
-                JSONObject postAppointment = new JSONObject();
-                JSONObject postLocation = new JSONObject();
 
                 try{
                     //This is how we will add elements to build the JSONObject post data
@@ -93,17 +88,13 @@ public class eventCreationFragment extends Fragment {
                     postEvent.put("description", description.getText().toString());
 
                     //create appointment to be put in event
-                    postAppointment.put("startTime", startTime.getText().toString());
-                    postAppointment.put("endTime", endTime.getText());
+                    postEvent.put("startTime", startTime.getText().toString());
+                    postEvent.put("endTime", endTime.getText());
 //                    postAppointment.put("type", "event");
 
                     //add location in appointment
-                    postLocation.put("locationName", location.getText().toString());
-                    postLocation.put("room", room.getText().toString());
-                    postAppointment.put("location",postLocation);
-
-                    //put appointment in event
-                    postEvent.put("appointment",postAppointment.toString());
+                    postEvent.put("locationName", location.getText().toString());
+                    postEvent.put("room", room.getText().toString());
 
                     //this log method will appear in logcat
                     Log.i("eventCreationFragment post data","JSONObject postData is built");

@@ -19,6 +19,7 @@
     <string name="menu_photo_gallery">Photo Gallery</string>
     <string name="menu_user_profile">User Profile</string>
     <string name="menu_settings">Settings</string>
+    <string name="logout">Logout</string>
     <!-- MapsActivity Strings -->
     <string name="fragment_maps">Map</string>
     <string name="title_activity_maps">MapsActivity</string>
@@ -45,6 +46,13 @@
     <string name="button_create_event">create event</string>
     <string name="eventCreationForm_eventDescription">event description</string>
     <string name="eventCreationForm_eventName">event name</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string-array name="filter_options">
+        <item>All</item>
+        <item>Campus</item>
+        <item>Club</item>
+    </string-array>
 
 </resources>
