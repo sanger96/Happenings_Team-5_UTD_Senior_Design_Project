@@ -34,4 +34,11 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
                     "WHERE unix_timestamp(NOW()) >= unix_timestamp(ADDTIME(end_time, '1 00:00:00'))"
     , nativeQuery = true)
     List<Integer> getExpiredIds();
+
+    @Query(value = "SELECT * FROM event e WHERE e.clubID IS NULL", nativeQuery = true)
+    List<Event> getCampusEvents();
+
+    @Query(value = "SELECT * FROM event e WHERE e.clubID IS NOT NULL", nativeQuery = true)
+    List<Event> getClubEvents();
+
 }

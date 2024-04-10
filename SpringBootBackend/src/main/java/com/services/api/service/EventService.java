@@ -76,6 +76,14 @@ public class EventService {
         return repository.findAll();
     }
 
+    public List<Event> getCampusEvents() {
+        return repository.getCampusEvents();
+    }
+
+    public List<Event> getClubEvents() {
+        return repository.getClubEvents();
+    }
+
     public int rsvpCount(int id)
     {
         return repository.rsvpCount(id);

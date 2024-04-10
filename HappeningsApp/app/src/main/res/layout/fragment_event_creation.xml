@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:ems="12"
         android:hint="@string/eventCreationForm_end_time"
-        app:layout_constraintBottom_toTopOf="@+id/inText_eventLocaiton"
+        app:layout_constraintBottom_toTopOf="@+id/inText_eventLocation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
