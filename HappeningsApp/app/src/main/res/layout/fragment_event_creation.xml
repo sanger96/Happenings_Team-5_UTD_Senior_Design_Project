@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="12"
-                android:hint="@string/eventCreationForm_end_time"/>
+                android:hint="@string/eventCreation_date"/>
 
             <Button
                 android:id="@+id/idBtnPickDate"
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="12"
-                android:hint="Start Time"/>
+                android:hint="@string/eventCreation_startTime"/>
 
             <Button
                 android:id="@+id/idBtnPickStartTime"
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="12"
-                android:hint="End Time"/>
+                android:hint="@string/eventCreationForm_end_time"/>
             <Button
                 android:id="@+id/idBtnPickEndTime"
                 android:layout_width="wrap_content"

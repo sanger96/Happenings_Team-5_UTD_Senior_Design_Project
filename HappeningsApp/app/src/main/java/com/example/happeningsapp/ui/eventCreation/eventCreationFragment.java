@@ -15,6 +15,8 @@ import android.widget.TimePicker;
 import android.widget.Toast; //lets us have pop ups for user
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -33,9 +35,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class eventCreationFragment extends Fragment {
 
@@ -60,17 +65,19 @@ public class eventCreationFragment extends Fragment {
         binding = FragmentEventCreationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-
+        // Get the activity's ActionBar and set the title
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Event Creation");
+        }
 
         //bind variables
         TextView name = binding.inTextEventName;
         TextView description = binding.inTextEventDescription;
-        TextView startTime= binding.inTextStartTime; //may want to cast this to java date type
-//        LocalDateTime startTime= (LocalDateTime) binding.inTextStartTime; //may want to cast this to java date type
-        TextView endTime= binding.inTextEndTime; //may want to cast this to java date type
+        TextView startTime= binding.inTextStartTime;
+        TextView endTime= binding.inTextEndTime;
         TextView location = binding.inTextEventLocation;
         TextView room = binding.inTextEventRoom;
-
 
         // these commands will make sure the variables are observed for their "life cycle"
         EventCreationViewModelProvider.getName().observe(getViewLifecycleOwner(), name::setText);
@@ -83,6 +90,7 @@ public class eventCreationFragment extends Fragment {
         //binding create event button
         Button button_createEvent = (Button) root.findViewById(R.id.button_createEvent);
 
+
         pickDateBtn = root.findViewById(R.id.idBtnPickDate);
         dateField = root.findViewById(R.id.inText_Date);
         pickStartTimeBtn = root.findViewById(R.id.idBtnPickStartTime);
@@ -90,34 +98,35 @@ public class eventCreationFragment extends Fragment {
         pickDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // on below line we are getting
-                // the instance of our calendar.
+
                 final Calendar c = Calendar.getInstance();
 
-                // on below line we are getting
-                // our day, month and year.
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
 
-                // on below line we are creating a variable for date picker dialog.
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         // on below line we are passing context.
                         root.getContext(),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-                                // on below line we are setting date to our text view.
-                                dateField.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                // Creating a Calendar object to hold the selected date.
+                                Calendar selectedDate = Calendar.getInstance();
+                                selectedDate.set(Calendar.YEAR, year);
+                                selectedDate.set(Calendar.MONTH, monthOfYear);
+                                selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.getDefault());
+                                String formattedDate = dateFormat.format(selectedDate.getTime());
+
+                                // Setting the formatted date in TextView.
+                                dateField.setText(formattedDate);
 
                             }
                         },
-                        // on below line we are passing year,
-                        // month and day for selected date in our date picker.
+
                         year, month, day);
-                // at last we are calling show to
-                // display our date picker dialog.
                 datePickerDialog.show();
             }
         });
@@ -125,11 +134,8 @@ public class eventCreationFragment extends Fragment {
         pickStartTimeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // on below line we are getting the
-                // instance of our calendar.
                 final Calendar c = Calendar.getInstance();
 
-                // on below line we are getting our hour, minute.
                 int hour = c.get(Calendar.HOUR_OF_DAY);
                 int minute = c.get(Calendar.MINUTE);
 
@@ -139,13 +145,18 @@ public class eventCreationFragment extends Fragment {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
-                                // on below line we are setting selected time
-                                // in our text view.
-                                startTime.setText(hourOfDay + ":" + minute);
+                                Calendar selectedTime = Calendar.getInstance();
+                                selectedTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                selectedTime.set(Calendar.MINUTE, minute);
+
+                                // Formatting the selected time to 12-hour format with AM/PM indicator.
+                                SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
+                                String formattedTime = timeFormat.format(selectedTime.getTime());
+
+                                // Setting the formatted time in TextView.
+                                startTime.setText(formattedTime);
                             }
                         }, hour, minute, false);
-                // at last we are calling show to
-                // display our time picker dialog.
                 timePickerDialog.show();
             }
         });
@@ -153,27 +164,29 @@ public class eventCreationFragment extends Fragment {
         pickEndTimeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // on below line we are getting the
-                // instance of our calendar.
                 final Calendar c = Calendar.getInstance();
 
-                // on below line we are getting our hour, minute.
                 int hour = c.get(Calendar.HOUR_OF_DAY);
                 int minute = c.get(Calendar.MINUTE);
 
-                // on below line we are initializing our Time Picker Dialog
                 TimePickerDialog timePickerDialog = new TimePickerDialog(root.getContext(),
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
-                                // on below line we are setting selected time
-                                // in our text view.
-                                endTime.setText(hourOfDay + ":" + minute);
+                                Calendar selectedTime = Calendar.getInstance();
+                                selectedTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                selectedTime.set(Calendar.MINUTE, minute);
+
+                                // Formatting the selected time to 12-hour format with AM/PM indicator.
+                                SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
+                                String formattedTime = timeFormat.format(selectedTime.getTime());
+
+                                // Setting the formatted time in TextView.
+                                endTime.setText(formattedTime);
                             }
                         }, hour, minute, false);
-                // at last we are calling show to
-                // display our time picker dialog.
+
                 timePickerDialog.show();
             }
         });
@@ -191,16 +204,13 @@ public class eventCreationFragment extends Fragment {
                 JSONObject postEvent = new JSONObject();
 
                 try{
-                    //This is how we will add elements to build the JSONObject post data
+
                     postEvent.put("eventName",name.getText().toString());
                     postEvent.put("description", description.getText().toString());
 
-                    //create appointment to be put in event
-                    postEvent.put("startTime", startTime.getText().toString());
-                    postEvent.put("endTime", endTime.getText());
-//                    postAppointment.put("type", "event");
+                    postEvent.put("startTime", formatDateAndTime(dateField.getText().toString(), startTime.getText().toString()));
+                    postEvent.put("endTime", formatDateAndTime(dateField.getText().toString(), endTime.getText().toString()));
 
-                    //add location in appointment
                     postEvent.put("locationName", location.getText().toString());
                     postEvent.put("room", room.getText().toString());
 
@@ -236,6 +246,26 @@ public class eventCreationFragment extends Fragment {
 
         return root;
     }// end of onCreateView
+
+    public static String formatDateAndTime(String dateStr, String timeStr) {
+        try {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
+            SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.ENGLISH);
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
+            Date date = dateFormat.parse(dateStr);
+            Date time = timeFormat.parse(timeStr);
+
+            String formattedDate = outputFormat.format(date);
+            String formattedTime = outputFormat.format(time);
+
+            return formattedDate.substring(0, 10) + 'T' + formattedTime.substring(11);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
 } // end of eventCreationFragment
