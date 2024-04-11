@@ -64,6 +64,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 //location import
 import android.location.Location;
 
+import java.util.HashMap;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener { //GoogleMap.OnMapLongClickListener is used for testing purposes
     private static final int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 100;
     private static final int FINE_LOCATION_ACCESS_REQUEST_CODE = 10001;
@@ -81,6 +83,52 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // create a statically defined HashMap with <key= buildingName, node = LatLng>
     // <soccor field, LatLng>
+    HashMap<String, LatLng> buildingLatLng = new HashMap<String, LatLng>();
+    //This list may not be all of them since there could be ones for a soccer field or something and not a building
+    public void createBuildingLatLng() {
+        buildingLatLng.put("AB", new LatLng(32.9851, -96.7494));
+        buildingLatLng.put("AD", new LatLng(32.9895, -96.7480));
+        buildingLatLng.put("AH1", new LatLng(32.9878, -96.7521));
+        buildingLatLng.put("AH2", new LatLng(32.9878, -96.7518));
+        buildingLatLng.put("BE", new LatLng(32.9877, -96.7509));
+        buildingLatLng.put("BSB", new LatLng(32.9914, -96.7496));
+        buildingLatLng.put("CR", new LatLng(32.9924, -96.7487));
+        buildingLatLng.put("CRA", new LatLng(32.9917, -96.7484));
+        buildingLatLng.put("GR", new LatLng(32.9884, -96.7479));
+        buildingLatLng.put("CB", new LatLng(32.9875, -96.7518));
+        buildingLatLng.put("CB3", new LatLng(32.9878, -96.7514));
+        buildingLatLng.put("DGA", new LatLng(32.9859, -96.7461));
+        buildingLatLng.put("ATC", new LatLng(32.9862, -96.7476));
+        buildingLatLng.put("ECSN", new LatLng(32.9869, -96.7504));
+        buildingLatLng.put("ECSS", new LatLng(32.9861, -96.7507));
+        buildingLatLng.put("ECSW", new LatLng(32.9860, -96.7515));
+        buildingLatLng.put("JO", new LatLng(32.9889, -96.7488));
+        buildingLatLng.put("MC", new LatLng(32.9872, -96.7476));
+        buildingLatLng.put("FM", new LatLng(32.9924, -96.7458));
+        buildingLatLng.put("FA", new LatLng(32.9877, -96.7499));
+        buildingLatLng.put("FO", new LatLng(32.9877, -96.7491));
+        buildingLatLng.put("FN", new LatLng(32.9881, -96.7495));
+        buildingLatLng.put("HH", new LatLng(32.9869, -96.7516));
+        buildingLatLng.put("ML1", new LatLng(32.9868, -96.7526));
+        buildingLatLng.put("PS3", new LatLng(32.9905, -96.7501));
+        buildingLatLng.put("PHA", new LatLng(32.9897, -96.7501));
+        buildingLatLng.put("PHY", new LatLng(32.9893, -96.7507));
+        buildingLatLng.put("PD", new LatLng(32.9916, -96.7456));
+        buildingLatLng.put("ROC", new LatLng(32.9861, -96.7573));
+        buildingLatLng.put("ROW", new LatLng(32.9863, -96.7584));
+        buildingLatLng.put("SG", new LatLng(32.9816, -96.7527));
+        buildingLatLng.put("SLC", new LatLng(32.9881, -96.7504));
+        buildingLatLng.put("SCI", new LatLng(32.9887, -96.7507));
+        buildingLatLng.put("SB", new LatLng(32.9913, -96.7463));
+        buildingLatLng.put("SSB", new LatLng(32.9859, -96.7487));
+        buildingLatLng.put("SSA", new LatLng(32.9861, -96.7496));
+        buildingLatLng.put("SU", new LatLng(32.9869, -96.7489));
+        buildingLatLng.put("SPN", new LatLng(32.9947, -96.7529));
+        buildingLatLng.put("SP2", new LatLng(32.9951, -96.7535));
+        buildingLatLng.put("TH", new LatLng(32.9884, -96.7486));
+        buildingLatLng.put("VCB", new LatLng(32.9847, -96.7497));
+        buildingLatLng.put("WSTC", new LatLng(32.9884, -96.7565));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

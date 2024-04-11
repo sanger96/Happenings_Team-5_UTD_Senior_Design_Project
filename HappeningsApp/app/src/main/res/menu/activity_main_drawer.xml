@@ -18,10 +18,12 @@ need to add and change the icons on the side menu
             android:id="@+id/nav_clubSearch"
             android:icon="@drawable/ic_launcher_foreground"
             android:title="@string/menu_club_search" />
+       <!-- Removing the photo gallery option from the side menu
         <item
             android:id="@+id/nav_photoGallery"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_photo_gallery" />
+        -->
         <item
             android:id="@+id/nav_userProfileSetting"
             android:icon="@drawable/ic_launcher_foreground"
