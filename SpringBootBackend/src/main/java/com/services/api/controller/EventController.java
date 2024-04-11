@@ -58,9 +58,22 @@ public class EventController {
         return service.getAll();
     }
 
-    @GetMapping("/getRSVPcount/{id}")
-    public Integer getRSVPcount(@PathVariable int id){
-        return service.getRSVPcount(id);
+    @GetMapping("/rsvpCount/{id}")
+    public int rsvpCount(@PathVariable int id)
+    {
+        return service.rsvpCount(id);
+    }
+
+    @PostMapping("/joinClub/{eventID}_{clubID}")
+    public Event joinClub(@PathVariable int eventID, @PathVariable int clubID)
+    {
+        return service.joinClub(eventID, clubID);
+    }
+
+    @PostMapping("/quitClub/{eventID}")
+    public Event quitClub(@PathVariable int eventID)
+    {
+        return service.quitClub(eventID);
     }
 
     @GetMapping("/existsByName/{name}")

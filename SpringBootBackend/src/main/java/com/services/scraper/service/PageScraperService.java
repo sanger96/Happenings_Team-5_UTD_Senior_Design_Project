@@ -150,6 +150,7 @@ public class PageScraperService {
             for (PageItem eventItem : eventItems) {
                 Document doc = Jsoup.connect(eventItem.getUrl()).get();
 
+                /* Try to get location data from all paragraphs */
                 Elements paragraphs = doc.select("p");
                 String building, roomNumber;
                 building = roomNumber = "";
@@ -164,6 +165,7 @@ public class PageScraperService {
                     }
                 }
 
+                /* Try to get all data from script element */
                 Element eventJson = doc.select("script[type=application/ld+json]").first();
                 String jsonString = eventJson.html();
 
@@ -176,9 +178,9 @@ public class PageScraperService {
                 
                 // Fields that we can possibly extract (not all can be, not all are used)
                 String name, description, startDate, endDate, eventStatus, imageUrl, locationName, locationAddress, locationUrl;
-                name = description = startDate = endDate = eventStatus = imageUrl = locationName = locationAddress = locationUrl = "";
+                name = description = startDate = endDate = eventStatus = imageUrl = locationName = locationAddress = locationUrl = null;
                 
-                // Sometimes there is no location 
+                // Sometimes there is no location
                 JsonObject locationObj = null;
 
                 name = eventItem.getTitle();
@@ -194,6 +196,11 @@ public class PageScraperService {
                 try {
                     endDate = jsonObject.get("endDate").getAsString();
                 } catch (Exception e) {}
+
+                // Check if the event is already expired
+                if ((dateFormatter(endDate, true).plusDays(1)).isBefore(LocalDateTime.now())) {
+                    continue;
+                }
 
                 try {
                     eventStatus = jsonObject.get("eventStatus").getAsString();
@@ -212,24 +219,31 @@ public class PageScraperService {
                     } catch (Exception E) {}
                 }
                 
+                // A building wasn't found in paragraphs
                 if (building.isEmpty()) {
+                    // resort to setting building name as the locationName from the script tag
                     building = locationName;
+                    // A building wasn't found in script element (because there was either no location JSON object or no locationName field in the JSON)
+                    // Now, the building value is null, so check for that
+                    if(building == null)
+                        continue;
+                }
+
+                if (roomNumber.isEmpty()) {
+                    roomNumber = null;
                 }
                  
+                // Create and save new location
                 Location locationToAdd = new Location(building, roomNumber);
-
-                // Check for dupe location
                 locationToAdd = locationService.save(locationToAdd);
                 
+                // Create and quicksave new appointment to bypass conflict checking
                 Appointment appointmentToAdd = new Appointment(dateFormatter(startDate, false), dateFormatter(endDate, true), "event", locationToAdd);
-
-                // Quick Save to bypass checking
                 appointmentService.quickSave(appointmentToAdd);
                 
+                // Create and save new event
                 Event eventToAdd = new Event(name, description, name+"Gallery", appointmentToAdd);
-            
                 eventService.save(eventToAdd);
-
             }
         }
         catch(Exception e){
