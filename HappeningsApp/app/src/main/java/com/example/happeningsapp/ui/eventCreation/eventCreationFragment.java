@@ -195,6 +195,39 @@ public class eventCreationFragment extends Fragment {
         button_createEvent.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+
+                boolean missingRequiredFields = false;
+                if (name.getText().toString().isEmpty()) {
+                    name.setError("Event name is required.");
+                    missingRequiredFields = true;
+                }
+
+                if (description.getText().toString().isEmpty()) {
+                    description.setError("Event description is required.");
+                    missingRequiredFields = true;
+                }
+
+                if (dateField.getText().toString().isEmpty()) {
+                    dateField.setError("Date is required.");
+                    missingRequiredFields = true;
+                }
+
+                if (startTime.getText().toString().isEmpty()) {
+                    startTime.setError("Start time is required.");
+                    missingRequiredFields = true;
+                }
+
+                if (endTime.getText().toString().isEmpty()) {
+                    endTime.setError("End time is required.");
+                    missingRequiredFields = true;
+                }
+
+                if (location.getText().toString().isEmpty()) {
+                    location.setError("Location/Building is required.");
+                    missingRequiredFields = true;
+                }
+
+                if (missingRequiredFields) { return; }
                 //url we are posting to, uses 10.0.2.2 instead of local host, this is what android studio will need to use local host.
                 // if you type local host it will automatically map to 127.0.0.1 aka the wrong place.
                 String postUrl="http://10.0.2.2:8080/event/createFromForm";
@@ -212,8 +245,9 @@ public class eventCreationFragment extends Fragment {
                     postEvent.put("endTime", formatDateAndTime(dateField.getText().toString(), endTime.getText().toString()));
 
                     postEvent.put("locationName", location.getText().toString());
-                    postEvent.put("room", room.getText().toString());
-
+                    if (!room.getText().toString().isEmpty()) {
+                        postEvent.put("room", room.getText().toString());
+                    }
                     //this log method will appear in logcat
                     Log.i("eventCreationFragment post data","JSONObject postData is built");
                 } catch (JSONException e){
@@ -229,6 +263,14 @@ public class eventCreationFragment extends Fragment {
                         //add toast for success
                         Toast.makeText(root.getContext(), "Event Creation Successful",Toast.LENGTH_SHORT).show();
                         Log.i("Volley",response.toString());
+                        try {
+                            int createdEventId = response.getInt("eventID");
+                            Bundle args = new Bundle();
+                            args.putInt("eventID", createdEventId);
+                            Navigation.findNavController(view).navigate(R.id.action_nav_eventCreation_to_nav_individualEvent, args);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 //                        May want to navigate to event page after its created???
 //                        Navigation.findNavController(view).navigate(R.id.action_nav_userProfileSetting_to_nav_eventList);
                     }// end of onResponse

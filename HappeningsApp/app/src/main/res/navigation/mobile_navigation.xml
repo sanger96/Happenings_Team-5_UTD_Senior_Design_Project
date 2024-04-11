@@ -67,6 +67,9 @@
         android:name="com.example.happeningsapp.ui.eventCreation.eventCreationFragment"
         android:label="fragment_event_creation"
         tools:layout="@layout/fragment_event_creation" />
+        <action
+            android:id="@+id/action_nav_eventCreation_to_nav_individualEvent"
+            app:destination="@id/nav_individualEvent"/>
     <fragment
         android:id="@+id/createAccountFragment"
         android:name="com.example.happeningsapp.ui.CreateAccount.CreateAccountFragment"
