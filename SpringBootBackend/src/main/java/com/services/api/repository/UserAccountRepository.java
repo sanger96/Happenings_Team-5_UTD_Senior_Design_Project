@@ -18,6 +18,6 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
                 "", nativeQuery = true)
     List<Integer> getAllAppointments(int id);
 
-    @Query(value = "SELECT 1 FROM account a WHERE a.email = ?1 AND a.password = ?2", nativeQuery = true)
+    @Query(value = "SELECT accountid FROM account a WHERE a.email = ?1 AND a.password = ?2", nativeQuery = true)
     Integer checkLogin(String email, String password);
 }

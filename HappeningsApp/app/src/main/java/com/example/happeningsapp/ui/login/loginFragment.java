@@ -46,6 +46,10 @@ public class loginFragment extends Fragment {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+
+
+
         // bind default text at top of page
         final TextView textView = binding.textLogin;
         // bind username and password
@@ -91,7 +95,6 @@ public class loginFragment extends Fragment {
 
 
                 StringRequest auth = new StringRequest(Request.Method.POST, getUrl, new Response.Listener<String>() {
-
                     @Override
                     public void onResponse(String response) {
 
