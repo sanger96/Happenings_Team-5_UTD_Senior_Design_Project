@@ -1,12 +1,18 @@
 package com.example.happeningsapp.ui.eventList;
 
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.graphics.Color;
 import android.graphics.drawable.LayerDrawable;
@@ -18,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.happeningsapp.R;
 import com.android.volley.Request;
@@ -27,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.databinding.FragmentEventListBinding;
+import com.example.happeningsapp.ui.individualEvent.individualEventFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,9 +42,17 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class EventListFragment extends Fragment {
 
     private FragmentEventListBinding binding;
+    private Spinner filterSpinner;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,38 +60,84 @@ public class EventListFragment extends Fragment {
                 new ViewModelProvider(this).get(EventListViewModel.class);
 
         binding = FragmentEventListBinding.inflate(inflater, container, false);
+        binding.eventListTable.removeAllViews();
         View root = binding.getRoot();
 
-        // URL to fetch events from
-        String getUrl = "http://10.0.2.2:8080/event/getAll";
-        RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
-        // Request a JSONArray response from the provided URL
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                Request.Method.GET, getUrl, null, new Response.Listener<JSONArray>() {
+        filterSpinner = root.findViewById(R.id.filter_spinner);
+
+        // Populate the Spinner with filter options
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.filter_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterSpinner.setAdapter(adapter);
+
+        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onResponse(JSONArray response) {
-                try {
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject event = response.getJSONObject(i);
-                        View eventRow = createEventRow(root.getContext(), event);
-                        binding.eventListTable.addView(eventRow);
-                    }
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                // Clear existing event list
+                binding.eventListTable.removeAllViews();
+
+                String selectedFilter = (String) adapterView.getItemAtPosition(position);
+                String getUrl = "http://10.0.2.2:8080/event/";
+                if (selectedFilter.equals("Club")) {
+                    getUrl += "getClubEvents";
+                } else if (selectedFilter.equals("Campus")) {
+                    getUrl += "getCampusEvents";
+                } else {
+                    getUrl += "getAll";
                 }
-            }
-        },
+                RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
+                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                    Request.Method.GET, getUrl, null, new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            try {
+                                binding.eventListTable.removeAllViews();
+                                List<Pair<JSONObject, LocalDateTime>> eventList = new ArrayList<>();
+
+                                // Parse start times and populate the event list
+                                for (int i = 0; i < response.length(); i++) {
+                                    JSONObject event = response.getJSONObject(i);
+                                    String startTimeStr = event.getJSONObject("appointment").getString("startTime");
+                                    LocalDateTime startTime = LocalDateTime.parse(startTimeStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                                    eventList.add(new Pair<>(event, startTime));
+                                }
+
+                                // Sort the event list by start times
+                                Collections.sort(eventList, new Comparator<Pair<JSONObject, LocalDateTime>>() {
+                                    @Override
+                                    public int compare(Pair<JSONObject, LocalDateTime> o1, Pair<JSONObject, LocalDateTime> o2) {
+                                        return o1.second.compareTo(o2.second);
+                                    }
+                                });
+                                for (Pair<JSONObject, LocalDateTime> pair : eventList) {
+                                    JSONObject event = pair.first;
+                                    View eventRow = createEventRow(root.getContext(), event);
+                                    binding.eventListTable.addView(eventRow);
+                                }
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.wtf("Volley Fail", error.toString());
                     }
-                }
-        );
+                });
 
-        // Add the request to the queue
-        requestQueue.add(jsonArrayRequest);
+                requestQueue.add(jsonArrayRequest);
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Do nothing
+            }
+        });
+
         return root;
     }
 
@@ -109,24 +171,40 @@ public class EventListFragment extends Fragment {
         eventDetailsLayout.setOrientation(LinearLayout.VERTICAL); // we want the event name, club, desc, to be stacked vertically
 
         // Create TextViews for event name, club, and desc
-        TextView eventNameView = createTextView(context, event.getString("name"), 20, 2);
+        TextView eventNameView = createTextView(context, event.getString("name"), 20, 2, true);
         eventDetailsLayout.addView(eventNameView);
         if (!event.getString("club").equals("null")) {
-            TextView eventClubView = createTextView(context, event.getString("club"), 16, 1);
+            TextView eventClubView = createTextView(context, event.getJSONObject("club").getString("name"), 16, 1, false);
             eventDetailsLayout.addView(eventClubView);
         }
-        TextView eventDescriptionView = createTextView(context, event.getString("description"), 16, 3);
+        TextView eventDescriptionView = createTextView(context, event.getString("description"), 16, 3, false);
         eventDetailsLayout.addView(eventDescriptionView);
 
         // Add event details layout to the event row
         eventRow.addView(eventDetailsLayout);
 
         // Create a TextView for the date information
-        TextView dateView = createDateView(context, "FEB 29");
+        String dateTimeStr = event.getJSONObject("appointment").getString("startTime");
+        LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd");
+        String formattedDateTime = dateTime.format(formatter).toUpperCase();
+        TextView dateView = createDateView(context, formattedDateTime);
         eventRow.addView(dateView);
 
         // Add drawable as the background - a border on the top and bottom
         eventRow.setBackgroundResource(R.drawable.thin_border);
+
+        int eventID = event.getInt("eventID");
+        eventRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle click event here
+                // For example, navigate to EventDetailsFragment passing event ID as argument
+                Bundle args = new Bundle();
+                args.putInt("eventID", eventID);
+                Navigation.findNavController(view).navigate(R.id.action_nav_eventList_to_nav_individualEvent, args);
+            }
+        });
 
         return eventRow;
     }
@@ -144,7 +222,7 @@ public class EventListFragment extends Fragment {
         return dateView;
     }
 
-    private TextView createTextView(Context context, String text, int textSize, int maxLines) {
+    private TextView createTextView(Context context, String text, int textSize, int maxLines, boolean isBold) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int deviceWidth = (int) (0.80 * displayMetrics.widthPixels);
 
@@ -158,6 +236,11 @@ public class EventListFragment extends Fragment {
         textView.setMaxWidth(deviceWidth); // Set maximum width to device width
         textView.setMaxLines(maxLines);
         textView.setEllipsize(TextUtils.TruncateAt.END);
+
+        if (isBold) {
+            textView.setTypeface(null, Typeface.BOLD);
+        }
+
         return textView;
     }
 }

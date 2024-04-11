@@ -48,8 +48,13 @@ public class AppointmentService {
     }
 
     public boolean doAppointmentsOverlap(Appointment appointment1, Appointment appointment2) {
-        boolean locationOverlap = appointment1.getLocation().getName().equals(appointment2.getLocation().getName()) &&
-        appointment1.getLocation().getRoom().equals(appointment2.getLocation().getRoom());
+        boolean locationNameOverlap = appointment1.getLocation().getName().equals(appointment2.getLocation().getName());
+
+        // Decided that if at least one of the appointments has a null room, we won't count as overlap
+        // Overlap will just be specfic to same location name and same room, bc that is very specific
+        boolean locationRoomOverlap = !(appointment1.getLocation().getRoom() ==  null || appointment2.getLocation().getRoom() == null) &&
+                                        (appointment1.getLocation().getRoom().equals(appointment2.getLocation().getRoom()));
+        boolean locationOverlap = locationNameOverlap && locationRoomOverlap;
 
         boolean timeOverlap = appointment1.getEndTime().isAfter(appointment2.getStartTime()) && appointment1.getStartTime().isBefore(appointment2.getEndTime());
         return locationOverlap && timeOverlap;
