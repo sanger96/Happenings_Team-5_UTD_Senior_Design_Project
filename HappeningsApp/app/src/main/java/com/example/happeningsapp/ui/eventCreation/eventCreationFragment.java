@@ -1,13 +1,17 @@
 package com.example.happeningsapp.ui.eventCreation;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast; //lets us have pop ups for user
 
 import androidx.annotation.NonNull;
@@ -30,16 +34,21 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 
 public class eventCreationFragment extends Fragment {
 
     //set binding
     private FragmentEventCreationBinding binding;
-
+    private Button pickDateBtn;
+    private TextView dateField;
+    private Button pickStartTimeBtn;
+    private Button pickEndTimeBtn;
     public static eventCreationFragment newInstance() {
         return new eventCreationFragment();
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -51,6 +60,8 @@ public class eventCreationFragment extends Fragment {
         binding = FragmentEventCreationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+
         //bind variables
         TextView name = binding.inTextEventName;
         TextView description = binding.inTextEventDescription;
@@ -59,6 +70,7 @@ public class eventCreationFragment extends Fragment {
         TextView endTime= binding.inTextEndTime; //may want to cast this to java date type
         TextView location = binding.inTextEventLocation;
         TextView room = binding.inTextEventRoom;
+
 
         // these commands will make sure the variables are observed for their "life cycle"
         EventCreationViewModelProvider.getName().observe(getViewLifecycleOwner(), name::setText);
@@ -70,6 +82,102 @@ public class eventCreationFragment extends Fragment {
 
         //binding create event button
         Button button_createEvent = (Button) root.findViewById(R.id.button_createEvent);
+
+        pickDateBtn = root.findViewById(R.id.idBtnPickDate);
+        dateField = root.findViewById(R.id.inText_Date);
+        pickStartTimeBtn = root.findViewById(R.id.idBtnPickStartTime);
+        pickEndTimeBtn = root.findViewById(R.id.idBtnPickEndTime);
+        pickDateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // on below line we are getting
+                // the instance of our calendar.
+                final Calendar c = Calendar.getInstance();
+
+                // on below line we are getting
+                // our day, month and year.
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                // on below line we are creating a variable for date picker dialog.
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        // on below line we are passing context.
+                        root.getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // on below line we are setting date to our text view.
+                                dateField.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                            }
+                        },
+                        // on below line we are passing year,
+                        // month and day for selected date in our date picker.
+                        year, month, day);
+                // at last we are calling show to
+                // display our date picker dialog.
+                datePickerDialog.show();
+            }
+        });
+
+        pickStartTimeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // on below line we are getting the
+                // instance of our calendar.
+                final Calendar c = Calendar.getInstance();
+
+                // on below line we are getting our hour, minute.
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minute = c.get(Calendar.MINUTE);
+
+                // on below line we are initializing our Time Picker Dialog
+                TimePickerDialog timePickerDialog = new TimePickerDialog(root.getContext(),
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+                                // on below line we are setting selected time
+                                // in our text view.
+                                startTime.setText(hourOfDay + ":" + minute);
+                            }
+                        }, hour, minute, false);
+                // at last we are calling show to
+                // display our time picker dialog.
+                timePickerDialog.show();
+            }
+        });
+
+        pickEndTimeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // on below line we are getting the
+                // instance of our calendar.
+                final Calendar c = Calendar.getInstance();
+
+                // on below line we are getting our hour, minute.
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minute = c.get(Calendar.MINUTE);
+
+                // on below line we are initializing our Time Picker Dialog
+                TimePickerDialog timePickerDialog = new TimePickerDialog(root.getContext(),
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+                                // on below line we are setting selected time
+                                // in our text view.
+                                endTime.setText(hourOfDay + ":" + minute);
+                            }
+                        }, hour, minute, false);
+                // at last we are calling show to
+                // display our time picker dialog.
+                timePickerDialog.show();
+            }
+        });
+
 
         button_createEvent.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -103,41 +211,6 @@ public class eventCreationFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-//
-//                JsonObjectRequest jsonObjectRequest_createLocation = new JsonObjectRequest(Request.Method.POST,postUrlCreateLocation,postLocation, new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        //add toast for success
-//                        Toast.makeText(root.getContext(), "Event Creation Successful",Toast.LENGTH_SHORT).show();
-//                        Log.i("Volley",response.toString());
-////                        May want to navigate to event page after its created???
-////                        Navigation.findNavController(view).navigate(R.id.action_nav_userProfileSetting_to_nav_eventList);
-//                    }// end of onResponse
-//                }, new Response.ErrorListener(){
-//                    @Override
-//                    public void onErrorResponse(VolleyError error){
-//                        error.printStackTrace();
-//                    }
-//                });//end of jsonObjectRequest and error listener
-//                requestQueue.add(jsonObjectRequest_createLocation);
-//
-//
-//                JsonObjectRequest jsonObjectRequest_createAppointment = new JsonObjectRequest(Request.Method.POST,postUrlCreateAppointment,postAppointment, new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        //add toast for success
-//                        Toast.makeText(root.getContext(), "Event Creation Successful",Toast.LENGTH_SHORT).show();
-//                        Log.i("Volley",response.toString());
-////                        May want to navigate to event page after its created???
-////                        Navigation.findNavController(view).navigate(R.id.action_nav_userProfileSetting_to_nav_eventList);
-//                    }// end of onResponse
-//                }, new Response.ErrorListener(){
-//                    @Override
-//                    public void onErrorResponse(VolleyError error){
-//                        error.printStackTrace();
-//                    }
-//                });//end of jsonObjectRequest and error listener
-//                requestQueue.add(jsonObjectRequest_createAppointment);
 
 
                 JsonObjectRequest jsonObjectRequest_eventCreation = new JsonObjectRequest(Request.Method.POST,postUrl,postEvent, new Response.Listener<JSONObject>() {
