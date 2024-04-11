@@ -150,11 +150,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         // Run a for loop to call alternate version of handleMapLongClick( ) that doesn't do map.clear()
-        // make it accept both building name and Latlng so that geofence name and point are both set.
+        // make it accept both building name and LatLng so that geofence name and point are both set.
 
         //( Gaurav )
         // run method to create markers for events, use addMarker(LatLng) pass the latitude and longitude.
         // when creating marker for event, call HashMap to get LatLng for building where event is, then pass to create marker
+
+        //1. get list of events
+
+        //2. get the building for a specific events building
+
+        //3. Add event to map as marker and mark building as having a marker already.
+        // 3.1 filter events to be added to map to be within a time window based on; current time +/- some number of hours
+        // 3.2 check if the building has a marker already
+        // 3.2.Yes Do not add marker
+        // 3.2.No Add marker and update has marker for building
+        // 3.3 use buildingLatLng.get("building") to get the LatLng for the event, gets the buildings location for given event
+
+        //4. pass event name and LatLng to make the marker
+        // When I click a building I want a list of events of the events going on there within a reasonable time slot to appear
+                // How should this sub list of events appear?
 
         //( Gaurav )
         // Don't forget to add system push notification or toast notification if in app currently open, to be set off when near event
@@ -288,7 +303,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
     }
 
-    private void addMarker(LatLng latLng) {
+    private void addMarker(String eventName, LatLng latLng) {
         MarkerOptions markerOptions = new MarkerOptions().position(latLng);
         mMap.addMarker(markerOptions);
     }
