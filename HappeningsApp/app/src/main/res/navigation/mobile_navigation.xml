@@ -28,11 +28,14 @@
         android:name="com.example.happeningsapp.ui.clubSearch.ClubSearchFragment"
         android:label="@string/menu_club_search"
         tools:layout="@layout/fragment_club_search" />
+        <action
+            android:id="@+id/action_nav_clubSearch_to_nav_individualClub"
+            app:destination="@id/nav_individualClub"/>
     <fragment
-        android:id="@+id/nav_photoGallery"
-        android:name="com.example.happeningsapp.ui.photoGallery.PhotoGalleryFragment"
-        android:label="@string/menu_photo_gallery"
-        tools:layout="@layout/fragment_photo_gallery" />
+        android:id="@+id/nav_individualClub"
+        android:name="com.example.happeningsapp.ui.individualClub.individualClubFragment"
+        android:label="Individual Club"
+        tools:layout="@layout/fragment_individual_club"/>
     <fragment
         android:id="@+id/nav_userProfileSetting"
         android:name="com.example.happeningsapp.ui.userSettings.UserSettingsFragment"
@@ -41,6 +44,14 @@
         <action
             android:id="@+id/action_nav_userProfileSetting_to_nav_eventList"
             app:destination="@id/nav_eventList" />
+    </fragment>
+    <fragment android:id="@+id/nav_logout"
+        android:name="com.example.happeningsapp.ui.logout.LogoutFragment"
+        android:label="Logout"
+        tools:layout="@layout/fragment_logout">
+        <action
+            android:id="@+id/action_nav_logout_to_nav_login"
+            app:destination="@id/nav_login" />
     </fragment>
     <fragment android:id="@+id/nav_login"
         android:name="com.example.happeningsapp.ui.login.loginFragment"
@@ -52,6 +63,12 @@
         <action
             android:id="@+id/action_nav_login_to_nav_accountCreation"
             app:destination="@id/createAccountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_profile_settings"
+        android:name="com.example.happeningsapp.ui.userSettings.UserSettingsFragment"
+        android:label="Profile Settings"
+        tools:layout="@layout/fragment_user_settings" >
     </fragment>
     <fragment
         android:id="@+id/nav_settings"
