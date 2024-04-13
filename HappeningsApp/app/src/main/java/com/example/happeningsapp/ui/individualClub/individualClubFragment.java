@@ -52,7 +52,8 @@ public class individualClubFragment extends Fragment {
             TextView clubIdTextView = root.findViewById(R.id.clubIdTextView);
             clubIdTextView.setText("club ID: " + clubId);
 
-            String getUrl = "http://10.0.2.2:8080/club/getById/" + clubId;
+            com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+            String getUrl= server.getServerUrl() + "/club/getById/" + clubId;
             RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET, getUrl, null,

@@ -8,6 +8,11 @@ import android.webkit.WebView;
 
 
 public class GlobalVars extends Application {
+
+    // Server URL
+    String serverUrl = "http://10.0.2.2:8080";
+
+    // User account globals
     int userID = -1;
     String username = "";
     String password = "";
@@ -17,6 +22,8 @@ public class GlobalVars extends Application {
         return ourInstance;
     }
 
+    public void setServerUrl(String url){ this.serverUrl = url; }
+    public String getServerUrl(){ return serverUrl; }
     public void setUserID(int id){ this.userID = id; }
     public int getUserID(){ return userID; }
     public void setUsername(String username){ this.username = username; }

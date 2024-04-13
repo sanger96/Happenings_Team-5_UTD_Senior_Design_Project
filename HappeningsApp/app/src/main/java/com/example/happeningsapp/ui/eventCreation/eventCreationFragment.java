@@ -230,7 +230,8 @@ public class eventCreationFragment extends Fragment {
                 if (missingRequiredFields) { return; }
                 //url we are posting to, uses 10.0.2.2 instead of local host, this is what android studio will need to use local host.
                 // if you type local host it will automatically map to 127.0.0.1 aka the wrong place.
-                String postUrl="http://10.0.2.2:8080/event/createFromForm";
+                com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+                String postUrl= server.getServerUrl() + "/event/CreateFromForm";
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
                 //initializing the JSONObject that will be posted

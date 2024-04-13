@@ -82,7 +82,8 @@ public class CreateAccountFragment extends Fragment {
 //                Log.i("UserSettingsFragment","this is in onClick");
                 //url we are posting to, uses 10.0.2.2 instead of local host, this is what android studio will need to use local host.
                 // if you type local host it will automatically map to 127.0.0.1 aka the wrong place.
-                String postUrl="http://10.0.2.2:8080/useraccount/add";
+                com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+                String postUrl= server.getServerUrl() + "/useraccount/add";
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
                 //initializing the JSONObject that will be posted
@@ -136,7 +137,8 @@ public class CreateAccountFragment extends Fragment {
     }
 
     public void volleyPostAddAccount(String email, String pass){
-        String postUrl="http://localhost:8080/account/add";
+        com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+        String postUrl= server.getServerUrl() + "/useraccount/add";
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
 
         JSONObject postData = new JSONObject();
