@@ -231,7 +231,7 @@ public class eventCreationFragment extends Fragment {
                 //url we are posting to, uses 10.0.2.2 instead of local host, this is what android studio will need to use local host.
                 // if you type local host it will automatically map to 127.0.0.1 aka the wrong place.
                 com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
-                String postUrl= server.getServerUrl() + "/event/CreateFromForm";
+                String postUrl= server.getServerUrl() + "/event/createFromForm";
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
                 //initializing the JSONObject that will be posted
@@ -249,6 +249,8 @@ public class eventCreationFragment extends Fragment {
                     if (!room.getText().toString().isEmpty()) {
                         postEvent.put("room", room.getText().toString());
                     }
+
+                    postEvent.put("photoSubDirectory", "https://enroll.utdallas.edu/files/2022/09/utd-letters-3-1.jpg");
                     //this log method will appear in logcat
                     Log.i("eventCreationFragment post data","JSONObject postData is built");
                 } catch (JSONException e){

@@ -1,43 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Event Name TextView -->
     <TextView
         android:id="@+id/eventNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event Name"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="8dp"
-        />
-
-    <!-- Event Description TextView -->
-    <TextView
-        android:id="@+id/eventDescriptionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Event Description"
-        android:textSize="18sp"
+        android:background="#FFFFFF"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:padding="16dp"
-        />
+        android:elevation="4dp"
+        android:textStyle="bold"/>
 
-    <!-- Event ID TextView (if needed) -->
-    <!-- Add this TextView if you want to display the event ID -->
-    <TextView
-        android:id="@+id/eventIdTextView"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Event ID"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="16dp"
-        />
+        android:fillViewport="true">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/eventImageView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Event image"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+                <!-- Date CardView -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="65"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- Calendar Icon with Date and Time -->
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <!-- Shared Calendar Icon -->
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_event_date"
+                                android:contentDescription="date_time_icon" />
+
+                            <!-- Container for Date and Time -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp">
+
+                                <!-- Date TextView -->
+                                <TextView
+                                    android:id="@+id/dateTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+
+                                <!-- Time TextView -->
+                                <TextView
+                                    android:id="@+id/timeTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="35"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- Calendar Icon with Date and Time -->
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <!-- Shared Calendar Icon -->
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_location"
+                                android:contentDescription="date_time_icon" />
+
+                            <!-- Container for Date and Time -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp">
+
+                                <!-- Date TextView -->
+                                <TextView
+                                    android:id="@+id/locationTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+
+                                <!-- Time TextView -->
+                                <TextView
+                                    android:id="@+id/roomTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/rsvpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RSVP | 0"
+                android:layout_marginTop="8dp"/>
+
+
+            <TextView
+                android:text="Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="#000000"/>
+
+            <TextView
+                android:id="@+id/eventDescriptionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

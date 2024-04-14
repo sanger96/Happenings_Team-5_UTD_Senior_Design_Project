@@ -37,7 +37,7 @@ public class Event {
     @GeneratedValue
     private int eventID;
 
-    @Column(unique = true)
+    // @Column(unique = true)
     private String photoSubDirectory;
 
     @Column(unique = true, nullable = false)

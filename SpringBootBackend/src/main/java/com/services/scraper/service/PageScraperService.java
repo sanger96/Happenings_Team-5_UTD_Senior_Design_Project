@@ -242,7 +242,7 @@ public class PageScraperService {
                 appointmentService.quickSave(appointmentToAdd);
                 
                 // Create and save new event
-                Event eventToAdd = new Event(name, description, name+"Gallery", appointmentToAdd);
+                Event eventToAdd = new Event(name, description, imageUrl, appointmentToAdd);
                 eventService.save(eventToAdd);
             }
         }
@@ -359,7 +359,7 @@ public class PageScraperService {
         }
 
         // If we still have no building, good chance we can get the building code from the first token
-        if (building.isEmpty() && location.length() > 0 && Character.isUpperCase(location.charAt(1))) {
+        if (building.isEmpty() && location.length() > 1 && Character.isUpperCase(location.charAt(1))) {
             building = locTokens[0];
         }
 
