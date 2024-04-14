@@ -77,7 +77,9 @@ public class loginFragment extends Fragment {
 
                 //if statement for seeing if username and password is accepted
                 //need to add get method statement to send this to backend.
-                String getUrl="http://10.0.2.2:8080/useraccount/checkLogin";
+                com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+                String getUrl= server.getServerUrl() + "/useraccount/checkLogin";
+
 
 
                 //holds request queue

@@ -37,7 +37,7 @@ public class EventService {
 
     public Event save
     (String eventName, String description, Optional<Integer> clubID,
-    LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room){
+    LocalDateTime startTime, LocalDateTime endTime, String locationName, Optional<String> room, Optional<String> photoSubDirectory){
         //TODO: can we send detailed error messages back without changing the return type of the methods?
         //TODO: try catch blocks for each create and save calls, returning a ResponseEntity<Event> Object containing necessary exception info
 
@@ -57,7 +57,8 @@ public class EventService {
         Event newEvent;
         // TODO:Throw custom "club does not exist" exception if the club cannot be retrieved from DB
         Club eventClub = clubID.isPresent()? clubService.getById(clubID.get()) : null;
-        newEvent = new Event(eventName, description, eventName + "Gallery", eventAppointment, eventClub);
+        String defaultPhoto = photoSubDirectory.isPresent()? photoSubDirectory.get() : null;
+        newEvent = new Event(eventName, description, defaultPhoto, eventAppointment, eventClub);
 
         return repository.save(newEvent);
     }

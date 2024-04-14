@@ -111,8 +111,8 @@ public class ClubSearchFragment extends Fragment {
 //        clubSearchModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 //
 //        final EditText clubSearchbar = binding.searchBar;
-
-        String getUrl = "http://10.0.2.2:8080/club/getAll";
+        com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+        String getUrl= server.getServerUrl() + "/club/getAll";
         RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
