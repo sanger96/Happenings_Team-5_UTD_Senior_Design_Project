@@ -54,7 +54,8 @@ public class individualEventFragment extends Fragment {
             eventIdTextView.setText("Event ID: " + eventId);
 
             // Send a request to get event details based on the event ID
-            String getUrl = "http://10.0.2.2:8080/event/getById/" + eventId;
+            com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+            String getUrl= server.getServerUrl() + "/event/getById/" + eventId;
             RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(

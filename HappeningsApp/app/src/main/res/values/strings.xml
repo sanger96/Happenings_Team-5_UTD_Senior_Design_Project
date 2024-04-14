@@ -43,14 +43,17 @@
     <string name="pageTitle_eventList">Event List</string>
     <string name="pageTitle_settings">Settings</string>
     <string name="pageTitle_eventCreation">Create Event</string>
-    <string name="eventCreationForm_end_time">end time</string>
-    <string name="eventCreationForm_location_or_building_name">location or building name</string>
-    <string name="eventCreationForm_optional_room_number">(OPTIONAL) room number</string>
-    <string name="button_create_event">create event</string>
-    <string name="eventCreationForm_eventDescription">event description</string>
-    <string name="eventCreationForm_eventName">event name</string>
+    <string name="eventCreationForm_end_time">End Time (e.g. 1:00 PM)</string>
+    <string name="eventCreationForm_location_or_building_name">Location/Building (e.g. ECSN)</string>
+    <string name="eventCreationForm_optional_room_number">OPTIONAL: Room (e.g. 2.412)</string>
+    <string name="button_create_event">Create Event!</string>
+    <string name="eventCreationForm_eventDescription">Description</string>
+    <string name="eventCreationForm_eventName">Event Name</string>
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select">Select</string>
+    <string name="eventCreation_date">Date (e.g. Apr 26, 2024)</string>
+    <string name="eventCreation_startTime">Start Time (e.g. 11:30 AM)</string>
 
     <string-array name="filter_options">
         <item>All</item>

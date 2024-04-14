@@ -75,7 +75,7 @@ public class UserSettingsFragment extends Fragment {
         });
 //        start of adding action on button click
 //        binding submit button
-        Button submit = (Button) root.findViewById(R.id.button_createAccount);
+        Button submit = (Button) root.findViewById(R.id.button_updateProfile);
         submit.setOnClickListener(new View.OnClickListener(){
 
             // These are for usage when updating the GlobalVars after successful profile update
@@ -85,10 +85,12 @@ public class UserSettingsFragment extends Fragment {
 
             @Override
             public void onClick(View view){
+
 //                Log.i("UserSettingsFragment","this is in onClick");
                 //url we are posting to, uses 10.0.2.2 instead of local host, this is what android studio will need to use local host.
                 // if you type local host it will automatically map to 127.0.0.1 aka the wrong place.
-                String postUrl="http://10.0.2.2:8080/useraccount/update";
+                com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+                String postUrl= server.getServerUrl() + "/useraccount/update";
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
                 //initializing the JSONObject that will be posted
@@ -125,22 +127,24 @@ public class UserSettingsFragment extends Fragment {
                         Log.i("Volley",response.toString());
                         Navigation.findNavController(view).navigate(R.id.action_nav_userProfileSetting_to_nav_eventList);
                     }
-                }, new Response.ErrorListener(){
+                    } , new Response.ErrorListener(){
                     @Override
                     public void onErrorResponse(VolleyError error){
                         error.printStackTrace();
+                        Log.i("onErrorResponse", "an error has occurred");
                     }
+
                 });
                 requestQueue.add(jsonObjectRequest);
-            } //end of onClick
+           } //end of onClick
         });//end of post request
 //        end of adding action on button click
-
         return root;
     }
 
     public void volleyPostAddAccount(String email, String pass){
-        String postUrl="http://localhost:8080/account/add";
+        com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+        String postUrl= server.getServerUrl() + "/useraccount/update";
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
 
         JSONObject postData = new JSONObject();
