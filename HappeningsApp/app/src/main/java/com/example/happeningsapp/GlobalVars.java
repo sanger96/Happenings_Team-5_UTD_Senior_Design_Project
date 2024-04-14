@@ -9,6 +9,9 @@ import android.webkit.WebView;
 
 public class GlobalVars extends Application {
 
+    //Time window, on either side it of current time it will dictate relevant events for MapsActivity
+    int timeWindow=1;
+
     // Server URL
     String serverUrl = "http://108.215.179.57:4884";
 
