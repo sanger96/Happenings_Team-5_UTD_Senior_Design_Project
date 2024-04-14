@@ -27,6 +27,7 @@ import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentIndividualClubBinding;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +36,7 @@ public class individualClubFragment extends Fragment {
     private FragmentIndividualClubBinding binding;
     private ImageButton favoriteButton;
     private boolean isFavorite = false;
+
 
     public static individualClubFragment newInstance() {
         return new individualClubFragment();
@@ -49,14 +51,7 @@ public class individualClubFragment extends Fragment {
         binding = com.example.happeningsapp.databinding.FragmentIndividualClubBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         favoriteButton = root.findViewById(R.id.favoriteClubButton);
-
-//        favoriteButton.setBackgroundColor(0xF5427E);
-//        if(!isFavorite){
-//            favoriteButton.setBackgroundColor(0xF5427E);
-//        }
-//        else{
-//            favoriteButton.setBackgroundColor(0xF5427E);
-//        }
+        favoriteButton.setImageResource(R.drawable.ic_unfavorite);
 
         com.example.happeningsapp.GlobalVars foo =  com.example.happeningsapp.GlobalVars.getInstance();
         int userAccountID = foo.getUserID();
@@ -79,6 +74,7 @@ public class individualClubFragment extends Fragment {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
+                                Log.d("Club Object", response.toString());
                                 // Parse the JSON response to get club details
                                 String clubName = response.getString("name");
                                 String clubDescription = response.getString("description");
@@ -89,6 +85,14 @@ public class individualClubFragment extends Fragment {
                                 // Set description
                                 TextView clubDescriptionTextView = root.findViewById(R.id.clubDescriptionTextView);
                                 clubDescriptionTextView.setText(clubDescription);
+
+                                // TODO: check if the user has already favorited the club
+                                // Log.d("Club type of object ", response.getJSONArray("userAccounts").toString());
+                                /*JSONArray favUserAccounts = response.getJSONArray("userAccounts");
+                                for(int i = 0; i < favUserAccounts.length(); i++){
+                                    JSONObject userAcc = favUserAccounts.getJSONObject(i);
+                                    int userAccId = userAcc.getInt("userAccountID")
+                                }*/
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -102,6 +106,19 @@ public class individualClubFragment extends Fragment {
                         }
                     }
             );
+
+            favoriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!isFavorite){
+                        favoriteButton.setImageResource(R.drawable.ic_favorite);
+                    }
+                    else{
+                        favoriteButton.setImageResource(R.drawable.ic_unfavorite);
+                    }
+                    isFavorite = !isFavorite;
+                }
+            });
 
             // Add the request to the queue
             requestQueue.add(jsonObjectRequest);

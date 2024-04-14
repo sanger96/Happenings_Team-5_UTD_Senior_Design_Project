@@ -28,44 +28,37 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-        <!-- Club Name TextView -->
-        <TextView
-            android:id="@+id/clubNameTextView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:textStyle="bold"
-            android:background="#FFFFFF"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:padding="16dp"
-            android:elevation="4dp"
-            />
-
-        <ImageButton
-            android:id="@+id/favoriteClubButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            >
+            <!-- Club Name TextView -->
+            <TextView
+                android:id="@+id/clubNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-            android:backgroundTint="#00FFFFFF"
-            app:srcCompat="@drawable/ic_unfavorite"
+                android:layout_gravity="center_vertical"
 
-            android:scaleType="fitCenter"
-            />
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
 
-<!--        <Button-->
-<!--            android:id="@+id/favoriteClubButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
+                />
 
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_marginStart="16dp"-->
+            <ImageButton
+                android:id="@+id/favoriteClubButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-<!--            android:backgroundTint="@color/unfavoriteClub"-->
-<!--            />-->
+                android:layout_gravity="center_vertical"
+
+                android:backgroundTint="#00FFFFFF"
+                android:scaleType="fitCenter"
+                />
+        </LinearLayout>
 
         <!-- Club Description TextView -->
         <TextView
