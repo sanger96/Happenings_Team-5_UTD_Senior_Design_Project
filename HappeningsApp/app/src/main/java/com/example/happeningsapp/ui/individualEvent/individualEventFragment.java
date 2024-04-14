@@ -23,6 +23,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.happeningsapp.R;
@@ -37,7 +38,7 @@ import java.time.format.DateTimeFormatter;
 public class individualEventFragment extends Fragment {
 
     private FragmentIndividualEventBinding binding;
-    private int rsvpCount = 0;
+    private int rsvpCount = 99;
     private boolean isRSVP = false;
     public static individualEventFragment newInstance() {
         return new individualEventFragment();
@@ -55,12 +56,17 @@ public class individualEventFragment extends Fragment {
         Button rsvpButton = root.findViewById(R.id.rsvpButton);
         LinearLayout backToEventListing = root.findViewById(R.id.backToEventListing);
 
+        com.example.happeningsapp.GlobalVars foo =  com.example.happeningsapp.GlobalVars.getInstance();
+        int userAccountID = foo.getUserID();
         backToEventListing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.action_nav_individualEvent_to_nav_eventList);
             }
         });
+
+
+
         rsvpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,15 +86,59 @@ public class individualEventFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             eventId = args.getInt("eventID");
-            // Now you have the event ID, you can use it to fetch event details from your data source
-            // For demonstration purposes, let's just display the event ID in a TextView
-//            TextView eventIdTextView = root.findViewById(R.id.eventIdTextView);
-//            eventIdTextView.setText("Event ID: " + eventId);
 
-            // Send a request to get event details based on the event ID
             com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+            String getWhetherRsvpURl = server.getServerUrl() + "/useraccount/isRsvp/" + userAccountID + "_" + eventId;
+            String getRsvpUrl= server.getServerUrl() + "/event/rsvpCount/" + eventId;
             String getUrl= server.getServerUrl() + "/event/getById/" + eventId;
+
             RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+
+            StringRequest stringRequestWhetherRsvp = new StringRequest(
+                    Request.Method.GET, getWhetherRsvpURl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                isRSVP = Boolean.parseBoolean(response.trim());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("IndividualEventFragment", "Error fetching event details: " + error.getMessage());
+                        }
+                    }
+            );
+
+            StringRequest stringRequestRsvp = new StringRequest(
+                    Request.Method.GET, getRsvpUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                rsvpCount = Integer.parseInt(response);
+
+                                if (isRSVP) {
+                                    rsvpButton.setText("UN-RSVP | " + rsvpCount);
+                                } else {
+                                    rsvpButton.setText("RSVP | " + rsvpCount);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("IndividualEventFragment", "Error fetching event details: " + error.getMessage());
+                        }
+                    }
+            );
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET, getUrl, null,
@@ -144,8 +194,12 @@ public class individualEventFragment extends Fragment {
             );
 
             // Add the request to the queue
+
+            requestQueue.add(stringRequestWhetherRsvp);
+            requestQueue.add(stringRequestRsvp);
             requestQueue.add(jsonObjectRequest);
         }
+
 
         return root;
     }

@@ -79,6 +79,17 @@ public class UserAccountService {
         
     }
 
+    public boolean isRsvp(int useraccountID, int eventID) {
+        Event event = eventService.getById(eventID);
+        UserAccount userAccount = repository.findById(useraccountID).orElse(null);
+
+        if (userAccount.getEvents().contains(event)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public UserAccount addInterest(int useraccountID, int interestID)
     {
         Interest interest = interestService.getById(interestID);
