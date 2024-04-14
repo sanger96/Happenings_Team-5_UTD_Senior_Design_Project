@@ -36,7 +36,7 @@ public class EventController {
     public Event createFromForm(@RequestBody EventDTO eventDTO) {
         return service.save(eventDTO.getEventName(), eventDTO.getDescription(), eventDTO.getClubID(),
                          eventDTO.getStartTime(), eventDTO.getEndTime(), eventDTO.getLocationName(),
-                         eventDTO.getRoom());
+                         eventDTO.getRoom(), eventDTO.getPhotoSubDirectory());
 }
     @PutMapping("/update")
     public Event updateEvent(@RequestBody Event event) {

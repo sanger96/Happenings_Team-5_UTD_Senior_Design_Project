@@ -36,7 +36,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentCreateAccountBinding;
-import com.example.happeningsapp.ui.userSettings.UserSettingsViewModel;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;

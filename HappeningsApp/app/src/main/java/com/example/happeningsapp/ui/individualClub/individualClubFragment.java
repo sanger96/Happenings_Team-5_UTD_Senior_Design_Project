@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -22,7 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentIndividualClubBinding;
-import com.example.happeningsapp.ui.clubSettings.ClubSettingsViewModel;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
