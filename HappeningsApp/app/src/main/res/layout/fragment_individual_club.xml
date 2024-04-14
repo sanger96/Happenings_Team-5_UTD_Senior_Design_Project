@@ -28,41 +28,65 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <!-- Club Name TextView -->
         <TextView
             android:id="@+id/clubNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textStyle="bold"
+            android:background="#FFFFFF"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:padding="16dp"
+            android:elevation="4dp"
+            />
+
+        <ImageButton
+            android:id="@+id/favoriteClubButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Club Name"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:paddingStart="16dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
+
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+
+            android:backgroundTint="#00FFFFFF"
+            app:srcCompat="@drawable/ic_unfavorite"
+
+            android:scaleType="fitCenter"
             />
+
+<!--        <Button-->
+<!--            android:id="@+id/favoriteClubButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_marginStart="16dp"-->
+
+<!--            android:backgroundTint="@color/unfavoriteClub"-->
+<!--            />-->
 
         <!-- Club Description TextView -->
         <TextView
             android:id="@+id/clubDescriptionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Club Description"
             android:textSize="18sp"
             android:padding="16dp"
             />
 
         <!-- Event ID TextView (if needed) -->
         <!-- Add this TextView if you want to display the event ID -->
-        <TextView
-            android:id="@+id/clubIdTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Club ID"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:padding="16dp"
-            />
+<!--        <TextView-->
+<!--            android:id="@+id/clubIdTextView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Club ID"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:padding="16dp"-->
+<!--            />-->
 
     </LinearLayout>
 
