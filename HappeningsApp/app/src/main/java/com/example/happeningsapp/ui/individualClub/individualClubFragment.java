@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -22,7 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentIndividualClubBinding;
-import com.example.happeningsapp.ui.clubSettings.ClubSettingsViewModel;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +52,8 @@ public class individualClubFragment extends Fragment {
             TextView clubIdTextView = root.findViewById(R.id.clubIdTextView);
             clubIdTextView.setText("club ID: " + clubId);
 
-            String getUrl = "http://10.0.2.2:8080/club/getById/" + clubId;
+            com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+            String getUrl= server.getServerUrl() + "/club/getById/" + clubId;
             RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET, getUrl, null,

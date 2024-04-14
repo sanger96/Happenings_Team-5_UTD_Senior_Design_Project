@@ -79,7 +79,8 @@ public class EventListFragment extends Fragment {
                 binding.eventListTable.removeAllViews();
 
                 String selectedFilter = (String) adapterView.getItemAtPosition(position);
-                String getUrl = "http://10.0.2.2:8080/event/";
+                com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+                String getUrl= server.getServerUrl() + "/event/";
                 if (selectedFilter.equals("Club")) {
                     getUrl += "getClubEvents";
                 } else if (selectedFilter.equals("Campus")) {
