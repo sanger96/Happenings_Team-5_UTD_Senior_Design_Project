@@ -73,7 +73,7 @@ public class UserAccountController {
         return service.unRsvp(useraccountID, eventID);
     }
 
-    @PostMapping("/isRsvp/{useraccountID}_{eventID}")
+    @GetMapping("/isRsvp/{useraccountID}_{eventID}")
     public boolean isRsvp(@PathVariable int useraccountID, @PathVariable int eventID) {
         return service.isRsvp(useraccountID, eventID);
     }

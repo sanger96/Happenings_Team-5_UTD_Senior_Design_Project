@@ -40,6 +40,7 @@ public class individualEventFragment extends Fragment {
     private FragmentIndividualEventBinding binding;
     private int rsvpCount = 99;
     private boolean isRSVP = false;
+    private Button rsvpButton;
     public static individualEventFragment newInstance() {
         return new individualEventFragment();
     }
@@ -53,7 +54,7 @@ public class individualEventFragment extends Fragment {
 
         binding = FragmentIndividualEventBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        Button rsvpButton = root.findViewById(R.id.rsvpButton);
+        rsvpButton = root.findViewById(R.id.rsvpButton);
         LinearLayout backToEventListing = root.findViewById(R.id.backToEventListing);
 
         com.example.happeningsapp.GlobalVars foo =  com.example.happeningsapp.GlobalVars.getInstance();
@@ -100,7 +101,8 @@ public class individualEventFragment extends Fragment {
                         @Override
                         public void onResponse(String response) {
                             try {
-                                isRSVP = Boolean.parseBoolean(response.trim());
+                                isRSVP = response.trim().equalsIgnoreCase("true");
+                                updateRsvpButton();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -112,6 +114,9 @@ public class individualEventFragment extends Fragment {
                             Log.e("IndividualEventFragment", "Error fetching event details: " + error.getMessage());
                         }
                     }
+
+
+
             );
 
             StringRequest stringRequestRsvp = new StringRequest(
@@ -120,13 +125,8 @@ public class individualEventFragment extends Fragment {
                         @Override
                         public void onResponse(String response) {
                             try {
-                                rsvpCount = Integer.parseInt(response);
-
-                                if (isRSVP) {
-                                    rsvpButton.setText("UN-RSVP | " + rsvpCount);
-                                } else {
-                                    rsvpButton.setText("RSVP | " + rsvpCount);
-                                }
+                                rsvpCount = Integer.parseInt(response.trim());
+                                updateRsvpButton();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -172,13 +172,27 @@ public class individualEventFragment extends Fragment {
                                 dateTextView.setText(formattedDateAndTime[0]);
 
                                 TextView timeTextView = root.findViewById(R.id.timeTextView);
-                                timeTextView.setText(formattedDateAndTime[1]);
+                                if (!formattedDateAndTime[1].contains("12:00 AM - 12:00 AM")) {
+                                    timeTextView.setText(formattedDateAndTime[1]);
+                                } else {
+                                    ViewGroup parent = (ViewGroup) timeTextView.getParent();
+                                    if (parent != null) {
+                                        parent.removeView(timeTextView);
+                                    }
+                                }
 
                                 TextView locationTextView = root.findViewById(R.id.locationTextView);
                                 locationTextView.setText(location);
 
                                 TextView roomTextView = root.findViewById(R.id.roomTextView);
-                                roomTextView.setText(room);
+                                if (!room.equals("null")) {
+                                    roomTextView.setText(room);
+                                } else {
+                                    ViewGroup parent = (ViewGroup) roomTextView.getParent();
+                                    if (parent != null) {
+                                        parent.removeView(roomTextView);
+                                    }
+                                }
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -210,6 +224,7 @@ public class individualEventFragment extends Fragment {
         binding = null;
     }
 
+
     public static String[] formatDateTimeRange(String start, String end) {
         // Parsing the input strings
         LocalDateTime startLdt = LocalDateTime.parse(start);
@@ -228,4 +243,13 @@ public class individualEventFragment extends Fragment {
         // Returning both formatted date and time range
         return new String[] { formattedDate, formattedTimeRange };
     }
+
+    private void updateRsvpButton() {
+        if (isRSVP) {
+            rsvpButton.setText("UN-RSVP | " + rsvpCount);
+        } else {
+            rsvpButton.setText("RSVP | " + rsvpCount);
+        }
+    }
+
 }
