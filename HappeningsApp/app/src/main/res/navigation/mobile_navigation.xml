@@ -23,6 +23,9 @@
         android:name="com.example.happeningsapp.ui.individualEvent.individualEventFragment"
         android:label="Individual Event"
         tools:layout="@layout/fragment_individual_event"/>
+        <action
+            android:id="@+id/action_nav_individualEvent_to_nav_eventList"
+            app:destination="@+id/nav_eventList"/>
     <fragment
         android:id="@+id/nav_clubSearch"
         android:name="com.example.happeningsapp.ui.clubSearch.ClubSearchFragment"
