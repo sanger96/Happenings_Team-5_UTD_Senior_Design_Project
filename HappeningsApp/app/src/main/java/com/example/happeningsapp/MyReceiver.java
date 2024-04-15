@@ -33,16 +33,25 @@ public class MyReceiver extends BroadcastReceiver {
         int transitionType = geofencingEvent.getGeofenceTransition();
         switch (transitionType) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
-                Toast.makeText(context, "GEOFENCE_TRANSITION_ENTER", Toast.LENGTH_SHORT).show();
-                notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_ENTER", "", MapsActivity.class);
+                for(Geofence geofence : geofenceList) {
+                    String ID = geofence.getRequestId();
+                    Toast.makeText(context,ID +" : GEOFENCE_TRANSITION_ENTER", Toast.LENGTH_SHORT).show();
+                    notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_ENTER", "", MapsActivity.class);
+                }
                 break;
             case Geofence.GEOFENCE_TRANSITION_DWELL:
-                Toast.makeText(context, "GEOFENCE_TRANSITION_DWELL", Toast.LENGTH_SHORT).show();
-                notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_DWELL", "", MapsActivity.class);
+                for(Geofence geofence : geofenceList) {
+                    String ID = geofence.getRequestId();
+                    Toast.makeText(context, ID +" : GEOFENCE_TRANSITION_DWELL", Toast.LENGTH_SHORT).show();
+                    notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_DWELL", "", MapsActivity.class);
+                }
                 break;
             case Geofence.GEOFENCE_TRANSITION_EXIT:
-                Toast.makeText(context, "GEOFENCE_TRANSITION_EXIT", Toast.LENGTH_SHORT).show();
-                notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_EXIT", "", MapsActivity.class);
+                for(Geofence geofence : geofenceList) {
+                    String ID = geofence.getRequestId();
+                    Toast.makeText(context, ID +" : GEOFENCE_TRANSITION_EXIT", Toast.LENGTH_SHORT).show();
+                    notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_EXIT", "", MapsActivity.class);
+                }
                 break;
         }
 

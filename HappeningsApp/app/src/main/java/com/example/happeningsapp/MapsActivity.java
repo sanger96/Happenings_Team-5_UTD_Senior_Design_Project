@@ -3,6 +3,7 @@ package com.example.happeningsapp;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -78,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public GeofencingClient geofencingClient;
     private GeoFenceHelper geoFenceHelper;
     private String GEOFENCE_ID = "SOME_GEOFENCE_ID";
-    private float GEOFENCE_RADIUS = 200; // probably in pixel size, double check
+    private float GEOFENCE_RADIUS = 75; // probably in pixel size, double check
     //private int GEOFENCE_EXPIRATION = Geofence.NEVER_EXPIRE;
 
     // create a statically defined HashMap with <key= buildingName, node = LatLng>
@@ -148,10 +149,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         geofencingClient = LocationServices.getGeofencingClient(this);
         geoFenceHelper = new GeoFenceHelper(this);
 
-
-        // Run a for loop to call alternate version of handleMapLongClick( ) that doesn't do map.clear()
-        // make it acccept both building name and Latlng so that geofence name and point are both set.
-
         // run method to create markers for events, use addMarker(LatLng) pass the latitude and logitude.
         // when creating marker for event, call HashMap to get LatLng for building where event is, then pass to create marker
 
@@ -204,6 +201,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         enableUserLocation();
         mMap.setOnMapLongClickListener(this);
+
+        createBuildingLatLng();
+        // Run a for loop to call alternate version of handleMapLongClick( ) that doesn't do map.clear()
+        // make it acccept both building name and Latlng so that geofence name and point are both set.
+
+        for(String key : buildingLatLng.keySet()) {
+            if(key != null && buildingLatLng.get(key) != null) {
+                createGeofences(key, buildingLatLng.get(key));
+            }else{
+                Log.d(TAG, "onCreate: Null value in buildingLatLng");
+            }
+        }
     }
 
     private void enableUserLocation() {
@@ -328,7 +337,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // This is where we will statically define the geofences
     private void createGeofences(String name, LatLng latLng) {
-        addMarker(latLng); // center of the circle
+        //addMarker(latLng); // center of the circle
         addCircle(latLng, GEOFENCE_RADIUS); // this is how to add the circle, this is just a visual representation of the geofence.
         addGeofence(latLng, GEOFENCE_RADIUS, name); // this sets the geofence, note that its invisible thats why we draw the circle above.
     }
