@@ -86,7 +86,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback { //GoogleMap.OnMapLongClickListener is used for testing purposes
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener { //GoogleMap.OnMapLongClickListener is used for testing purposes
     private static final int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 100;
     private static final int FINE_LOCATION_ACCESS_REQUEST_CODE = 10001;
     private GoogleMap mMap;
@@ -344,7 +344,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         mMap.setMyLocationEnabled(true);
         enableUserLocation();
-        mMap.setOnMapLongClickListener(this);
+        //mMap.setOnMapLongClickListener(this);
         mMap.setOnMarkerClickListener(this);
         //mMap.setOnMapLongClickListener(this);
 
