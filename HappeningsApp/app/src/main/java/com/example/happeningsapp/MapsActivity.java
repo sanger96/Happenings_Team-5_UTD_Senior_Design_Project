@@ -206,6 +206,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //ArrayList to mark building as having marker
         ArrayList<String> marked = new ArrayList<>();
 
+        //get buildingLatLnd
+        createBuildingLatLng();
+
         //set root
         View root=binding.getRoot();
 
@@ -221,14 +224,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject event = response.getJSONObject(i);
                         //2. get the building for a specific event
-                        String building = event.getJSONObject("location").getString("name");
+                        String building = event.getJSONObject("appointment").getJSONObject("location").getString("name");
 
                         //get the time of the event
                         LocalDateTime eventEndTime = LocalDateTime.parse(event.getJSONObject("appointment").getString("endTime"));
                         LocalDateTime eventStartTime = LocalDateTime.parse(event.getJSONObject("appointment").getString("startTime"));
 
                         // 3.1 filter events to be added to map to be within a time window based on; current time +/- some number of hours
-                        if((startWindow.isAfter(eventEndTime)) && (endWindow.isBefore(eventStartTime))) {
+//                        if((startWindow.isBefore(eventEndTime)) || (endWindow.isBefore(eventEndTime))) {
+                        if(true){
                             eventsInBuilding.put(building,event);
                                 // 3.2 check if the building has a marker already
                                 //      3.2.a (yes) Do not add marker
@@ -245,7 +249,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             }// end of 3.1 if statement
 
                     }//end of for loop getting each event on response and filling eventsInBuilding<String building, JsonObject event>
-
+                    System.out.println("end of parsing events within time frame");
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
