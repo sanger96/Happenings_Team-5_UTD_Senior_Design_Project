@@ -31,10 +31,15 @@
 
     <string name="inText_username">Enter email</string>
     <string name="inText_password">Enter password</string>
+
+    <!-- ClubSearchFragment Strings -->
     <string name="inText_clubsearch">Enter club name</string>
 
     <string name="searchable_clubList_name">Enter club name</string>
     <string name="searchable_clubList_label">Club Search Bar</string>
+
+    <!-- IndividualClubFragment Strings -->
+    <string name="clubEvents_label">Events</string>
 
     <string name="submit">Submit</string>
 
