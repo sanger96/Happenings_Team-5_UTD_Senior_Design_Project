@@ -84,7 +84,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener { //GoogleMap.OnMapLongClickListener is used for testing purposes
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener { //GoogleMap.OnMapLongClickListener is used for testing purposes
     private static final int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 100;
     private static final int FINE_LOCATION_ACCESS_REQUEST_CODE = 10001;
     private GoogleMap mMap;
@@ -321,6 +321,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         enableUserLocation();
         mMap.setOnMapLongClickListener(this);
+        mMap.setOnMarkerClickListener(this);
     }
 
     private void enableUserLocation() {
@@ -336,6 +337,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
+
+    @Override
+    public boolean onMarkerClick(Marker marker){
+
+        Toast.makeText(this,"Selected marker"+marker.getTitle(),Toast.LENGTH_SHORT).show();
+
+        return false;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -401,7 +411,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void addMarker(String markerTitle, LatLng latLng) {
-        // TODO: Use eventName
         MarkerOptions markerOptions = new MarkerOptions().position(latLng);
         markerOptions.title(markerTitle);
         mMap.addMarker(markerOptions);
