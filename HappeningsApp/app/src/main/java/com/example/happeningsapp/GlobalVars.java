@@ -33,4 +33,6 @@ public class GlobalVars extends Application {
     public String getUsername(){ return username; }
     public void setPassword(String password){ this.password = password; }
     public String getPassword(){ return password; }
+    public void setTimeWindow(int timeWindow){ this.timeWindow = timeWindow; }
+    public int getTimeWindow(){ return timeWindow; }
 }

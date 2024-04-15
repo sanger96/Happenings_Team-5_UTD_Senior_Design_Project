@@ -239,7 +239,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         LocalDateTime eventStartTime = LocalDateTime.parse(event.getJSONObject("appointment").getString("startTime"));
 
                         // 3.1 filter events to be added to map to be within a time window based on; current time +/- some number of hours
-//                        TODO:if((startWindow.isBefore(eventEndTime)) || (endWindow.isBefore(eventEndTime))) {
+//                        TO DO:if((startWindow.isBefore(eventEndTime)) || (endWindow.isBefore(eventEndTime))) {
                         //write if statements for each scenario, event is; crossing startWindow, in Window, crossing endWindow, crossing startWindow and endWindow
                         if(
                             ((startWindow.isAfter(eventStartTime)) && (startWindow.isBefore(eventEndTime)) && (endWindow.isAfter(eventEndTime))) || // event is crossing startWindow
@@ -293,8 +293,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }// end of onCreate
 
-        // TODO: Don't forget to add system push notification or toast notification if in app currently open, to be set off when near event
-        // TODO: (Gaurav) How to make app run in background of phone [stretch]
+        // TODO: (Charles) Don't forget to add system push notification or toast notification if in app currently open, to be set off when near event
+        // TODO: (Charles) How to make app run in background of phone [stretch]
 
 
     /**
