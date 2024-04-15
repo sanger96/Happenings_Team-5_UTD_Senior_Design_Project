@@ -1,5 +1,6 @@
 package com.example.happeningsapp.ui.individualClub;
 
+import androidx.annotation.ColorInt;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -24,12 +27,16 @@ import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentIndividualClubBinding;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class individualClubFragment extends Fragment {
 
     private FragmentIndividualClubBinding binding;
+    private ImageButton favoriteButton;
+    private boolean isFavorite = false;
+
 
     public static individualClubFragment newInstance() {
         return new individualClubFragment();
@@ -43,34 +50,50 @@ public class individualClubFragment extends Fragment {
 
         binding = com.example.happeningsapp.databinding.FragmentIndividualClubBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        favoriteButton = root.findViewById(R.id.favoriteClubButton);
+        favoriteButton.setImageResource(R.drawable.ic_unfavorite);
+
+        com.example.happeningsapp.GlobalVars foo =  com.example.happeningsapp.GlobalVars.getInstance();
+        int userAccountID = foo.getUserID();
 
         int clubId = -1;
         // Get the clubID from bundle if args not null
         Bundle args = getArguments();
         if (args != null) {
             clubId = args.getInt("clubID");
-            TextView clubIdTextView = root.findViewById(R.id.clubIdTextView);
-            clubIdTextView.setText("club ID: " + clubId);
 
+            // Get the club by using serverUrl
             com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
-            String getUrl= server.getServerUrl() + "/club/getById/" + clubId;
+            String getClubUrl= server.getServerUrl() + "/club/getById/" + clubId;
+
             RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    Request.Method.GET, getUrl, null,
+                    Request.Method.GET, getClubUrl, null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
+                                Log.d("Club Object", response.toString());
                                 // Parse the JSON response to get club details
                                 String clubName = response.getString("name");
                                 String clubDescription = response.getString("description");
 
-                                // Update Views with club details
+                                // Set name
                                 TextView clubNameTextView = root.findViewById(R.id.clubNameTextView);
                                 clubNameTextView.setText(clubName);
-
+                                // Set description
                                 TextView clubDescriptionTextView = root.findViewById(R.id.clubDescriptionTextView);
                                 clubDescriptionTextView.setText(clubDescription);
+
+                                // TODO: check if the user has already favorited the club
+                                // Log.d("Club type of object ", response.getJSONArray("userAccounts").toString());
+                                /*JSONArray favUserAccounts = response.getJSONArray("userAccounts");
+                                for(int i = 0; i < favUserAccounts.length(); i++){
+                                    JSONObject userAcc = favUserAccounts.getJSONObject(i);
+                                    int userAccId = userAcc.getInt("userAccountID")
+                                }*/
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -83,6 +106,19 @@ public class individualClubFragment extends Fragment {
                         }
                     }
             );
+
+            favoriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!isFavorite){
+                        favoriteButton.setImageResource(R.drawable.ic_favorite);
+                    }
+                    else{
+                        favoriteButton.setImageResource(R.drawable.ic_unfavorite);
+                    }
+                    isFavorite = !isFavorite;
+                }
+            });
 
             // Add the request to the queue
             requestQueue.add(jsonObjectRequest);

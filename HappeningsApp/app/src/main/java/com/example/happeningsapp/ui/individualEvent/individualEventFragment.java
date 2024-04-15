@@ -114,9 +114,6 @@ public class individualEventFragment extends Fragment {
                             Log.e("IndividualEventFragment", "Error fetching event details: " + error.getMessage());
                         }
                     }
-
-
-
             );
 
             StringRequest stringRequestRsvp = new StringRequest(

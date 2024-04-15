@@ -40,7 +40,7 @@ public class Club {
     private String description;
     
     //TODO: needs to be not nullable, but not added for testing convenience for now
-    @Column(unique = true)
+    @Column(unique = false)
     private int leaderID;
     
     // One club has many events
