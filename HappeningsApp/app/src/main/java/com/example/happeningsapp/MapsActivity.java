@@ -67,7 +67,7 @@ import android.location.Location;
 
 import java.util.HashMap;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener { //GoogleMap.OnMapLongClickListener is used for testing purposes
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback { //GoogleMap.OnMapLongClickListener is used for testing purposes
     private static final int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 100;
     private static final int FINE_LOCATION_ACCESS_REQUEST_CODE = 10001;
     private GoogleMap mMap;
@@ -151,7 +151,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // run method to create markers for events, use addMarker(LatLng) pass the latitude and logitude.
         // when creating marker for event, call HashMap to get LatLng for building where event is, then pass to create marker
-
     }
 
     /**
@@ -168,6 +167,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_ACCESS_REQUEST_CODE);
             // TODO: Consider calling
             //   ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -183,7 +183,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onSuccess(Location location) {
                 if (location != null) {
                     LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(loc).title("Your Current Location"));
+                    //mMap.addMarker(new MarkerOptions().position(loc).title("Your Current Location"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 17));
                     mMap.setMyLocationEnabled(true);
 
@@ -200,7 +200,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         mMap.setMyLocationEnabled(true);
         enableUserLocation();
-        mMap.setOnMapLongClickListener(this);
+        //mMap.setOnMapLongClickListener(this);
 
         createBuildingLatLng();
         // Run a for loop to call alternate version of handleMapLongClick( ) that doesn't do map.clear()
@@ -306,7 +306,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         circleOptions.strokeWidth(4); // width in screen pixel for the border
         mMap.addCircle(circleOptions);
     }
-
+    /*
     @Override
     public void onMapLongClick(LatLng latLng) {
         if (Build.VERSION.SDK_INT >= 29) {
@@ -334,6 +334,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         addCircle(latLng, GEOFENCE_RADIUS); // this is how to add the circle, this is just a visual representation of the geofence.
         addGeofence(latLng, GEOFENCE_RADIUS, "GEOFENCE_ID"); // this sets the geofence, note that its invisible thats why we draw the circle above.
     }
+    */
 
     // This is where we will statically define the geofences
     private void createGeofences(String name, LatLng latLng) {
