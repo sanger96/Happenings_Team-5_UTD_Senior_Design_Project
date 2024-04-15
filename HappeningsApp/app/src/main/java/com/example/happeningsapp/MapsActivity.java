@@ -244,7 +244,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     LatLng coordinates = buildingLatLng.get(building);
 
                                     // 3.2.No.2 pass building and LatLng to make the marker
-                                    addMarker(building, coordinates);
+                                    if(coordinates!=null) {// this will reject all buildings not in buldingLatLng
+                                        addMarker(building, coordinates);
+                                    }
                                 }
                             }// end of 3.1 if statement
 
