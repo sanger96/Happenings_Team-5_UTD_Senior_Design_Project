@@ -155,6 +155,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     HashMap<String, ArrayList<JSONObject>> eventsInBuilding = new HashMap<>(); // change to hold list of events
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //get buildingLatLnd
+        createBuildingLatLng();
         super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -214,9 +216,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //ArrayList to mark building as having marker
         ArrayList<String> marked = new ArrayList<>();
-
-        //get buildingLatLnd
-        createBuildingLatLng();
 
         //set root
         View root=binding.getRoot();
