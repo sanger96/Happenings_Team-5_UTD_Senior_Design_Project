@@ -231,7 +231,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         LocalDateTime eventStartTime = LocalDateTime.parse(event.getJSONObject("appointment").getString("startTime"));
 
                         // 3.1 filter events to be added to map to be within a time window based on; current time +/- some number of hours
-//                        if((startWindow.isBefore(eventEndTime)) || (endWindow.isBefore(eventEndTime))) {
+//                        TODO:if((startWindow.isBefore(eventEndTime)) || (endWindow.isBefore(eventEndTime))) {
                         if(true){
                             eventsInBuilding.put(building,event);
                                 // 3.2 check if the building has a marker already
@@ -269,8 +269,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         requestQueue.add(jsonArrayRequest);
 
     }// end of onCreate
-
-        // TODO: (Gaurav) Don't forget to add system push notification or toast notification if in app currently open, to be set off when near event
+        // TODO: (Gaurav) add a way to click the marker and get all events at that building
+        // TODO: Don't forget to add system push notification or toast notification if in app currently open, to be set off when near event
         // TODO: (Gaurav) How to make app run in background of phone [stretch]
 
 
