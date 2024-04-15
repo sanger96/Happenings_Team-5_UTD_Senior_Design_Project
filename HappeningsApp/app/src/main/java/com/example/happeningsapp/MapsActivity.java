@@ -148,9 +148,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buildingLatLng.put("WSTC", new LatLng(32.9884, -96.7565));
         buildingLatLng.put("JSOM", new LatLng(32.98524996406282, -96.74683655916328));
         buildingLatLng.put("Dining Hall West", new LatLng(32.98999406190205, -96.75448245241604));
-        buildingLatLng.put("Fat Straws Richardson", new LatLng(32.97788047712824, -96.76239404566923));
     }
-
+    //holds the events in HashMap, with building as the key and event as stored in string
+    HashMap<String, ArrayList<JSONObject>> eventsInBuilding = new HashMap<>(); // change to hold list of events
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,8 +191,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // (done, needs testing)3.2.No.2 pass building and LatLng to make the marker
         //***** below *****
 
-        // TODO: (Gaurav) When I click a building I want a list of events of the events going on there within a reasonable time slot to appear. How should this sub list of events appear?
-
         //1. get list of events
         //start instance of GlobalVars, this will grab the beginning part of the event/getAll string for the getURL
         com.example.happeningsapp.GlobalVars globalVars =  com.example.happeningsapp.GlobalVars.getInstance();
@@ -204,8 +202,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocalDateTime startWindow = timeNow.minusHours(window);
         LocalDateTime endWindow = timeNow.plusHours(window);
 
-        //holds the events in HashMap, with building as the key and event as stored in string
-        HashMap<String, JSONObject> eventsInBuilding = new HashMap<>(); // change to hold list of events
         //ArrayList to mark building as having marker
         ArrayList<String> marked = new ArrayList<>();
 
@@ -223,7 +219,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onResponse(JSONArray response) {
                 try {
 
-                    // Parse events and populate the eventsInBuilding
+                    // Parse events and populate the eventsInBuilding<String building, ArrayList<JSONObject> event>
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject event = response.getJSONObject(i);
                         //2. get the building for a specific event
@@ -237,7 +233,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                        TODO:if((startWindow.isBefore(eventEndTime)) || (endWindow.isBefore(eventEndTime))) {
                         //write if statements for each scenario, event is; crossing startWindow, in Window, crossing endWindow, crossing startWindow and endWindow
                         if(true){
-                            eventsInBuilding.put(building,event);
+
+                            if(eventsInBuilding.get(building) != null){
+                                ArrayList<JSONObject> tmp = eventsInBuilding.get(building);
+                                tmp.add(event);
+                                eventsInBuilding.put(building, tmp);
+                            }else{
+                                ArrayList<JSONObject> tmp = new ArrayList<>();
+                                tmp.add(event);
+                                eventsInBuilding.put(building, tmp);
+                            }
                                 // 3.2 check if the building has a marker already
                                 //      3.2.a (yes) Do not add marker
                                 //      3.2.b (no) Add marker and update has marker for building
@@ -273,7 +278,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         requestQueue.add(jsonArrayRequest);
 
     }// end of onCreate
-        // TODO: (Gaurav) add a way to click the marker and get all events at that building
+
         // TODO: Don't forget to add system push notification or toast notification if in app currently open, to be set off when near event
         // TODO: (Gaurav) How to make app run in background of phone [stretch]
 
@@ -292,7 +297,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+            // TO DO: Consider calling
             //   ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -345,6 +350,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker){
         Toast.makeText(this,"Selected marker "+marker.getTitle(),Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,"List of events "+eventsInBuilding.get(marker.getTitle()),Toast.LENGTH_SHORT).show();
+
+        // TODO: (Gaurav) add a way to click the marker and get all events at that building
+        // use intent to navigate to view that overrides the marker description
+        //eventsInBuilding.get(marker.getTitle()); // gets building marker is associated with
+
+        //parse ArrayList of events to get list of event names
+
+
 
         return false;
     }
@@ -356,7 +370,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //We have the permission
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
+                    // TO DO: Consider calling
                     //    ActivityCompat#requestPermissions
                     // here to request the missing permissions, and then overriding
                     //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -388,7 +402,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         PendingIntent pendingIntent = geoFenceHelper.getPendingIntent();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+            // TO DO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -459,8 +473,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // This is where we will statically define the geofences
     private void createGeofences(String name, LatLng latLng) {
-        addMarker("GeoFence_ID",latLng); // center of the circle
+        addMarker(name,latLng); // center of the circle
         addCircle(latLng, GEOFENCE_RADIUS); // this is how to add the circle, this is just a visual representation of the geofence.
-        addGeofence(latLng, GEOFENCE_RADIUS, name); // this sets the geofence, note that its invisible thats why we draw the circle above.
+        addGeofence(latLng, GEOFENCE_RADIUS, name); // this sets the geofence, note that its invisible that's why we draw the circle above.
     }
 }
