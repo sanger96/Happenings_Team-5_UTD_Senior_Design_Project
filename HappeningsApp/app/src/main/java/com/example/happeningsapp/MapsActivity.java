@@ -246,6 +246,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     // 3.2.No.2 pass building and LatLng to make the marker
                                     if(coordinates!=null) {// this will reject all buildings not in buldingLatLng
                                         addMarker(building, coordinates);
+                                    }else{
+                                        System.out.println("This is here to allow you to set a break point and check what buildings are not in buildingLatLng");
                                     }
                                 }
                             }// end of 3.1 if statement
