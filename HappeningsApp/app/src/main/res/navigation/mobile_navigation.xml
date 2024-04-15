@@ -10,6 +10,9 @@
         android:name="com.example.happeningsapp.MapsActivity"
         android:label="@string/fragment_maps"
         tools:layout="@layout/activity_maps" />
+        <action
+            android:id="@+id/action_nav_map_to_nav_eventList"
+            app:destination="@id/nav_eventList"/>
     <fragment
         android:id="@+id/nav_eventList"
         android:name="com.example.happeningsapp.ui.eventList.EventListFragment"
@@ -23,6 +26,9 @@
         android:name="com.example.happeningsapp.ui.individualEvent.individualEventFragment"
         android:label="Individual Event"
         tools:layout="@layout/fragment_individual_event"/>
+        <action
+            android:id="@+id/action_nav_individualEvent_to_nav_eventList"
+            app:destination="@+id/nav_eventList"/>
     <fragment
         android:id="@+id/nav_clubSearch"
         android:name="com.example.happeningsapp.ui.clubSearch.ClubSearchFragment"
@@ -36,15 +42,6 @@
         android:name="com.example.happeningsapp.ui.individualClub.individualClubFragment"
         android:label="Individual Club"
         tools:layout="@layout/fragment_individual_club"/>
-    <fragment
-        android:id="@+id/nav_userProfileSetting"
-        android:name="com.example.happeningsapp.ui.userSettings.UserSettingsFragment"
-        android:label="User Profile Settings"
-        tools:layout="@layout/fragment_user_settings" >
-        <action
-            android:id="@+id/action_nav_userProfileSetting_to_nav_eventList"
-            app:destination="@id/nav_eventList" />
-    </fragment>
     <fragment android:id="@+id/nav_logout"
         android:name="com.example.happeningsapp.ui.logout.LogoutFragment"
         android:label="Logout"
@@ -64,12 +61,7 @@
             android:id="@+id/action_nav_login_to_nav_accountCreation"
             app:destination="@id/createAccountFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/nav_profile_settings"
-        android:name="com.example.happeningsapp.ui.userSettings.UserSettingsFragment"
-        android:label="Profile Settings"
-        tools:layout="@layout/fragment_user_settings" >
-    </fragment>
+
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.example.happeningsapp.ui.appSettings.AppSettingsFragment"
@@ -84,6 +76,9 @@
         android:name="com.example.happeningsapp.ui.eventCreation.eventCreationFragment"
         android:label="fragment_event_creation"
         tools:layout="@layout/fragment_event_creation" />
+        <action
+            android:id="@+id/action_nav_eventCreation_to_nav_individualEvent"
+            app:destination="@id/nav_individualEvent"/>
     <fragment
         android:id="@+id/createAccountFragment"
         android:name="com.example.happeningsapp.ui.CreateAccount.CreateAccountFragment"
@@ -91,6 +86,15 @@
         tools:layout="@layout/fragment_create_account" >
         <action
             android:id="@+id/action_createAccountFragment_to_nav_eventList"
+            app:destination="@id/nav_eventList" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_profile_settings"
+        android:name="com.example.happeningsapp.ui.profilesettings.ProfileSettingsFragment"
+        android:label="fragment_profile_settings"
+        tools:layout="@layout/fragment_profile_settings" >
+        <action
+            android:id="@+id/action_profileSettingsFragment_to_nav_eventList"
             app:destination="@id/nav_eventList" />
     </fragment>
 

@@ -13,10 +13,11 @@ public class EventDTO {
     private LocalDateTime endTime;
     private String locationName;
     private Optional<String> room;
+    private Optional<String> photoSubDirectory;
 
     public EventDTO(String eventName, String description, Optional<Integer> clubID,
                     LocalDateTime startTime, LocalDateTime endTime, String locationName,
-                    Optional<String> room) {
+                    Optional<String> room, Optional<String> photoSubDirectory) {
         this.eventName = eventName;
         this.description = description;
         this.clubID = clubID;
@@ -24,5 +25,6 @@ public class EventDTO {
         this.endTime = endTime;
         this.locationName = locationName;
         this.room = room;
+        this.photoSubDirectory = photoSubDirectory;
     }
 }

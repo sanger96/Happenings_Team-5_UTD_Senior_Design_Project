@@ -1,5 +1,6 @@
 package com.example.happeningsapp.ui.clubSearch;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -111,8 +112,8 @@ public class ClubSearchFragment extends Fragment {
 //        clubSearchModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 //
 //        final EditText clubSearchbar = binding.searchBar;
-
-        String getUrl = "http://10.0.2.2:8080/club/getAll";
+        com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
+        String getUrl= server.getServerUrl() + "/club/getAll";
         RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
@@ -176,9 +177,9 @@ public class ClubSearchFragment extends Fragment {
         clubDetailsLayout.setOrientation(LinearLayout.VERTICAL); // we want the club name, desc, to be stacked vertically
 
         // Create TextViews for club name, and desc
-        TextView clubNameView = createTextView(context, club.getString("name"), 20, 2);
+        TextView clubNameView = createTextView(context, club.getString("name"), 20, 2, true);
         clubDetailsLayout.addView(clubNameView);
-        TextView clubDescriptionView = createTextView(context, club.getString("description"), 16, 3);
+        TextView clubDescriptionView = createTextView(context, club.getString("description"), 16, 3, false);
         clubDetailsLayout.addView(clubDescriptionView);
 
         // Add club details layout to the club row
@@ -200,7 +201,7 @@ public class ClubSearchFragment extends Fragment {
         return clubRow;
     }
 
-    private TextView createTextView(Context context, String text, int textSize, int maxLines) {
+    private TextView createTextView(Context context, String text, int textSize, int maxLines, boolean isBold) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int deviceWidth = (int) (0.80 * displayMetrics.widthPixels);
 
@@ -217,6 +218,10 @@ public class ClubSearchFragment extends Fragment {
         textView.setEllipsize(TextUtils.TruncateAt.END);
 
         textView.setPadding(0,0,0,0);
+
+        if (isBold) {
+            textView.setTypeface(null, Typeface.BOLD);
+        }
 
         return textView;
     }

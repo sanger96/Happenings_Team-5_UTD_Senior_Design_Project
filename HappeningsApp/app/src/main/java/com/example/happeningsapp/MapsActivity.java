@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.Navigation;
 
 import android.app.PendingIntent;
 import android.content.IntentSender;
@@ -17,6 +18,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.content.pm.PackageManager;
 //Google Maps imports
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.CurrentLocationRequest;
 import com.google.android.gms.location.Geofence;
@@ -47,6 +54,8 @@ import android.Manifest;
 
 import android.os.Looper;
 import android.util.Log;
+import android.util.Pair;
+import android.view.View;
 import android.webkit.WebViewClient;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
@@ -62,9 +71,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 //location import
 import android.location.Location;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback { //GoogleMap.OnMapLongClickListener is used for testing purposes
@@ -129,13 +148,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buildingLatLng.put("TH", new LatLng(32.9884, -96.7486));
         buildingLatLng.put("VCB", new LatLng(32.9847, -96.7497));
         buildingLatLng.put("WSTC", new LatLng(32.9884, -96.7565));
+        buildingLatLng.put("JSOM", new LatLng(32.98524996406282, -96.74683655916328));
+        buildingLatLng.put("Dining Hall West", new LatLng(32.98999406190205, -96.75448245241604));
     }
-
+    //holds the events in HashMap, with building as the key and event as stored in string
+    HashMap<String, ArrayList<JSONObject>> eventsInBuilding = new HashMap<>(); // change to hold list of events
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //get buildingLatLnd
+        createBuildingLatLng();
         super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//            fab.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            Navigation.findNavController(view).navigate(R.id.action_nav_map_to_nav_eventList);
+//            }
+//        });
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -149,9 +181,121 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         geofencingClient = LocationServices.getGeofencingClient(this);
         geoFenceHelper = new GeoFenceHelper(this);
 
-        // run method to create markers for events, use addMarker(LatLng) pass the latitude and logitude.
+
+        // Run a for loop to call alternate version of handleMapLongClick( ) that doesn't do map.clear()
+        // make it accept both building name and LatLng so that geofence name and point are both set.
+
+        //( Gaurav )
+        // run method to create markers for events, use addMarker(LatLng) pass the latitude and longitude.
         // when creating marker for event, call HashMap to get LatLng for building where event is, then pass to create marker
-    }
+
+        //(done, needs testing) 1. get list of events
+
+        //(done, needs testing) 2. get the building for a specific event
+
+        // (done, needs testing)3. Add event to map as marker and mark building as having a marker already.
+        // (done, needs testing)3.1 filter events to be added to map to be within a time window based on; current time +/- some number of hours
+        // (done, needs testing)3.2 check if the building has a marker already
+        //      (done, needs testing)3.2.Yes Do not add marker
+        //      (done, needs testing)3.2.No Add marker and update has marker for building
+        // (done, needs testing)3.2.No.1 use buildingLatLng.get("building") to get the LatLng for the event, gets the buildings location for given event
+
+        // (done, needs testing)3.2.No.2 pass building and LatLng to make the marker
+        //***** below *****
+
+        //1. get list of events
+        //start instance of GlobalVars, this will grab the beginning part of the event/getAll string for the getURL
+        com.example.happeningsapp.GlobalVars globalVars =  com.example.happeningsapp.GlobalVars.getInstance();
+        String urlGetAllEvents = globalVars.getServerUrl() + "/event/getAll";
+
+        //get window of around current time slot
+        int window = globalVars.timeWindow;
+        LocalDateTime timeNow = LocalDateTime.now();
+        LocalDateTime startWindow = timeNow.minusHours(window);
+        LocalDateTime endWindow = timeNow.plusHours(window);
+
+        //ArrayList to mark building as having marker
+        ArrayList<String> marked = new ArrayList<>();
+
+        //set root
+        View root=binding.getRoot();
+
+        //JsonArrayRequest
+        RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET, urlGetAllEvents, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+
+                    // Parse events and populate the eventsInBuilding<String building, ArrayList<JSONObject> event>
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject event = response.getJSONObject(i);
+                        //2. get the building for a specific event
+                        String building = event.getJSONObject("appointment").getJSONObject("location").getString("name");
+
+                        //get the time of the event
+                        LocalDateTime eventEndTime = LocalDateTime.parse(event.getJSONObject("appointment").getString("endTime"));
+                        LocalDateTime eventStartTime = LocalDateTime.parse(event.getJSONObject("appointment").getString("startTime"));
+
+                        // 3.1 filter events to be added to map to be within a time window based on; current time +/- some number of hours
+//                        TO DO:if((startWindow.isBefore(eventEndTime)) || (endWindow.isBefore(eventEndTime))) {
+                        //write if statements for each scenario, event is; crossing startWindow, in Window, crossing endWindow, crossing startWindow and endWindow
+                        if(
+                            ((startWindow.isAfter(eventStartTime)) && (startWindow.isBefore(eventEndTime)) && (endWindow.isAfter(eventEndTime))) || // event is crossing startWindow
+                            ((startWindow.isBefore(eventStartTime)) && (endWindow.isAfter(eventEndTime))) || // event is totally within Window
+                            ((startWindow.isBefore(eventStartTime)) && (endWindow.isBefore(eventEndTime)) && (endWindow.isAfter(eventStartTime))) || // event is crossing endWindow
+                            ((startWindow.isAfter(eventStartTime)) && (startWindow.isBefore(eventEndTime)) && (endWindow.isBefore(eventEndTime)) && (endWindow.isAfter(eventStartTime)) ) // event is longer than event Window
+                        ){
+
+                            if(eventsInBuilding.get(building) != null){
+                                ArrayList<JSONObject> tmp = eventsInBuilding.get(building);
+                                tmp.add(event);
+                                eventsInBuilding.put(building, tmp);
+                            }else{
+                                ArrayList<JSONObject> tmp = new ArrayList<>();
+                                tmp.add(event);
+                                eventsInBuilding.put(building, tmp);
+                            }
+                                // 3.2 check if the building has a marker already
+                                //      3.2.a (yes) Do not add marker
+                                //      3.2.b (no) Add marker and update has marker for building
+                                if (!(marked.contains(building))) {
+                                    //add marker on map for event
+
+                                    // 3.2.No.1 use buildingLatLng.get("building") to get the LatLng for the event, gets the buildings location for given event
+                                    LatLng coordinates = buildingLatLng.get(building);
+
+                                    // 3.2.No.2 pass building and LatLng to make the marker
+                                    if(coordinates!=null) {// this will reject all buildings not in buldingLatLng
+                                        addMarker(building, coordinates);
+                                    }else{
+                                        System.out.println("This is here to allow you to set a break point and check what buildings are not in buildingLatLng");
+                                    }
+                                }
+                            }// end of 3.1 if statement
+
+                    }//end of for loop getting each event on response and filling eventsInBuilding<String building, JsonObject event>
+                    System.out.println("end of parsing events within time frame");
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.wtf("Error onResponse","MapsActivity for getting event"+error);
+                    }
+                });// end of JsonArrayRequest
+
+        requestQueue.add(jsonArrayRequest);
+
+    }// end of onCreate
+
+        // TODO: (Charles) Don't forget to add system push notification or toast notification if in app currently open, to be set off when near event
+        // TODO: (Charles) How to make app run in background of phone [stretch]
+
 
     /**
      * Created by Google Maps Interface
@@ -200,6 +344,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         mMap.setMyLocationEnabled(true);
         enableUserLocation();
+        mMap.setOnMapLongClickListener(this);
+        mMap.setOnMarkerClickListener(this);
         //mMap.setOnMapLongClickListener(this);
 
         createBuildingLatLng();
@@ -228,6 +374,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
+
+    @Override
+    public boolean onMarkerClick(Marker marker){
+        Toast.makeText(this,"Selected marker "+marker.getTitle(),Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,"List of events "+eventsInBuilding.get(marker.getTitle()),Toast.LENGTH_SHORT).show();
+
+        // TODO: (Gaurav) add a way to click the marker and get all events at that building
+        // use intent to navigate to view that overrides the marker description
+        //eventsInBuilding.get(marker.getTitle()); // gets building marker is associated with
+
+        //parse ArrayList of events to get list of event names
+
+
+
+        return false;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -292,8 +455,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
     }
 
-    private void addMarker(LatLng latLng) {
+    private void addMarker(String markerTitle, LatLng latLng) {
         MarkerOptions markerOptions = new MarkerOptions().position(latLng);
+        markerOptions.title(markerTitle);
         mMap.addMarker(markerOptions);
     }
 
@@ -330,7 +494,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // This is where we will statically define the geofences
     private void handleMapLongClick(LatLng latLng) {
         mMap.clear();
-        addMarker(latLng); // center of the circle
+        addMarker("GeoFence_ID",latLng); // center of the circle
         addCircle(latLng, GEOFENCE_RADIUS); // this is how to add the circle, this is just a visual representation of the geofence.
         addGeofence(latLng, GEOFENCE_RADIUS, "GEOFENCE_ID"); // this sets the geofence, note that its invisible thats why we draw the circle above.
     }
@@ -338,8 +502,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // This is where we will statically define the geofences
     private void createGeofences(String name, LatLng latLng) {
-        //addMarker(latLng); // center of the circle
+        //addMarker(name,latLng); // center of the circle
         addCircle(latLng, GEOFENCE_RADIUS); // this is how to add the circle, this is just a visual representation of the geofence.
-        addGeofence(latLng, GEOFENCE_RADIUS, name); // this sets the geofence, note that its invisible thats why we draw the circle above.
+        addGeofence(latLng, GEOFENCE_RADIUS, name); // this sets the geofence, note that its invisible that's why we draw the circle above.
     }
 }

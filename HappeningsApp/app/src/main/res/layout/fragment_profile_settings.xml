@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.userSettings.UserSettingsFragment">
+    tools:context=".ui.profilesettings.ProfileSettingsFragment">
 
     <!--
     This page doubles as account creation and user settings
@@ -21,7 +21,7 @@
     -->
 
     <EditText
-        android:id="@+id/inText_email"
+        android:id="@+id/profile_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/inText_password"
+        android:id="@+id/profile_password"
         android:layout_width="237dp"
         android:layout_height="50dp"
         android:layout_marginStart="56dp"
@@ -55,18 +55,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_updateProfile"
+        android:id="@+id/button_profile_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inText_password"
+        app:layout_constraintTop_toBottomOf="@+id/profile_password"
         app:layout_constraintVertical_bias="0.148" />
 
     <TextView
-        android:id="@+id/textUserSettings"
+        android:id="@+id/textProfileSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Profile Settings"
@@ -78,7 +78,7 @@
         app:layout_constraintVertical_bias="0.041" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/profile_text2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
@@ -90,7 +90,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/profile_text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
@@ -102,7 +102,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_logout"
+        android:id="@+id/button_profile_show"
         android:layout_width="80dp"
         android:layout_height="38dp"
         android:layout_marginStart="293dp"
