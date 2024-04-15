@@ -146,6 +146,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buildingLatLng.put("TH", new LatLng(32.9884, -96.7486));
         buildingLatLng.put("VCB", new LatLng(32.9847, -96.7497));
         buildingLatLng.put("WSTC", new LatLng(32.9884, -96.7565));
+        buildingLatLng.put("JSOM", new LatLng(32.98524996406282, -96.74683655916328));
+        buildingLatLng.put("Dining Hall West", new LatLng(32.98999406190205, -96.75448245241604));
+        buildingLatLng.put("Fat Straws Richardson", new LatLng(32.97788047712824, -96.76239404566923));
     }
 
     @Override
@@ -202,7 +205,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LocalDateTime endWindow = timeNow.plusHours(window);
 
         //holds the events in HashMap, with building as the key and event as stored in string
-        HashMap<String, JSONObject> eventsInBuilding = new HashMap<>();
+        HashMap<String, JSONObject> eventsInBuilding = new HashMap<>(); // change to hold list of events
         //ArrayList to mark building as having marker
         ArrayList<String> marked = new ArrayList<>();
 
@@ -232,6 +235,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         // 3.1 filter events to be added to map to be within a time window based on; current time +/- some number of hours
 //                        TODO:if((startWindow.isBefore(eventEndTime)) || (endWindow.isBefore(eventEndTime))) {
+                        //write if statements for each scenario, event is; crossing startWindow, in Window, crossing endWindow, crossing startWindow and endWindow
                         if(true){
                             eventsInBuilding.put(building,event);
                                 // 3.2 check if the building has a marker already
@@ -340,8 +344,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker){
-
-        Toast.makeText(this,"Selected marker"+marker.getTitle(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Selected marker "+marker.getTitle(),Toast.LENGTH_SHORT).show();
 
         return false;
     }
