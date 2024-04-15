@@ -241,7 +241,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         // 3.1 filter events to be added to map to be within a time window based on; current time +/- some number of hours
 //                        TODO:if((startWindow.isBefore(eventEndTime)) || (endWindow.isBefore(eventEndTime))) {
                         //write if statements for each scenario, event is; crossing startWindow, in Window, crossing endWindow, crossing startWindow and endWindow
-                        if(true){
+                        if(
+                            ((startWindow.isAfter(eventStartTime)) && (startWindow.isBefore(eventEndTime)) && (endWindow.isAfter(eventEndTime))) || // event is crossing startWindow
+                            ((startWindow.isBefore(eventStartTime)) && (endWindow.isAfter(eventEndTime))) || // event is totally within Window
+                            ((startWindow.isBefore(eventStartTime)) && (endWindow.isBefore(eventEndTime)) && (endWindow.isAfter(eventStartTime))) || // event is crossing endWindow
+                            ((startWindow.isAfter(eventStartTime)) && (startWindow.isBefore(eventEndTime)) && (endWindow.isBefore(eventEndTime)) && (endWindow.isAfter(eventStartTime)) ) // event is longer than event Window
+                        ){
 
                             if(eventsInBuilding.get(building) != null){
                                 ArrayList<JSONObject> tmp = eventsInBuilding.get(building);
