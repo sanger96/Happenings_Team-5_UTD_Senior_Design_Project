@@ -10,6 +10,9 @@
         android:name="com.example.happeningsapp.MapsActivity"
         android:label="@string/fragment_maps"
         tools:layout="@layout/activity_maps" />
+        <action
+            android:id="@+id/action_nav_map_to_nav_eventList"
+            app:destination="@id/nav_eventList"/>
     <fragment
         android:id="@+id/nav_eventList"
         android:name="com.example.happeningsapp.ui.eventList.EventListFragment"
