@@ -3,6 +3,7 @@ package com.example.happeningsapp;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -84,9 +85,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener { //GoogleMap.OnMapLongClickListener is used for testing purposes
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener { //GoogleMap.OnMapLongClickListener is used for testing purposes
     private static final int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 100;
     private static final int FINE_LOCATION_ACCESS_REQUEST_CODE = 10001;
     private GoogleMap mMap;
@@ -98,7 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public GeofencingClient geofencingClient;
     private GeoFenceHelper geoFenceHelper;
     private String GEOFENCE_ID = "SOME_GEOFENCE_ID";
-    private float GEOFENCE_RADIUS = 200; // probably in pixel size, double check
+    private float GEOFENCE_RADIUS = 75; // probably in pixel size, double check
     //private int GEOFENCE_EXPIRATION = Geofence.NEVER_EXPIRE;
 
     // create a statically defined HashMap with <key= buildingName, node = LatLng>
@@ -311,7 +311,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TO DO: Consider calling
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_ACCESS_REQUEST_CODE);
+            // TODO: Consider calling
             //   ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -326,7 +327,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onSuccess(Location location) {
                 if (location != null) {
                     LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(loc).title("Your Current Location"));
+                    //mMap.addMarker(new MarkerOptions().position(loc).title("Your Current Location"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 17));
                     mMap.setMyLocationEnabled(true);
 
@@ -345,6 +346,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         enableUserLocation();
         //mMap.setOnMapLongClickListener(this);
         mMap.setOnMarkerClickListener(this);
+        //mMap.setOnMapLongClickListener(this);
+
+        createBuildingLatLng();
+        // Run a for loop to call alternate version of handleMapLongClick( ) that doesn't do map.clear()
+        // make it acccept both building name and Latlng so that geofence name and point are both set.
+
+        for(String key : buildingLatLng.keySet()) {
+            if(key != null && buildingLatLng.get(key) != null) {
+                createGeofences(key, buildingLatLng.get(key));
+            }else{
+                Log.d(TAG, "onCreate: Null value in buildingLatLng");
+            }
+        }
     }
 
     private void enableUserLocation() {
@@ -378,7 +392,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //We have the permission
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TO DO: Consider calling
+                    // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
                     // here to request the missing permissions, and then overriding
                     //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -410,7 +424,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         PendingIntent pendingIntent = geoFenceHelper.getPendingIntent();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TO DO: Consider calling
+            // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -450,7 +464,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         circleOptions.strokeWidth(4); // width in screen pixel for the border
         mMap.addCircle(circleOptions);
     }
-
+    /*
     @Override
     public void onMapLongClick(LatLng latLng) {
         if (Build.VERSION.SDK_INT >= 29) {
@@ -478,10 +492,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         addCircle(latLng, GEOFENCE_RADIUS); // this is how to add the circle, this is just a visual representation of the geofence.
         addGeofence(latLng, GEOFENCE_RADIUS, "GEOFENCE_ID"); // this sets the geofence, note that its invisible thats why we draw the circle above.
     }
+    */
 
     // This is where we will statically define the geofences
     private void createGeofences(String name, LatLng latLng) {
-        addMarker(name,latLng); // center of the circle
+        //addMarker(name,latLng); // center of the circle
         addCircle(latLng, GEOFENCE_RADIUS); // this is how to add the circle, this is just a visual representation of the geofence.
         addGeofence(latLng, GEOFENCE_RADIUS, name); // this sets the geofence, note that its invisible that's why we draw the circle above.
     }

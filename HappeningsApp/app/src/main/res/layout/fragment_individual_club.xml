@@ -81,6 +81,34 @@
 <!--            android:padding="16dp"-->
 <!--            />-->
 
+        <TextView
+            android:id="@+id/clubEventsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/clubEvents_label"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginHorizontal="16dp"
+
+            android:layout_gravity="center_vertical"
+
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+
+            />
+
+        <TableLayout
+            android:id="@+id/clubEventsTable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="16dp"
+            >
+
+        </TableLayout>
+
     </LinearLayout>
 
 

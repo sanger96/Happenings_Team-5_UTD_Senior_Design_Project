@@ -210,7 +210,7 @@ public class EventListFragment extends Fragment {
         return eventRow;
     }
 
-    private TextView createDateView(Context context, String date) {
+    public static TextView createDateView(Context context, String date) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int deviceWidth = (int) (0.125 * displayMetrics.widthPixels);
         TextView dateView = new TextView(context);
@@ -223,7 +223,7 @@ public class EventListFragment extends Fragment {
         return dateView;
     }
 
-    private TextView createTextView(Context context, String text, int textSize, int maxLines, boolean isBold) {
+    public static TextView createTextView(Context context, String text, int textSize, int maxLines, boolean isBold) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int deviceWidth = (int) (0.80 * displayMetrics.widthPixels);
 
