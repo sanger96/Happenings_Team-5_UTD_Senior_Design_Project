@@ -343,7 +343,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         mMap.setMyLocationEnabled(true);
         enableUserLocation();
-        mMap.setOnMapLongClickListener(this);
+        //mMap.setOnMapLongClickListener(this);
         mMap.setOnMarkerClickListener(this);
     }
 
@@ -367,13 +367,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        Toast.makeText(this,"List of events "+eventsInBuilding.get(marker.getTitle()),Toast.LENGTH_SHORT).show();
 
         // TODO: (Gaurav) add a way to click the marker and get all events at that building
-        // use intent to navigate to view that overrides the marker description
-        //eventsInBuilding.get(marker.getTitle()); // gets building marker is associated with
-
-        //parse ArrayList of events to get list of event names
-
-
-
+//        Go to eventList page and have it load events given from map passed as bundle
         return false;
     }
 

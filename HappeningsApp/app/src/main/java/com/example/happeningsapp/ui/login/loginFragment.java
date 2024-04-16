@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -179,7 +180,7 @@ public class loginFragment extends Fragment {
 
         return root;
     }
-
+    
 @Override
 public void onDestroyView() {
     super.onDestroyView();
