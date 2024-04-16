@@ -72,9 +72,9 @@ public class loginFragment extends Fragment {
             public void onClick(View view){
 
                 //skip auth BYPASS
-                if(email.getText().toString().equals("") && password.getText().toString().equals("")){
-                    Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
-                }
+//                if(email.getText().toString().equals("") && password.getText().toString().equals("")){
+//                    Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
+//                }
 
                 //if statement for seeing if username and password is accepted
                 //need to add get method statement to send this to backend.
