@@ -10,6 +10,9 @@
         android:name="com.example.happeningsapp.MapsActivity"
         android:label="@string/fragment_maps"
         tools:layout="@layout/activity_maps" />
+        <action
+            android:id="@+id/action_nav_map_to_nav_eventList"
+            app:destination="@id/nav_eventList"/>
     <fragment
         android:id="@+id/nav_eventList"
         android:name="com.example.happeningsapp.ui.eventList.EventListFragment"
@@ -18,6 +21,9 @@
         <action
             android:id="@+id/action_nav_eventList_to_nav_individualEvent"
             app:destination="@id/nav_individualEvent"/>
+        <action
+            android:id="@+id/action_nav_eventList_to_nav_eventCreation"
+            app:destination="@+id/eventCreationFragment"/>
     <fragment
         android:id="@+id/nav_individualEvent"
         android:name="com.example.happeningsapp.ui.individualEvent.individualEventFragment"
@@ -68,6 +74,7 @@
             android:id="@+id/action_nav_settings_to_eventCreationFragment"
             app:destination="@id/eventCreationFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/eventCreationFragment"
         android:name="com.example.happeningsapp.ui.eventCreation.eventCreationFragment"

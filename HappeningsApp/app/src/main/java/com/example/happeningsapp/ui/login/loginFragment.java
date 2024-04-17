@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -71,9 +72,9 @@ public class loginFragment extends Fragment {
             public void onClick(View view){
 
                 //skip auth BYPASS
-                if(email.getText().toString().equals("") && password.getText().toString().equals("")){
-                    Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
-                }
+//                if(email.getText().toString().equals("") && password.getText().toString().equals("")){
+//                    Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
+//                }
 
                 //if statement for seeing if username and password is accepted
                 //need to add get method statement to send this to backend.
@@ -179,7 +180,7 @@ public class loginFragment extends Fragment {
 
         return root;
     }
-
+    
 @Override
 public void onDestroyView() {
     super.onDestroyView();

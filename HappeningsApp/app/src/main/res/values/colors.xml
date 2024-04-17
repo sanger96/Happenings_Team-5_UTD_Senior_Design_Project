@@ -8,4 +8,6 @@
     <color name="orangeDarkUTD">#b35900</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="favoriteClub">#F5427E</color>
+    <color name="unfavoriteClub">#B0A7AA</color>
 </resources>

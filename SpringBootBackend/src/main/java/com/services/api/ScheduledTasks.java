@@ -17,9 +17,9 @@ public class ScheduledTasks {
     EventService eventService;
     
     @Scheduled(fixedRate = 86400000)
-     public void dailyEventScraper() {
-         pageScraperService.addNewEvents();
-     }
+    public void dailyEventScraper() {
+        pageScraperService.addNewEvents();
+    }
 
     @Scheduled(fixedRate = 86400000)
     public void dailyEventExpirationRemoval(){

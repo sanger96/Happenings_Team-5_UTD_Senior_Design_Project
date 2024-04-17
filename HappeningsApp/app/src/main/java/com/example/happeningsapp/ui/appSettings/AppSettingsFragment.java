@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -59,6 +60,25 @@ public class AppSettingsFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_nav_settings_to_eventCreationFragment);
             }
         });
+
+        //create instance of golbal vars
+        com.example.happeningsapp.GlobalVars globalVars =  com.example.happeningsapp.GlobalVars.getInstance();
+        EditText timeWindow = binding.timeWindow;
+
+        timeWindow.setText( String.valueOf(globalVars.getTimeWindow()) );
+
+        Button updateTimeWindow = (Button) root.findViewById(R.id.button_timeWindow);
+        updateTimeWindow.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view){
+                globalVars.setTimeWindow(Integer.parseInt(timeWindow.getText().toString()));
+            }
+        });
+
+        //TODO:(Gaurav) add stuff from profileSettings here and remove profile settings from the side bar
+
+
         //end of adding action on button click
 
         return root;

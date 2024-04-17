@@ -1,8 +1,11 @@
 package com.example.happeningsapp;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.Menu;
+import android.webkit.WebView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 //                        .setAnchorView(R.id.toolbar).show();
 //            }
 //        });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
@@ -44,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_eventList,
                 R.id.nav_clubSearch,
         //        R.id.nav_photoGallery,
-                R.id.nav_profile_settings,
+                R.id.nav_profile_settings, //This will hav everything from the other settings page
                 R.id.nav_settings,
                 R.id.nav_logout) // Added the menu items here from activity_main_drawer.xml
                 .setOpenableLayout(drawer)
