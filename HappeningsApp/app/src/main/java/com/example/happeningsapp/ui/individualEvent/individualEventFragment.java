@@ -1,5 +1,7 @@
 package com.example.happeningsapp.ui.individualEvent;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -56,6 +58,11 @@ public class individualEventFragment extends Fragment {
         View root = binding.getRoot();
         rsvpButton = root.findViewById(R.id.rsvpButton);
         LinearLayout backToEventListing = root.findViewById(R.id.backToEventListing);
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Event Page");
+        }
 
         com.example.happeningsapp.GlobalVars foo =  com.example.happeningsapp.GlobalVars.getInstance();
         int userAccountID = foo.getUserID();
