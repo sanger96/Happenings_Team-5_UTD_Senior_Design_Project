@@ -14,16 +14,18 @@
         android:layout_height="139dp"
         android:layout_marginStart="1dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
 
         <ImageView
-            android:id="@+id/imageView23"
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_launcher_happenings_foreground" />
+            app:srcCompat="@mipmap/ic_launcher_happenings" />
 
         <TextView
             android:id="@+id/textView"
