@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -63,6 +64,9 @@ public class EventListFragment extends Fragment {
         binding = FragmentEventListBinding.inflate(inflater, container, false);
         binding.eventListTable.removeAllViews();
         View root = binding.getRoot();
+
+        pl.droidsonroids.gif.GifImageView loading_gif = root.findViewById(R.id.loading_gif);
+        loading_gif.setVisibility(View.VISIBLE);
 
         FloatingActionButton createEventButton = root.findViewById(R.id.create_event_icon);
         createEventButton.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +129,8 @@ public class EventListFragment extends Fragment {
                                     View eventRow = createEventRow(root.getContext(), event);
                                     binding.eventListTable.addView(eventRow);
                                 }
+
+                                loading_gif.setVisibility(View.INVISIBLE);
                             } catch (JSONException e) {
                                 throw new RuntimeException(e);
                             }
