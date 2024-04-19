@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -57,6 +58,17 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+
+        //create instance of global vars SHOULD WORK BUT NOT WORKING
+        // nothing in global vars yet, and cannot set this from anywhere else. (as far as I can tell)
+        //blanks it out for now
+//        com.example.happeningsapp.GlobalVars globalVars = com.example.happeningsapp.GlobalVars.getInstance();
+
+        NavigationView navigationView2 = (NavigationView) findViewById(R.id.nav_view);
+        View hView = navigationView2.getHeaderView(0);
+        TextView email = (TextView) hView.findViewById(R.id.emailInSidebar);
+//        email.setText(globalVars.getUsername());
+        email.setText("");
 
 
     }
