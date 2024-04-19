@@ -4,12 +4,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.appSettings.AppSettingsFragment">
+    tools:context=".ui.appSettings.AppSettingsFragment"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="28dp">
 
     <!--    1. Show list of clubs user is following with toggle switch to control notifications-->
     <!--    2. Add class schedule-->
     <!--        2.1 This should also double as do not disturb times.-->
     <!--        2.2 This should allow for location and time based checking of events near user when not using location.-->
+
+    <EditText
+        android:id="@+id/profile_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_text2" />
+
+    <Button
+        android:id="@+id/button_profile_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Show"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/profile_password"
+        app:layout_constraintTop_toTopOf="@+id/profile_password"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/profile_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toStartOf="@+id/button_profile_show"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_text3" />
+
+    <TextView
+        android:id="@+id/profile_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="E-mail"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSettings" />
+
+    <Button
+        android:id="@+id/button_profile_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Update Email/Password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_password" />
+
+    <TextView
+        android:id="@+id/profile_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_email" />
 
     <TextView
         android:id="@+id/textSettings"
@@ -31,10 +101,21 @@
         android:text="@string/button_create_event"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textSettings"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.874" />
+
+    <EditText
+        android:id="@+id/timeWindow"
+        android:layout_width="411dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="16dp"
+        android:hint="timeWindow"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
         android:id="@+id/button_timeWindow"
@@ -43,36 +124,33 @@
         android:text="update time window"
         app:layout_constraintBottom_toTopOf="@+id/FROMsettingsTOeventCreation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeWindow"
-        app:layout_constraintVertical_bias="0.058" />
+        app:layout_constraintVertical_bias="0.296" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="135dp"
-        android:layout_height="27dp"
-        android:text="Time Window :"
-        android:textSize="20sp"
-
-        app:layout_constraintBottom_toTopOf="@+id/button_timeWindow"
-        app:layout_constraintEnd_toStartOf="@+id/timeWindow"
-        app:layout_constraintHorizontal_bias="0.984"
+        android:layout_width="147dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="44dp"
+        android:text="Change time window"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textSettings"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/button_profile_update" />
 
-    <EditText
-        android:id="@+id/timeWindow"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="192dp"
-
-        android:layout_marginEnd="100dp"
-
-
-        android:hint="timeWindow"
+        android:text="Change Email/Password"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/profile_email"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textSettings" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSettings"
+        app:layout_constraintVertical_bias="0.728" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

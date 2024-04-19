@@ -73,6 +73,9 @@
         <action
             android:id="@+id/action_nav_settings_to_eventCreationFragment"
             app:destination="@id/eventCreationFragment" />
+        <action
+            android:id="@+id/action_nav_settings_to_nav_login"
+            app:destination="@id/nav_login" />
     </fragment>
 
     <fragment

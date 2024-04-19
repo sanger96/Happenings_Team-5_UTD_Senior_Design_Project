@@ -56,7 +56,7 @@ public class ProfileSettingsFragment extends Fragment {
         }
 
         // bind default text at top of page
-        TextView pageTitle = binding.textProfileSettings;
+        TextView textView = binding.textProfileSettings;
         TextView email = binding.profileEmail;
         TextView password = binding.profilePassword;
 
@@ -64,10 +64,6 @@ public class ProfileSettingsFragment extends Fragment {
         // these commands will make sure the variables are observed for their "life cycle"
         ProfileSettingsViewModelProvider.getEmail().observe(getViewLifecycleOwner(), email::setText);
         ProfileSettingsViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
-
-
-
-
 
 
         com.example.happeningsapp.GlobalVars gVars = com.example.happeningsapp.GlobalVars.getInstance();
