@@ -30,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.happeningsapp.GlobalVars;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentEventCreationBinding;
 
@@ -55,6 +56,7 @@ public class eventCreationFragment extends Fragment {
     private TextView dateField;
     private Button pickStartTimeBtn;
     private Button pickEndTimeBtn;
+    private View toastLayout;
 
     private static final List<String> BUILDINGS = new ArrayList<>(Arrays.asList(
             "AB", "AD", "AH1", "AH2", "BE", "BSB", "CR", "CRA", "GR", "CB",
@@ -77,6 +79,9 @@ public class eventCreationFragment extends Fragment {
                 new ViewModelProvider(this).get(EventCreationViewModel.class);
         binding = FragmentEventCreationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        LayoutInflater toastInflater = getLayoutInflater();
+        toastLayout = toastInflater.inflate(R.layout.custom_toast, (ViewGroup) binding.getRoot().findViewById(R.id.custom_toast_layout));
 
         // Get the activity's ActionBar and set the title
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -286,7 +291,8 @@ public class eventCreationFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         //add toast for success
-                        Toast.makeText(root.getContext(), "Event Creation Successful",Toast.LENGTH_SHORT).show();
+                        GlobalVars.getCustomToast(toastLayout, "Event Creation Successful", root, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(root.getContext(), "Event Creation Successful",Toast.LENGTH_SHORT).show();
                         Log.i("Volley",response.toString());
                         try {
                             int createdEventId = response.getInt("eventID");

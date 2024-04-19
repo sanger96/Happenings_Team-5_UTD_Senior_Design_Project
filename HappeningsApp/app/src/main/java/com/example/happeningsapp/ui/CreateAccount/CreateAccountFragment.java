@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.happeningsapp.GlobalVars;
 import com.example.happeningsapp.MainActivity;
 import com.example.happeningsapp.R;
 import android.view.Window;
@@ -46,6 +47,8 @@ public class CreateAccountFragment extends Fragment {
 
     private FragmentCreateAccountBinding binding;
 
+    private View toastLayout;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         CreateAccountViewModel CreateAccountViewModelProvider =
@@ -53,6 +56,9 @@ public class CreateAccountFragment extends Fragment {
 
         binding = FragmentCreateAccountBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        LayoutInflater toastInflater = getLayoutInflater();
+        toastLayout = toastInflater.inflate(R.layout.custom_toast, (ViewGroup) root.findViewById(R.id.custom_toast_layout));
 
         // bind default text at top of page
         TextView pageTitle = binding.textCreateAccount;
@@ -104,7 +110,8 @@ public class CreateAccountFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         //add toast for success
-                        Toast.makeText(root.getContext(), "Account Creation Successful",Toast.LENGTH_SHORT).show();
+                        GlobalVars.getCustomToast(toastLayout, "Account Creation Successful", root, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(root.getContext(), "Account Creation Successful",Toast.LENGTH_SHORT).show();
                         Log.i("Volley",response.toString());
                         Navigation.findNavController(view).navigate(R.id.action_createAccountFragment_to_nav_eventList);
                         com.example.happeningsapp.GlobalVars gVars = com.example.happeningsapp.GlobalVars.getInstance();
