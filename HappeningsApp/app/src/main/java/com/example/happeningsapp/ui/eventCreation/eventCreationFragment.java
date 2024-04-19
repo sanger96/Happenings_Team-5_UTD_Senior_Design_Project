@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -38,8 +40,11 @@ import org.w3c.dom.Text;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class eventCreationFragment extends Fragment {
@@ -50,6 +55,14 @@ public class eventCreationFragment extends Fragment {
     private TextView dateField;
     private Button pickStartTimeBtn;
     private Button pickEndTimeBtn;
+
+    private static final List<String> BUILDINGS = new ArrayList<>(Arrays.asList(
+            "AB", "AD", "AH1", "AH2", "BE", "BSB", "CR", "CRA", "GR", "CB",
+            "CB3", "DGA", "ATC", "ECSN", "ECSS", "ECSW", "JO", "MC", "FM",
+            "FA", "FO", "FN", "HH", "ML1", "ML2", "RL", "JSOM", "NL", "NB",
+            "PS3", "PHA", "PHY", "PD", "ROC", "ROW", "SG", "SLC", "SCI", "SB",
+            "SSB", "SSA", "SU", "SPN", "SP2", "TH", "VCB", "WSTC"
+    ));
     public static eventCreationFragment newInstance() {
         return new eventCreationFragment();
     }
@@ -76,7 +89,11 @@ public class eventCreationFragment extends Fragment {
         TextView description = binding.inTextEventDescription;
         TextView startTime= binding.inTextStartTime;
         TextView endTime= binding.inTextEndTime;
-        TextView location = binding.inTextEventLocation;
+
+        AutoCompleteTextView location = root.findViewById(R.id.inText_eventLocation);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(root.getContext(), android.R.layout.simple_dropdown_item_1line, BUILDINGS);
+        location.setAdapter(adapter);
+
         TextView room = binding.inTextEventRoom;
 
         // these commands will make sure the variables are observed for their "life cycle"
@@ -224,6 +241,11 @@ public class eventCreationFragment extends Fragment {
 
                 if (location.getText().toString().isEmpty()) {
                     location.setError("Location/Building is required.");
+                    missingRequiredFields = true;
+                }
+
+                if (!BUILDINGS.contains(location.getText().toString())) {
+                    location.setError("Please select a valid location.");
                     missingRequiredFields = true;
                 }
 

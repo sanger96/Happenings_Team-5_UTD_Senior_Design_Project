@@ -14,7 +14,7 @@ public class GlobalVars extends Application {
 
     // Server URL
     String serverUrl = "http://108.215.179.57:4884";
-    //String serverUrl = "http://10.0.2.2:8080";
+//    String serverUrl = "http://10.0.2.2:8080";
     // User account globals
     int userID = -1;
     String username = "";

@@ -36,7 +36,7 @@ public class Club {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(length = 10000)
     private String description;
     
     //TODO: needs to be not nullable, but not added for testing convenience for now

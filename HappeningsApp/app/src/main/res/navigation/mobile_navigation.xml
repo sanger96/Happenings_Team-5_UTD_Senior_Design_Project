@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_nav_eventList_to_nav_individualEvent"
             app:destination="@id/nav_individualEvent"/>
+        <action
+            android:id="@+id/action_nav_eventList_to_nav_eventCreation"
+            app:destination="@+id/eventCreationFragment"/>
     <fragment
         android:id="@+id/nav_individualEvent"
         android:name="com.example.happeningsapp.ui.individualEvent.individualEventFragment"
@@ -71,6 +74,7 @@
             android:id="@+id/action_nav_settings_to_eventCreationFragment"
             app:destination="@id/eventCreationFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/eventCreationFragment"
         android:name="com.example.happeningsapp.ui.eventCreation.eventCreationFragment"

@@ -98,13 +98,24 @@
         </LinearLayout>
 
 
-        <EditText
+<!--        <EditText-->
+<!--            android:id="@+id/inText_eventLocation"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:ems="12"-->
+<!--            android:hint="@string/eventCreationForm_location_or_building_name"-->
+<!--            android:layout_marginBottom="16dp"/>-->
+
+        <AutoCompleteTextView
             android:id="@+id/inText_eventLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="12"
             android:hint="@string/eventCreationForm_location_or_building_name"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:completionThreshold="1" />
+
+
 
         <EditText
             android:id="@+id/inText_eventRoom"

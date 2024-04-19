@@ -42,4 +42,19 @@
 
         </HorizontalScrollView>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/create_event_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_create_event_icon"
+        android:contentDescription="@string/submit"
+        android:layout_margin="16dp"
+
+        android:backgroundTint="@color/orangeUTD"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

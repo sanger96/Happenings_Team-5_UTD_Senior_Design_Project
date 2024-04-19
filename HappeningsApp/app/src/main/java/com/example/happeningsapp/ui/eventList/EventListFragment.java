@@ -35,6 +35,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.happeningsapp.databinding.FragmentEventListBinding;
 import com.example.happeningsapp.ui.individualEvent.individualEventFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +64,13 @@ public class EventListFragment extends Fragment {
         binding.eventListTable.removeAllViews();
         View root = binding.getRoot();
 
+        FloatingActionButton createEventButton = root.findViewById(R.id.create_event_icon);
+        createEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_nav_eventList_to_nav_eventCreation);
+            }
+        });
 
         filterSpinner = root.findViewById(R.id.filter_spinner);
 
