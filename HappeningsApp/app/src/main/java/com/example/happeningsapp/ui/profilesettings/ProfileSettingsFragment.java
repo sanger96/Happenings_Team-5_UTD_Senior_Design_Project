@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.happeningsapp.GlobalVars;
 import com.example.happeningsapp.R;
 import com.example.happeningsapp.databinding.FragmentEventCreationBinding;
 import com.example.happeningsapp.databinding.FragmentProfileSettingsBinding;
@@ -34,6 +35,7 @@ import org.json.JSONObject;
 public class ProfileSettingsFragment extends Fragment {
 
     private FragmentProfileSettingsBinding binding;
+    private View toastLayout;
 
     public static ProfileSettingsFragment newInstance() {
         return new ProfileSettingsFragment();
@@ -47,6 +49,9 @@ public class ProfileSettingsFragment extends Fragment {
                 new ViewModelProvider(this).get(ProfileSettingsViewModel.class);
         binding = FragmentProfileSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        LayoutInflater toastInflater = getLayoutInflater();
+        toastLayout = toastInflater.inflate(R.layout.custom_toast, (ViewGroup) root.findViewById(R.id.custom_toast_layout));
 
 
         // Get the activity's ActionBar and set the title
@@ -141,7 +146,8 @@ public class ProfileSettingsFragment extends Fragment {
 
 
                         //add toast for success
-                        Toast.makeText(root.getContext(), "Profile Updated",Toast.LENGTH_SHORT).show();
+                        GlobalVars.getCustomToast(toastLayout, "Profile Updated", root, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(root.getContext(), "Profile Updated",Toast.LENGTH_SHORT).show();
                         Log.i("Volley",response.toString());
                         Navigation.findNavController(view).navigate(R.id.action_profileSettingsFragment_to_nav_eventList);
                     }

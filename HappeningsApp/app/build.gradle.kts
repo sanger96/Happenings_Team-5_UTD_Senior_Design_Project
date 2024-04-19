@@ -53,4 +53,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     //Location Services SDK for Android dependencies
     implementation("com.google.android.gms:play-services-location:21.2.0")
+
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.22")
 }

@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.Menu;
 import android.app.*;
 import android.webkit.WebView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class GlobalVars extends Application {
@@ -19,6 +21,18 @@ public class GlobalVars extends Application {
     int userID = -1;
     String username = "";
     String password = "";
+
+    public static Toast getCustomToast(View toastLayout, String text, View root, int length){
+        TextView toastText = (TextView) toastLayout.findViewById(R.id.toastTextView);
+        toastText.setText(text);
+
+        Toast t = new Toast(root.getContext());
+
+        t.setDuration(length);
+        t.setView(toastLayout);
+
+        return t;
+    }
 
     private static final GlobalVars ourInstance = new GlobalVars();
     public static GlobalVars getInstance() {

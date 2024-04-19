@@ -53,9 +53,12 @@ import com.google.android.gms.location.LocationResult;
 import android.Manifest;
 
 import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebViewClient;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
@@ -87,6 +90,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener { //GoogleMap.OnMapLongClickListener is used for testing purposes
+
+    private View toastLayout;
     private static final int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 100;
     private static final int FINE_LOCATION_ACCESS_REQUEST_CODE = 10001;
     private GoogleMap mMap;
@@ -160,6 +165,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        LayoutInflater toastInflater = getLayoutInflater();
+        toastLayout = toastInflater.inflate(R.layout.custom_toast, (ViewGroup) binding.getRoot().findViewById(R.id.custom_toast_layout));
 
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //            fab.setOnClickListener(new View.OnClickListener() {
@@ -332,14 +340,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.setMyLocationEnabled(true);
 
                 } else {
-                    Toast.makeText(MapsActivity.this, "Can't Fetch your current location", Toast.LENGTH_SHORT).show();
+                    GlobalVars.getCustomToast(toastLayout, "Can't fetch your current location", binding.getRoot(),Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MapsActivity.this, "Can't Fetch your current location", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         locationTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MapsActivity.this, "Can't Fetch your current location", Toast.LENGTH_SHORT).show();
+                GlobalVars.getCustomToast(toastLayout, "Can't fetch your current location", binding.getRoot(),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MapsActivity.this, "Can't Fetch your current location", Toast.LENGTH_SHORT).show();
             }
         });
         mMap.setMyLocationEnabled(true);
@@ -377,7 +387,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker){
-        Toast.makeText(this,"Selected marker "+marker.getTitle(),Toast.LENGTH_SHORT).show();
+        GlobalVars.getCustomToast(toastLayout, "Selected marker "+marker.getTitle(), binding.getRoot(),Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,"Selected marker "+marker.getTitle(),Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this,"List of events "+eventsInBuilding.get(marker.getTitle()),Toast.LENGTH_SHORT).show();
 
         // TODO: (Gaurav) add a way to click the marker and get all events at that building
@@ -409,10 +420,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (requestCode == BACKGROUND_LOCATION_ACCESS_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //We have the permission
-                Toast.makeText(this, "You can add geofences...", Toast.LENGTH_SHORT).show();
+                GlobalVars.getCustomToast(toastLayout, "You can add geofences...", binding.getRoot(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "You can add geofences...", Toast.LENGTH_SHORT).show();
             } else {
                 //We do not have the permission..
-                Toast.makeText(this, "Background location access is neccessary for geofences to trigger...", Toast.LENGTH_SHORT).show();
+                GlobalVars.getCustomToast(toastLayout, "Background location access is neccessary for geofences to trigger...", binding.getRoot(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Background location access is neccessary for geofences to trigger...", Toast.LENGTH_SHORT).show();
             }
         }
     }

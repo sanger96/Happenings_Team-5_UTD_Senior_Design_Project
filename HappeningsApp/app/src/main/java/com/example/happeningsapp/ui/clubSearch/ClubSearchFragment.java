@@ -52,6 +52,9 @@ public class ClubSearchFragment extends Fragment {
         binding = FragmentClubSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        pl.droidsonroids.gif.GifImageView loading_gif = root.findViewById(R.id.loading_gif);
+        loading_gif.setVisibility(View.VISIBLE);
+
         SearchView searchView = binding.SearchView;
 //        searchView.clearFocus();
 
@@ -131,6 +134,8 @@ public class ClubSearchFragment extends Fragment {
                                     binding.clubSearchTable.addView(clubRow);
                                 }
                             }
+
+                            loading_gif.setVisibility(View.VISIBLE);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }

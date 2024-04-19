@@ -31,6 +31,7 @@ import com.example.happeningsapp.databinding.FragmentLoginBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public class loginFragment extends Fragment {
 
    private FragmentLoginBinding binding;
 
+   private View toastLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +59,10 @@ public class loginFragment extends Fragment {
         // these commands will make sure the variables are observed for their "life cycle"
         LoginViewModelProvider.getUsername().observe(getViewLifecycleOwner(), email::setText);
         LoginViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
+
+        LayoutInflater toastInflater = getLayoutInflater();
+        toastLayout = toastInflater.inflate(R.layout.custom_toast, (ViewGroup) binding.getRoot().findViewById(R.id.custom_toast_layout));
+
 
         //start of adding action on button click
         //binding submit button
@@ -93,7 +99,8 @@ public class loginFragment extends Fragment {
 
                         // Authentication should take place in back end and will verify, then pass a boolean pass/fail back here
                         if(!response.toString().equals("-1")){
-                            Toast.makeText(root.getContext(), "Login Successful",Toast.LENGTH_SHORT).show();
+                            GlobalVars.getCustomToast(toastLayout, "Login Successful", root, Toast.LENGTH_LONG).show();
+
                             //the below line should make the app go to that page on successful login
                             Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
 
@@ -116,7 +123,8 @@ public class loginFragment extends Fragment {
                             Log.d("Volley PASS onResponse", "This is inside the if statement; if true");
 
                         }else{
-                            Toast.makeText(root.getContext(), "Incorrect email and password combination",Toast.LENGTH_SHORT).show();
+                            GlobalVars.getCustomToast(toastLayout, "Incorrect email and password", root, Toast.LENGTH_LONG).show();
+
 
                             //log method for debugging
                             Log.d("Volley PASS onResponse", "This is inside the if statement; if false");
@@ -167,10 +175,12 @@ public class loginFragment extends Fragment {
         return root;
     }
     
-@Override
-public void onDestroyView() {
-    super.onDestroyView();
-    binding = null;
-}
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+
 
 }
