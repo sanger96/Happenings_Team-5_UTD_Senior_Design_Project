@@ -108,9 +108,8 @@ public class EventListFragment extends Fragment {
                             try {
                                 binding.eventListTable.removeAllViews();
                                 List<Pair<JSONObject, LocalDateTime>> eventList = new ArrayList<>();
-
                                 // Parse start times and populate the event list
-                                for (int i = 0; i < 0; i++) {
+                                for (int i = 0; i < response.length(); i++) {
                                     JSONObject event = response.getJSONObject(i);
                                     String startTimeStr = event.getJSONObject("appointment").getString("startTime");
                                     LocalDateTime startTime = LocalDateTime.parse(startTimeStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
