@@ -77,13 +77,22 @@ public class ProfileSettingsFragment extends Fragment {
 
         Button showPassword = (Button) root.findViewById(R.id.button_profile_show);
         showPassword.setOnClickListener(new View.OnClickListener() {
+            private boolean isPasswordShown = false;
 
             @Override
             public void onClick(View view) {
 
-                password.setTransformationMethod(null);
-
-
+                if (isPasswordShown) {
+                    // Hide the password
+                    password.setTransformationMethod(new android.text.method.PasswordTransformationMethod());
+                    showPassword.setText("Show");
+                    isPasswordShown = false;
+                } else {
+                    // Show the password
+                    password.setTransformationMethod(null);
+                    showPassword.setText("Hide");
+                    isPasswordShown = true;
+                }
             }
         });
 //        start of adding action on button click

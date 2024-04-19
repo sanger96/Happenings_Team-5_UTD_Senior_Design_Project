@@ -76,6 +76,7 @@ public class AppSettingsFragment extends Fragment {
             }
         });
 
+        //TODO:(Gaurav) add stuff from profileSettings here and remove profile settings from the side bar
 
 
         //end of adding action on button click

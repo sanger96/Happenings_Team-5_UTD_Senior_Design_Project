@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -46,21 +47,16 @@ public class loginFragment extends Fragment {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-
-
-
-
         // bind default text at top of page
         final TextView textView = binding.textLogin;
         // bind username and password
         EditText email = binding.inTextUserName;
         EditText password = binding.inTextPassword;
         // get text for top of page
-        LoginViewModelProvider.getText().observe(getViewLifecycleOwner(), textView::setText);
+        //LoginViewModelProvider.getText().observe(getViewLifecycleOwner(), textView::setText);
         // these commands will make sure the variables are observed for their "life cycle"
         LoginViewModelProvider.getUsername().observe(getViewLifecycleOwner(), email::setText);
         LoginViewModelProvider.getPassword().observe(getViewLifecycleOwner(), password::setText);
-
 
         //start of adding action on button click
         //binding submit button
@@ -70,17 +66,10 @@ public class loginFragment extends Fragment {
             @Override
             public void onClick(View view){
 
-                //skip auth BYPASS
-                if(email.getText().toString().equals("") && password.getText().toString().equals("")){
-                    Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_eventList);
-                }
 
-                //if statement for seeing if username and password is accepted
                 //need to add get method statement to send this to backend.
                 com.example.happeningsapp.GlobalVars server =  com.example.happeningsapp.GlobalVars.getInstance();
                 String getUrl= server.getServerUrl() + "/useraccount/checkLogin";
-
-
 
                 //holds request queue
                 RequestQueue requestQueue = Volley.newRequestQueue(root.getContext());
@@ -94,7 +83,6 @@ public class loginFragment extends Fragment {
                 } catch (JSONException e){
                     e.printStackTrace();
                 }
-
 
                 StringRequest auth = new StringRequest(Request.Method.POST, getUrl, new Response.Listener<String>() {
                     @Override
@@ -123,7 +111,6 @@ public class loginFragment extends Fragment {
                                 Log.d("Account Details : login Fragment", "Failed to set the accountDetails at time of user login");
                                 throw new RuntimeException(e);
                             }
-
 
                             //log method for debugging
                             Log.d("Volley PASS onResponse", "This is inside the if statement; if true");
@@ -179,7 +166,7 @@ public class loginFragment extends Fragment {
 
         return root;
     }
-
+    
 @Override
 public void onDestroyView() {
     super.onDestroyView();
