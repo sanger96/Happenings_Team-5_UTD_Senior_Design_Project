@@ -106,7 +106,7 @@ public class CreateAccountFragment extends Fragment {
                         //add toast for success
                         Toast.makeText(root.getContext(), "Account Creation Successful",Toast.LENGTH_SHORT).show();
                         Log.i("Volley",response.toString());
-                        Navigation.findNavController(view).navigate(R.id.action_createAccountFragment_to_nav_eventList);
+                        Navigation.findNavController(view).navigate(R.id.action_createAccountFragment_to_nav_login);
                         com.example.happeningsapp.GlobalVars gVars = com.example.happeningsapp.GlobalVars.getInstance();
 
 

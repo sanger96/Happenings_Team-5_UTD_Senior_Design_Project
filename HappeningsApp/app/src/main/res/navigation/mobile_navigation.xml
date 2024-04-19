@@ -87,6 +87,9 @@
         <action
             android:id="@+id/action_createAccountFragment_to_nav_eventList"
             app:destination="@id/nav_eventList" />
+        <action
+            android:id="@+id/action_createAccountFragment_to_nav_login"
+            app:destination="@id/nav_login" />
     </fragment>
     <fragment
         android:id="@+id/nav_profile_settings"
