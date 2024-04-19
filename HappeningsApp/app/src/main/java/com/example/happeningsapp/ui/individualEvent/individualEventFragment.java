@@ -57,6 +57,7 @@ public class individualEventFragment extends Fragment {
         rsvpButton = root.findViewById(R.id.rsvpButton);
         LinearLayout backToEventListing = root.findViewById(R.id.backToEventListing);
 
+
         com.example.happeningsapp.GlobalVars foo =  com.example.happeningsapp.GlobalVars.getInstance();
         int userAccountID = foo.getUserID();
         backToEventListing.setOnClickListener(new View.OnClickListener() {
