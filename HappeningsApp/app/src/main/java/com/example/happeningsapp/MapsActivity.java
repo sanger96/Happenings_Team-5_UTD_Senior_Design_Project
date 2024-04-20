@@ -2,6 +2,8 @@ package com.example.happeningsapp;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static com.example.happeningsapp.ui.individualEvent.individualEventFragment.formatDateTimeRange;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -75,6 +77,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 //location import
 import android.location.Location;
 
@@ -89,7 +93,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener { //GoogleMap.OnMapLongClickListener is used for testing purposes
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener { //GoogleMap.OnMapLongClickListener is used for testing purposes
 
     private View toastLayout;
     private static final int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 100;
@@ -102,8 +106,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //Geofencing Provider
     public GeofencingClient geofencingClient;
     private GeoFenceHelper geoFenceHelper;
-    private String GEOFENCE_ID = "SOME_GEOFENCE_ID";
-    private float GEOFENCE_RADIUS = 75; // probably in pixel size, double check
+    private final String GEOFENCE_ID = "SOME_GEOFENCE_ID";
+    private final float GEOFENCE_RADIUS = 75; // probably in pixel size, double check
     //private int GEOFENCE_EXPIRATION = Geofence.NEVER_EXPIRE;
 
     // create a statically defined HashMap with <key= buildingName, node = LatLng>
@@ -157,7 +161,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buildingLatLng.put("Dining Hall West", new LatLng(32.98999406190205, -96.75448245241604));
     }
     //holds the events in HashMap, with building as the key and event as stored in string
-    HashMap<String, ArrayList<JSONObject>> eventsInBuilding = new HashMap<>(); // change to hold list of events
+    public HashMap<String, ArrayList<JSONObject>> eventsInBuilding = new HashMap<>(); // change to hold list of events
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //get buildingLatLnd
@@ -204,11 +208,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // (done, needs testing)3. Add event to map as marker and mark building as having a marker already.
         // (done, needs testing)3.1 filter events to be added to map to be within a time window based on; current time +/- some number of hours
         // (done, needs testing)3.2 check if the building has a marker already
-        //      (done, needs testing)3.2.Yes Do not add marker
-        //      (done, needs testing)3.2.No Add marker and update has marker for building
-        // (done, needs testing)3.2.No.1 use buildingLatLng.get("building") to get the LatLng for the event, gets the buildings location for given event
+        //      (done)3.2.Yes Do not add marker
+        //      (done)3.2.No Add marker and update has marker for building
+        // (done)3.2.No.1 use buildingLatLng.get("building") to get the LatLng for the event, gets the buildings location for given event
 
-        // (done, needs testing)3.2.No.2 pass building and LatLng to make the marker
+        // (done)3.2.No.2 pass building and LatLng to make the marker
         //***** below *****
 
         //1. get list of events
@@ -387,14 +391,70 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker){
-        GlobalVars.getCustomToast(toastLayout, "Selected marker "+marker.getTitle(), binding.getRoot(),Toast.LENGTH_SHORT).show();
+//        GlobalVars.getCustomToast(toastLayout, "Selected marker "+marker.getTitle(), binding.getRoot(),Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this,"Selected marker "+marker.getTitle(),Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this,"List of events "+eventsInBuilding.get(marker.getTitle()),Toast.LENGTH_SHORT).show();
 
         // TODO: (Gaurav) add a way to click the marker and get all events at that building
+
 //        Go to eventList page and have it load events given from map passed as bundle
+
+        //attempting to make snack bar that shows all events on click
+        Snackbar snackbar = Snackbar
+                .make(binding.getRoot(), "You selected "+marker.getTitle(), BaseTransientBottomBar.LENGTH_LONG)
+                .setAction("See Events", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //will hold all events names
+                        StringBuilder eventNames = new StringBuilder();
+                        //set title for eventNames table
+                        eventNames.append("(Event Name) at (Event time) on (Event Date)\n--------------------------------------------------------\n");
+//                        eventNames.append("(Event Name) at (Event time)\n--------------------------------------------------------\n");
+                        //holds ArrayList<JSONObject> events
+                        ArrayList<JSONObject> events = eventsInBuilding.get(marker.getTitle());
+                        // for loop will grab all event names and put in new line on eventNames
+                        if(events.size()!=0){
+                            for (int i = 0; i < events.size(); i++) {
+                                try {
+                                    //get startTime and endTime in good format
+                                    DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("MM/dd");
+                                    DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("hh:mm");
+                                    String [] times = formatDateTimeRange((events.get(i).getJSONObject("appointment").getString("startTime")), events.get(i).getJSONObject("appointment").getString("endTime"));
+                                    eventNames.append(events.get(i).getString("name") + " at " + times[1] + " on " + times[0] +"\n--------------------------------------------------------\n");
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
+
+                        Snackbar snackbar1 = Snackbar.make(view, eventNames, Snackbar.LENGTH_INDEFINITE).setTextMaxLines(400000);
+                        //set text color to white
+                        snackbar1.setTextColor(Color.WHITE);
+                        //set background color to UTD specified green
+                        snackbar1.setBackgroundTint(Color.rgb(18,71,52));
+                        snackbar1.show();
+                        snackbar1.setAction("Close Events",new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                    snackbar1.dismiss();
+                            }
+                        });
+
+                    }
+                });
+        //set text color to white
+        snackbar.setTextColor(Color.WHITE);
+        //set background color to UTD specified green
+        snackbar.setBackgroundTint(Color.rgb(18,71,52));
+        snackbar.show();
+
+//        snackBarView.setBackgroundColor(this.getResources().getColor(R.color.colorPrimary));
+//        TextView textView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+//        textView.setTextColor(context.getResources().getColor(R.color.white));
+        snackbar.show();
         return false;
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
