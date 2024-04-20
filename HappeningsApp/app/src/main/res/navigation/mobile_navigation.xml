@@ -86,8 +86,8 @@
     <fragment
         android:id="@+id/createAccountFragment"
         android:name="com.example.happeningsapp.ui.CreateAccount.CreateAccountFragment"
-        android:label="fragment_create_account"
-        tools:layout="@layout/fragment_create_account" >
+        android:label="Account Creation"
+        tools:layout="@layout/fragment_create_account">
         <action
             android:id="@+id/action_createAccountFragment_to_nav_eventList"
             app:destination="@id/nav_eventList" />
