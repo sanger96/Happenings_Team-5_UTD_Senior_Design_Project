@@ -5,7 +5,9 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:title="Create Account"
     tools:context=".ui.CreateAccount.CreateAccountFragment">
+
 
     <Button
         android:id="@+id/button_createAccount2"
