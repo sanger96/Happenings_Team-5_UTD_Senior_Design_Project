@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.appSettings.AppSettingsFragment"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="28dp">
+    tools:layout_editor_absoluteY="28dp"
+    android:paddingHorizontal="16dp">
 
     <!--    1. Show list of clubs user is following with toggle switch to control notifications-->
     <!--    2. Add class schedule-->
