@@ -36,14 +36,14 @@ public class MyReceiver extends BroadcastReceiver {
                 for(Geofence geofence : geofenceList) {
                     String ID = geofence.getRequestId();
                     //Toast.makeText(context,ID +" : GEOFENCE_TRANSITION_ENTER", Toast.LENGTH_SHORT).show();
-                    //notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_ENTER", ID+": ", MapsActivity.class);
+                    notificationHelper.sendHighPriorityNotification("There are events near you!!!", "Open the app to see events in "+ID, MapsActivity.class);
                 }
                 break;
             case Geofence.GEOFENCE_TRANSITION_DWELL:
                 for(Geofence geofence : geofenceList) {
                     String ID = geofence.getRequestId();
                     //Toast.makeText(context, ID +" : GEOFENCE_TRANSITION_DWELL", Toast.LENGTH_SHORT).show();
-                    notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_DWELL", ID+": ", MapsActivity.class);
+                    //notificationHelper.sendHighPriorityNotification("There are events near you!!!", "Open the app to see events in "+ID, MapsActivity.class);
                 }
                 break;
             case Geofence.GEOFENCE_TRANSITION_EXIT:

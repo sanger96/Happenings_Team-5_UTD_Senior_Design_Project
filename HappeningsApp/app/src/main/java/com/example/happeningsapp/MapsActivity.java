@@ -282,7 +282,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     if(coordinates!=null) {// this will reject all buildings not in buldingLatLng
                                         addMarker(building, coordinates);
                                         createGeofences(building, coordinates);
-                                        //addGeofence
+
                                     }else{
                                         System.out.println("This is here to allow you to set a break point and check what buildings are not in buildingLatLng");
                                     }
