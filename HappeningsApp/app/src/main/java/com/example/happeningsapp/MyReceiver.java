@@ -35,22 +35,22 @@ public class MyReceiver extends BroadcastReceiver {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
                 for(Geofence geofence : geofenceList) {
                     String ID = geofence.getRequestId();
-                    Toast.makeText(context,ID +" : GEOFENCE_TRANSITION_ENTER", Toast.LENGTH_SHORT).show();
-                    notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_ENTER", ID+": ", MapsActivity.class);
+                    //Toast.makeText(context,ID +" : GEOFENCE_TRANSITION_ENTER", Toast.LENGTH_SHORT).show();
+                    //notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_ENTER", ID+": ", MapsActivity.class);
                 }
                 break;
             case Geofence.GEOFENCE_TRANSITION_DWELL:
                 for(Geofence geofence : geofenceList) {
                     String ID = geofence.getRequestId();
-                    Toast.makeText(context, ID +" : GEOFENCE_TRANSITION_DWELL", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, ID +" : GEOFENCE_TRANSITION_DWELL", Toast.LENGTH_SHORT).show();
                     notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_DWELL", ID+": ", MapsActivity.class);
                 }
                 break;
             case Geofence.GEOFENCE_TRANSITION_EXIT:
                 for(Geofence geofence : geofenceList) {
                     String ID = geofence.getRequestId();
-                    Toast.makeText(context, ID +" : GEOFENCE_TRANSITION_EXIT", Toast.LENGTH_SHORT).show();
-                    notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_EXIT", ID+": ", MapsActivity.class);
+                    //Toast.makeText(context, ID +" : GEOFENCE_TRANSITION_EXIT", Toast.LENGTH_SHORT).show();
+                    //notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_EXIT", ID+": ", MapsActivity.class);
                 }
                 break;
         }

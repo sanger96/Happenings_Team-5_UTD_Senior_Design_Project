@@ -281,6 +281,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     // 3.2.No.2 pass building and LatLng to make the marker
                                     if(coordinates!=null) {// this will reject all buildings not in buldingLatLng
                                         addMarker(building, coordinates);
+                                        createGeofences(building, coordinates);
+                                        //addGeofence
                                     }else{
                                         System.out.println("This is here to allow you to set a break point and check what buildings are not in buildingLatLng");
                                     }
@@ -362,13 +364,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setOnMarkerClickListener(this);
         //mMap.setOnMapLongClickListener(this);
 
-        createBuildingLatLng();
+        //createBuildingLatLng();
         // Run a for loop to call alternate version of handleMapLongClick( ) that doesn't do map.clear()
         // make it acccept both building name and Latlng so that geofence name and point are both set.
 
         for(String key : buildingLatLng.keySet()) {
             if(key != null && buildingLatLng.get(key) != null) {
-                createGeofences(key, buildingLatLng.get(key));
+                //this will be commented out (below)3
+                //TODO fix below circles to only show on events buildlings by getting same result as markers
+                //createGeofences(key, buildingLatLng.get(key));
             }else{
                 Log.d(TAG, "onCreate: Null value in buildingLatLng");
             }

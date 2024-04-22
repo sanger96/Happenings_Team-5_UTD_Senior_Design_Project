@@ -23,7 +23,7 @@
     <string name="account_creation">Create Account</string>
     <!-- MapsActivity Strings -->
     <string name="fragment_maps">Map</string>
-    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_maps">Map</string>
     <string name="MapsAPIKey">AIzaSyC27iSTA9_X4srnNQ_opPFL8_-DV402kao</string> <!-- Google Maps API Key -->
     <string name="default_location">University of Texas at Dallas</string>
 
