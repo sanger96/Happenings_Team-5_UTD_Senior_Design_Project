@@ -74,7 +74,7 @@
                     android:layout_weight="65"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="4dp"
-                    android:layout_marginEnd="8dp">
+                    android:layout_margin="4dp">
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -128,7 +128,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="35"
                     app:cardCornerRadius="4dp"
-                    app:cardElevation="4dp">
+                    app:cardElevation="4dp"
+                    android:layout_margin="4dp">
 
                     <LinearLayout
                         android:orientation="vertical"
