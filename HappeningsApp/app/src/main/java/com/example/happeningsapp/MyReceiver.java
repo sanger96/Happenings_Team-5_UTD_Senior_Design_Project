@@ -15,10 +15,12 @@ import java.util.List;
 
 public class MyReceiver extends BroadcastReceiver {
 
+
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
+
         NotificationHelper notificationHelper = new NotificationHelper(context);
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         assert geofencingEvent != null;
@@ -35,7 +37,7 @@ public class MyReceiver extends BroadcastReceiver {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
                 for(Geofence geofence : geofenceList) {
                     String ID = geofence.getRequestId();
-                    //Toast.makeText(context,ID +" : GEOFENCE_TRANSITION_ENTER", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"There are events near you in :"+ID , Toast.LENGTH_SHORT).show();
                     notificationHelper.sendHighPriorityNotification("There are events near you!!!", "Open the app to see events in "+ID, MapsActivity.class);
                 }
                 break;

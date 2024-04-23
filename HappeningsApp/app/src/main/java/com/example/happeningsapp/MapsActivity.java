@@ -578,7 +578,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     // This is where we will statically define the geofences
     private void createGeofences(String name, LatLng latLng) {
         //addMarker(name,latLng); // center of the circle
-        addCircle(latLng, GEOFENCE_RADIUS); // this is how to add the circle, this is just a visual representation of the geofence.
+        //addCircle(latLng, GEOFENCE_RADIUS); // this is how to add the circle, this is just a visual representation of the geofence.
         addGeofence(latLng, GEOFENCE_RADIUS, name); // this sets the geofence, note that its invisible that's why we draw the circle above.
     }
 }
