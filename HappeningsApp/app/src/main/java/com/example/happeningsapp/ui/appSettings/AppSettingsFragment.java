@@ -75,6 +75,7 @@ public class AppSettingsFragment extends Fragment {
             public void onClick(View view){
                 globalVars.setTimeWindow(Integer.parseInt(timeWindow.getText().toString()));
                 Toast.makeText(root.getContext(), "Time window Updated",Toast.LENGTH_SHORT).show();
+
             }
         });//end of adding action on button click
 
