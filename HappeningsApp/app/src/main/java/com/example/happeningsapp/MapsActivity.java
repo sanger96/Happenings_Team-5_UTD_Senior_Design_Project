@@ -432,6 +432,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
 
                         Snackbar snackbar1 = Snackbar.make(view, eventNames, Snackbar.LENGTH_INDEFINITE).setTextMaxLines(400000);
+                        // Custom snackbar view
+                        View mapEventSnackbarView = getLayoutInflater().inflate(R.layout.map_event_snackbar, null);
+
+
                         //set text color to white
                         snackbar1.setTextColor(Color.WHITE);
                         //set background color to UTD specified green

@@ -36,6 +36,7 @@ import org.json.JSONObject;
 public class AppSettingsFragment extends Fragment {
 
     private FragmentAppSettingsBinding binding;
+    private View toastLayout;
 
     public static AppSettingsFragment newInstance() {
         return new AppSettingsFragment();
@@ -50,6 +51,9 @@ public class AppSettingsFragment extends Fragment {
 
         binding = FragmentAppSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        LayoutInflater toastInflater = getLayoutInflater();
+        toastLayout = toastInflater.inflate(R.layout.custom_toast, (ViewGroup) binding.getRoot().findViewById(R.id.custom_toast_layout));
 
         //bind button
         Button accountCreator = (Button) root.findViewById(R.id.FROMsettingsTOeventCreation);
@@ -74,7 +78,8 @@ public class AppSettingsFragment extends Fragment {
             @Override
             public void onClick(View view){
                 globalVars.setTimeWindow(Integer.parseInt(timeWindow.getText().toString()));
-                Toast.makeText(root.getContext(), "Time window Updated",Toast.LENGTH_SHORT).show();
+                globalVars.getCustomToast(toastLayout, "Time window updated", root, Toast.LENGTH_SHORT);
+//                Toast.makeText(root.getContext(), "Time window Updated",Toast.LENGTH_SHORT).show();
             }
         });//end of adding action on button click
 
